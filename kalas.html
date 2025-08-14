@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kala's - Elegancia y Comodidad</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Iconos (Lucide Icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Librería de Animaciones (AOS - Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F5F2;
+            overflow-x: hidden; /* Evita scroll horizontal */
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .text-brand-dark { color: #1A2340; }
+        .text-brand-accent { color: #D4AF37; }
+        .bg-brand-dark { background-color: #1A2340; }
+        .bg-brand-light { background-color: #F8F5F2; }
+        .bg-brand-white { background-color: #FFFFFF; }
+        .btn-primary {
+            background-color: #1A2340;
+            color: #FFFFFF;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2c3b68;
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #1A2340;
+            border: 1px solid #1A2340;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #1A2340;
+            color: #FFFFFF;
+        }
+        
+   
+            #inicio {
+                background-size:cover   ;
+                display: block;
+                position: relative;
+                max-width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                height: 80vh;
+                padding: 0 1rem;
+                background-image: url("https://images.pexels.com/photos/29627101/pexels-photo-29627101.jpeg");
+            }
+     @media (max-width: 768px) {
+            .mobile-overlay-text {
+                display:grid;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.5);
+                padding: 1rem;
+                border-radius: 0.5rem;
+                color: white;
+                text-align: center;
+                width: 90%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="text-brand-dark">
+
+    <!-- DEV NOTE: 
+        - El header sigue siendo fijo para un acceso rápido.
+        - El menú móvil es ahora el protagonista del diseño.
+    -->
+    <header class="bg-brand-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold" style="font-family: 'Playfair Display', serif;">Kala's</a>
+            
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#inicio" class="hover:text-brand-accent transition-colors duration-300">Inicio</a>
+                <a href="#catalogo" class="hover:text-brand-accent transition-colors duration-300">Catálogo</a>
+                <a href="#nosotros" class="hover:text-brand-accent transition-colors duration-300">Sobre Nosotros</a>
+                <a href="#contacto" class="hover:text-brand-accent transition-colors duration-300">Contacto</a>
+            </nav>
+
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-100 active:bg-gray-200 transition-colors">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-white py-4 border-t border-gray-200">
+            <a href="#inicio" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Inicio</a>
+            <a href="#catalogo" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Catálogo</a>
+            <a href="#nosotros" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Sobre Nosotros</a>
+            <a href="#contacto" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- UX/UI Designer Note: 
+            - La altura de la sección principal se ajusta para que se vea bien en pantallas verticales.
+            - El tamaño del texto se ha optimizado para lectura en móvil.
+        -->
+        <section id="inicio" class="relative h-[100vh] flex items-center justify-center text-center text-white">
+            <div class="absolute inset-0 bg-black opacity-40"></div>
+            <div class="relative z-10 px-4" data-aos="fade-in" data-aos-duration="1500">
+                <h1 class="text-4xl md:text-6xl mb-4">Elegancia & Comdidad</h1>
+                <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">Las mejores prendas en Campana, Buenos Aires</p>
+                <a href="#catalogo" class="btn-primary py-3 px-8 rounded-full text-lg font-semibold">Ver Catálogo</a>
+            </div>
+        </section>
+
+        <!-- DEV NOTE: 
+            - Se utiliza AOS (Animate On Scroll) para que los elementos aparezcan suavemente al desplazarse.
+            - Se ajusta el padding del contenedor principal para dar más aire en los costados en móviles.
+        -->
+        <section id="catalogo" class="py-16 md:py-24 bg-brand-light">
+            <div class="container mx-auto px-4 sm:px-6">
+                <h2 class="text-4xl text-center mb-12" data-aos="fade-up">Lo mas VENDIDO</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
+                    
+                    <!-- Producto 1 -->
+                    <div class="bg-brand-white rounded-lg shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://images.pexels.com/photos/17872895/pexels-photo-17872895.jpeg" 
+                             alt="Blusa de seda color crema" 
+                             class="w-full h-80 object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/4a5568?text=Prenda';">
+                        <div class="p-6">
+                            <h3 class="text-2xl mb-2">Conjunto deportivo</h3>
+                            <p class="text-gray-600 mb-4">Elegancia y frescura en una prenda versátil.</p>
+                            <p class="text-2xl font-semibold text-brand-dark">$19,999.00</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Producto 2 -->
+                    <div class="bg-brand-white rounded-lg shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://images.pexels.com/photos/2905825/pexels-photo-2905825.jpeg" 
+                             alt="Pantalón de lino color azul" 
+                             class="w-full h-80 object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/4a5568?text=Prenda';">
+                        <div class="p-6">
+                            <h3 class="text-2xl mb-2">Yellow Flowers</h3>
+                            <p class="text-gray-600 mb-4">Comodidad y estilo para tu día a día.</p>
+                            <p class="text-2xl font-semibold text-brand-dark">$ 12,200.00</p>
+                        </div>
+                    </div>
+
+                    <!-- Producto 3 -->
+                    <div class="bg-brand-white rounded-lg shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="300">
+                        <img src="https://images.pexels.com/photos/27081016/pexels-photo-27081016.jpeg" 
+                             alt="Vestido estampado floral" 
+                             class="w-full h-80 object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/4a5568?text=Prenda';">
+                        <div class="p-6">
+                            <h3 class="text-2xl mb-2">Aurora Dress</h3>
+                            <p class="text-gray-600 mb-4">Un toque de color y alegría para ocasiones especiales.</p>
+                            <p class="text-2xl font-semibold text-brand-dark">$ 23,500.00</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- UX/UI Designer Note: 
+            - En móvil, la sección "Sobre Nosotros" se apila verticalmente (imagen arriba, texto abajo) para una lectura cómoda y lineal.
+            - Se ajusta el padding para que el texto no quede pegado a los bordes.
+        -->
+        <section id="nosotros" class="py-16 md:py-24 bg-brand-white">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2" data-aos="fade-right">
+                        <img src="453730966_360155423641242_6961867984702448332_n.jpeg" 
+                             alt="Diseñadora de moda trabajando en su taller" 
+                             class="rounded-lg shadow-xl w-full"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x400/e2e8f0/4a5568?text=Kala%27s';">
+                    </div>
+                    <div class="md:w-1/2" data-aos="fade-left">
+                        <h2 class="text-4xl mb-6">El Estilo No Tiene Edad</h2>
+                        <p class="text-lg text-gray-700 mb-4">
+                            En Kala's, creemos que la verdadera elegancia reside en la confianza y el confort. 
+                            Nacimos con la misión de crear prendas para la mujer moderna que valora la calidad, 
+                            los materiales nobles y un diseño que perdura más allá de las tendencias pasajeras.
+                        </p>
+                        <p class="text-lg text-gray-700">
+                            Cada pieza de nuestra colección es seleccionada cuidadosamente, pensando en ofrecerte 
+                            versatilidad y un ajuste perfecto que te haga sentir segura y espléndida en cada momento de tu vida.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer id="contacto" class="bg-brand-dark text-white">
+            <div class="container mx-auto px-4 sm:px-6 py-12">
+                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-10 md:space-y-0">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-2" style="font-family: 'Playfair Display', serif;">Kala's</h3>
+                        <p>Elegancia y Comodidad en Cada Prenda.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-4">Contacto</h4>
+                        <p>Email: <a href="mailto:contacto@kalas.com" class="hover:text-brand-accent">contacto@kalas.com</a></p>
+                        <p>Teléfono: +54 9 3489 65-6433</p>
+                        <p>Rawson Esq. Mitre, Campana Centro</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-4">Síguenos</h4>
+                        <div class="flex justify-center md:justify-start space-x-4">
+                            <a href="https://www.instagram.com/indumentaria._ka/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-accent transition-colors">
+                                <i data-lucide="instagram" class="w-8 h-8"></i>
+                            </a>
+                            <a href="https://www.facebook.com/profile.php?id=61563915539541" class="hover:text-brand-accent transition-colors">
+                                <i data-lucide="facebook" class="w-8 h-8"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
+                    <p>&copy; 2024 Kala's. Todos los derechos reservados. Diseñado con ❤️ por el equipo de juanma</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts al final para una carga más rápida -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // DEV NOTE: Script para el menú móvil y para inicializar las animaciones.
+        
+        // Inicializar iconos
+        lucide.createIcons();
+
+
+        // Inicializar animaciones al desplazar
+        AOS.init({
+            duration: 800, // Duración de la animación
+            once: true,    // La animación ocurre solo una vez
+            disable: 'phone' // Opcional: Desactiva animaciones en móvil si se prefiere
+        });
+                document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = mobileMenu.getElementsByTagName('a');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cierra el menú al hacer clic en un enlace
+        for (let link of navLinks) {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        }
+    </script>
+
+</body>
+</html>
