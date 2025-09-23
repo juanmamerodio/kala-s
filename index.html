@@ -29,13 +29,35 @@
             transform: translateY(0);
         }
         
-        /* Efecto de fondo parallax sutil */
-        .hero-bg {
-            background-image: url('https://images.unsplash.com/photo-1621490131898-3817178a9fac?q=80&w=2070&auto=format&fit=crop');
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        /* Contenedor del video de fondo */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Asegura que el video no se desborde */
+        }
+
+        .video-background iframe {
+            width: 100vw; /* Usa el ancho de la ventana */
+            height: 56.25vw; /* Altura para mantener el aspect ratio 16:9 (9/16 = 0.5625) */
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centra el video */
+            object-fit: cover; /* Asegura que el video cubra todo el área */
+            pointer-events: none; /* Evita que el usuario interactúe con el iframe */
+        }
+
+        /* Ajustes para pantallas con relación de aspecto diferente */
+        @media (max-aspect-ratio: 16/9) {
+            .video-background iframe {
+                height: 100%;
+                width: 177.77777778vh; /* 16 / 9 = 1.778 */
+            }
         }
     </style>
 </head>
@@ -61,9 +83,16 @@
     </header>
 
     <main>
-        <section class="h-screen flex items-center justify-center text-white hero-bg">
-            <div class="bg-black/50 absolute inset-0"></div>
-            <div class="text-center z-10 p-4">
+        <section class="relative h-screen flex items-center justify-center text-white">
+            <div class="video-background">
+                <iframe 
+                    src="https://www.youtube.com/embed/oOST_UJL5so?autoplay=1&loop=1&mute=1&playlist=oOST_UJL5so&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3" 
+                    frameborder="0" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="bg-black/50 absolute inset-0"></div> <div class="text-center z-10 p-4">
                 <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4 animate-fade-in-up" style="animation: fade-in-up 1s ease-out forwards;">
                     Tu Yerba Tiene Futuro.
                 </h1>
@@ -204,7 +233,6 @@
                     }
                 });
             }, {
-                // threshold: 0.1 // La animación se dispara cuando el 10% del elemento es visible
                 threshold: 0.1
             });
 
