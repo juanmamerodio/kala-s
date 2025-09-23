@@ -3,279 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kala's - Elegancia y Comodidad</title>
+    <title>Campana Transforma | El Futuro de tu Yerba</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Iconos (Lucide Icons) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Librería de Animaciones (AOS - Animate On Scroll) -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Estilos personalizados -->
     <style>
+        /* Estilo base con la fuente Poppins */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F5F2;
-            overflow-x: hidden; /* Evita scroll horizontal */
+            font-family: 'Poppins', sans-serif;
         }
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
+
+        /* Clases para las animaciones con Intersection Observer */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .text-brand-dark { color: #1A2340; }
-        .text-brand-accent { color: #D4AF37; }
-        .bg-brand-dark { background-color: #1A2340; }
-        .bg-brand-light { background-color: #F8F5F2; }
-        .bg-brand-white { background-color: #FFFFFF; }
-        .btn-primary {
-            background-color: #1A2340;
-            color: #FFFFFF;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #2c3b68;
-            transform: translateY(-2px);
-        }
-        .btn-primary:active {
-            transform: scale(0.95);
-        }
-        .btn-secondary {
-            background-color: transparent;
-            color: #1A2340;
-            border: 1px solid #1A2340;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .btn-secondary:hover {
-            background-color: #1A2340;
-            color: #FFFFFF;
+
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
-   
-            #inicio {
-                background-size:cover   ;
-                display: block;
-                position: relative;
-                max-width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                height: 80vh;
-                padding: 0 1rem;
-                background-image: url("https://images.pexels.com/photos/29627101/pexels-photo-29627101.jpeg");
-            }
-     @media (max-width: 768px) {
-            .mobile-overlay-text {
-                display:grid;
-                transform: translate(-50%, -50%);
-                background: rgba(0, 0, 0, 0.5);
-                padding: 1rem;
-                border-radius: 0.5rem;
-                color: white;
-                text-align: center;
-                width: 90%;
-                max-width: 400px;
-            }
+        /* Efecto de fondo parallax sutil */
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1621490131898-3817178a9fac?q=80&w=2070&auto=format&fit=crop');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
 </head>
-<body class="text-brand-dark">
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- DEV NOTE: 
-        - El header sigue siendo fijo para un acceso rápido.
-        - El menú móvil es ahora el protagonista del diseño.
-    -->
-    <header class="bg-brand-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-3xl font-bold" style="font-family: 'Playfair Display', serif;">Kala's</a>
-            
-            <nav class="hidden md:flex space-x-8 items-center">
-                <a href="#inicio" class="hover:text-brand-accent transition-colors duration-300">Inicio</a>
-                <a href="#catalogo" class="hover:text-brand-accent transition-colors duration-300">Catálogo</a>
-                <a href="#nosotros" class="hover:text-brand-accent transition-colors duration-300">Sobre Nosotros</a>
-                <a href="#contacto" class="hover:text-brand-accent transition-colors duration-300">Contacto</a>
-            </nav>
-
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-100 active:bg-gray-200 transition-colors">
-                <i data-lucide="menu"></i>
-            </button>
-        </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-brand-white py-4 border-t border-gray-200">
-            <a href="#inicio" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Inicio</a>
-            <a href="#catalogo" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Catálogo</a>
-            <a href="#nosotros" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Sobre Nosotros</a>
-            <a href="#contacto" class="block text-center py-3 text-lg hover:bg-brand-light active:bg-gray-200 transition-colors">Contacto</a>
+    <header class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-green-800">
+                        Campana<span class="text-green-600">Transforma</span>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#proceso" class="text-gray-600 hover:bg-green-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">El Proceso</a>
+                        <a href="#producto" class="text-gray-600 hover:bg-green-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bioplástico</a>
+                        <a href="#sumate" class="bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors">¡Sumate!</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
     <main>
-        <!-- UX/UI Designer Note: 
-            - La altura de la sección principal se ajusta para que se vea bien en pantallas verticales.
-            - El tamaño del texto se ha optimizado para lectura en móvil.
-        -->
-        <section id="inicio" class="relative h-[100vh] flex items-center justify-center text-center text-white">
-            <div class="absolute inset-0 bg-black opacity-40"></div>
-            <div class="relative z-10 px-4" data-aos="fade-in" data-aos-duration="1500">
-                <h1 class="text-4xl md:text-6xl mb-4">Elegancia & Comdidad</h1>
-                <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">Las mejores prendas en Campana, Buenos Aires</p>
-                <a href="#catalogo" class="btn-primary py-3 px-8 rounded-full text-lg font-semibold">Ver Catálogo</a>
+        <section class="h-screen flex items-center justify-center text-white hero-bg">
+            <div class="bg-black/50 absolute inset-0"></div>
+            <div class="text-center z-10 p-4">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4 animate-fade-in-up" style="animation: fade-in-up 1s ease-out forwards;">
+                    Tu Yerba Tiene Futuro.
+                </h1>
+                <p class="text-lg md:text-2xl max-w-3xl mx-auto text-gray-200 animate-fade-in-up" style="animation: fade-in-up 1s ease-out 0.5s forwards; opacity:0;">
+                    En Campana, estamos transformando un residuo cotidiano en un recurso revolucionario. Descubrí cómo tu mate ayuda a crear bioplástico.
+                </p>
+                <a href="#proceso" class="mt-8 inline-block bg-white text-green-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-200 transform hover:scale-105 transition-all animate-fade-in-up" style="animation: fade-in-up 1s ease-out 1s forwards; opacity:0;">
+                    Conocé el Proceso
+                </a>
             </div>
         </section>
 
-        <!-- DEV NOTE: 
-            - Se utiliza AOS (Animate On Scroll) para que los elementos aparezcan suavemente al desplazarse.
-            - Se ajusta el padding del contenedor principal para dar más aire en los costados en móviles.
-        -->
-        <section id="catalogo" class="py-16 md:py-24 bg-brand-light">
-            <div class="container mx-auto px-4 sm:px-6">
-                <h2 class="text-4xl text-center mb-12" data-aos="fade-up">Lo mas VENDIDO</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
-                    
-                    <!-- Producto 1 -->
-                    <div class="bg-brand-white rounded-lg shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
-                        <img src="https://images.pexels.com/photos/17872895/pexels-photo-17872895.jpeg" 
-                             alt="Blusa de seda color crema" 
-                             class="w-full h-80 object-cover"
-                             onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/4a5568?text=Prenda';">
-                        <div class="p-6">
-                            <h3 class="text-2xl mb-2">Conjunto deportivo</h3>
-                            <p class="text-gray-600 mb-4">Elegancia y frescura en una prenda versátil.</p>
-                            <p class="text-2xl font-semibold text-brand-dark">$19,999.00</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Producto 2 -->
-                    <div class="bg-brand-white rounded-lg shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
-                        <img src="https://images.pexels.com/photos/2905825/pexels-photo-2905825.jpeg" 
-                             alt="Pantalón de lino color azul" 
-                             class="w-full h-80 object-cover"
-                             onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/4a5568?text=Prenda';">
-                        <div class="p-6">
-                            <h3 class="text-2xl mb-2">Yellow Flowers</h3>
-                            <p class="text-gray-600 mb-4">Comodidad y estilo para tu día a día.</p>
-                            <p class="text-2xl font-semibold text-brand-dark">$ 12,200.00</p>
-                        </div>
-                    </div>
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl font-bold mb-2 text-green-800 animate-on-scroll fade-in-up">Miles de toneladas, una oportunidad única.</h2>
+                 <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-on-scroll fade-in-up" style="transition-delay: 150ms;">
+                     Cada día, la yerba mate usada termina en la basura. Nosotros vimos más allá: vimos la materia prima para un futuro más sostenible.
+                 </p>
+            </div>
+        </section>
 
-                    <!-- Producto 3 -->
-                    <div class="bg-brand-white rounded-lg shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="300">
-                        <img src="https://images.pexels.com/photos/27081016/pexels-photo-27081016.jpeg" 
-                             alt="Vestido estampado floral" 
-                             class="w-full h-80 object-cover"
-                             onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/4a5568?text=Prenda';">
-                        <div class="p-6">
-                            <h3 class="text-2xl mb-2">Aurora Dress</h3>
-                            <p class="text-gray-600 mb-4">Un toque de color y alegría para ocasiones especiales.</p>
-                            <p class="text-2xl font-semibold text-brand-dark">$ 23,500.00</p>
+        <section id="proceso" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-green-800 animate-on-scroll fade-in-up">Del Mate al Bioplástico</h2>
+                    <p class="text-xl text-gray-600 mt-2 animate-on-scroll fade-in-up" style="transition-delay: 150ms;">Un viaje de transformación en 5 pasos clave.</p>
+                </div>
+
+                <div class="relative">
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-green-200" style="transform: translateY(-50%);"></div>
+
+                    <div class="grid md:grid-cols-5 gap-12 relative">
+                        <div class="text-center animate-on-scroll fade-in-up">
+                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold">1. Separación</h3>
+                            <p class="mt-1 text-gray-600">En casa, separás la yerba usada en un tacho específico.</p>
+                        </div>
+
+                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-2h8a1 1 0 001-1zM21 11V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold">2. Recolección</h3>
+                            <p class="mt-1 text-gray-600">El Municipio realiza una recolección diferenciada para este material.</p>
+                        </div>
+
+                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 400ms;">
+                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.C14 5 16.09 5.777 17.657 7.343A8 8 0 0117.657 18.657z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1014.12 11.88a3 3 0 00-4.242 4.242z" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold">3. Procesamiento</h3>
+                            <p class="mt-1 text-gray-600">La yerba se seca en hornos y luego se hierve para su tratamiento.</p>
+                        </div>
+                        
+                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 600ms;">
+                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold">4. Extracción</h3>
+                            <p class="mt-1 text-gray-600">Se separan los extractos y polímeros naturales de la yerba.</p>
+                        </div>
+
+                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 800ms;">
+                             <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold">5. Creación</h3>
+                            <p class="mt-1 text-gray-600">Estos componentes se procesan para crear el bioplástico final.</p>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </section>
 
-        <!-- UX/UI Designer Note: 
-            - En móvil, la sección "Sobre Nosotros" se apila verticalmente (imagen arriba, texto abajo) para una lectura cómoda y lineal.
-            - Se ajusta el padding para que el texto no quede pegado a los bordes.
-        -->
-        <section id="nosotros" class="py-16 md:py-24 bg-brand-white">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2" data-aos="fade-right">
-                        <img src="453730966_360155423641242_6961867984702448332_n.jpeg" 
-                             alt="Diseñadora de moda trabajando en su taller" 
-                             class="rounded-lg shadow-xl w-full"
-                             onerror="this.onerror=null;this.src='https://placehold.co/600x400/e2e8f0/4a5568?text=Kala%27s';">
-                    </div>
-                    <div class="md:w-1/2" data-aos="fade-left">
-                        <h2 class="text-4xl mb-6">El Estilo No Tiene Edad</h2>
-                        <p class="text-lg text-gray-700 mb-4">
-                            En Kala's, creemos que la verdadera elegancia reside en la confianza y el confort. 
-                            Nacimos con la misión de crear prendas para la mujer moderna que valora la calidad, 
-                            los materiales nobles y un diseño que perdura más allá de las tendencias pasajeras.
+        <section id="producto" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="lg:flex lg:items-center">
+                    <div class="lg:w-1/2">
+                        <h2 class="text-4xl font-bold text-green-800 animate-on-scroll fade-in-up">El Resultado: Bioplástico de Yerba Mate</h2>
+                        <p class="mt-4 text-lg text-gray-600 animate-on-scroll fade-in-up" style="transition-delay: 150ms;">
+                            Un material innovador, 100% biodegradable y versátil. Con él podemos fabricar desde macetas que nutren a la planta al degradarse, hasta mobiliario urbano y objetos de diseño. Es la prueba de que la sostenibilidad es el futuro.
                         </p>
-                        <p class="text-lg text-gray-700">
-                            Cada pieza de nuestra colección es seleccionada cuidadosamente, pensando en ofrecerte 
-                            versatilidad y un ajuste perfecto que te haga sentir segura y espléndida en cada momento de tu vida.
-                        </p>
+                        <ul class="mt-6 space-y-2 text-gray-700 animate-on-scroll fade-in-up" style="transition-delay: 300ms;">
+                            <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Biodegradable y Compostable</li>
+                            <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Resistente y Duradero</li>
+                            <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Reduce la huella de carbono</li>
+                        </ul>
+                    </div>
+                    <div class="lg:w-1/2 mt-10 lg:mt-0 lg:ml-12">
+                         <div class="grid grid-cols-2 gap-4">
+                             <img src="https://images.unsplash.com/photo-1592318713291-a085b33139a1?q=80&w=1287&auto=format&fit=crop" alt="Maceta de bioplástico" class="rounded-lg shadow-xl object-cover h-64 w-full animate-on-scroll fade-in-up">
+                             <img src="https://images.unsplash.com/photo-1618218178129-87358705f137?q=80&w=1287&auto=format&fit=crop" alt="Objeto de diseño de bioplástico" class="rounded-lg shadow-xl object-cover h-64 w-full animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <footer id="contacto" class="bg-brand-dark text-white">
-            <div class="container mx-auto px-4 sm:px-6 py-12">
-                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-10 md:space-y-0">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-2" style="font-family: 'Playfair Display', serif;">Kala's</h3>
-                        <p>Elegancia y Comodidad en Cada Prenda.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-semibold mb-4">Contacto</h4>
-                        <p>Email: <a href="mailto:contacto@kalas.com" class="hover:text-brand-accent">contacto@kalas.com</a></p>
-                        <p>Teléfono: +54 9 3489 65-6433</p>
-                        <p>Rawson Esq. Mitre, Campana Centro</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-semibold mb-4">Síguenos</h4>
-                        <div class="flex justify-center md:justify-start space-x-4">
-                            <a href="https://www.instagram.com/indumentaria._ka/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-accent transition-colors">
-                                <i data-lucide="instagram" class="w-8 h-8"></i>
-                            </a>
-                            <a href="https://www.facebook.com/profile.php?id=61563915539541" class="hover:text-brand-accent transition-colors">
-                                <i data-lucide="facebook" class="w-8 h-8"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
-                    <p>&copy; 2024 Kala's. Todos los derechos reservados. Diseñado con ❤️ por el equipo de juanma</p>
-                </div>
+
+        <section id="sumate" class="py-20 bg-green-700 text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold animate-on-scroll fade-in-up">Sumate al cambio. Es muy fácil.</h2>
+                <p class="mt-4 text-xl max-w-3xl mx-auto text-green-100 animate-on-scroll fade-in-up" style="transition-delay: 150ms;">
+                    Tu pequeño gesto diario tiene un impacto gigante. Seguí estos simples pasos y sé parte de la transformación de Campana.
+                </p>
+                <a href="#" class="mt-8 inline-block bg-white text-green-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-200 transform hover:scale-105 transition-all animate-on-scroll fade-in-up" style="transition-delay: 300ms;">
+                    Encontrá tu punto de recolección más cercano
+                </a>
             </div>
-        </footer>
+        </section>
+
     </main>
 
-    <!-- Scripts al final para una carga más rápida -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto py-8 px-6 text-center">
+            <p class="font-bold text-lg">MUNICIPALIDAD DE CAMPANA</p>
+            <p class="mt-2 text-gray-400">Promoviendo un futuro más verde y sostenible para nuestra ciudad.</p>
+            <p class="mt-4 text-sm text-gray-500">&copy; 2025 Campana Transforma. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
     <script>
-        // DEV NOTE: Script para el menú móvil y para inicializar las animaciones.
-        
-        // Inicializar iconos
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Selecciona todos los elementos que queremos animar al hacer scroll
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
 
-
-        // Inicializar animaciones al desplazar
-        AOS.init({
-            duration: 800, // Duración de la animación
-            once: true,    // La animación ocurre solo una vez
-            disable: 'phone' // Opcional: Desactiva animaciones en móvil si se prefiere
-        });
-                document.getElementById('mobile-menu-button').addEventListener('click', function () {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = mobileMenu.getElementsByTagName('a');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Cierra el menú al hacer clic en un enlace
-        for (let link of navLinks) {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+            // Configuración del Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Si el elemento es visible en la pantalla (intersecting)
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        // Opcional: remover la clase si el elemento sale de la vista
+                        // para que la animación se repita al volver a scrollear.
+                        // entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, {
+                // threshold: 0.1 // La animación se dispara cuando el 10% del elemento es visible
+                threshold: 0.1
             });
-        }
-    </script>
 
+            // Le decimos al observer que "observe" cada uno de nuestros elementos
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
 </body>
 </html>
