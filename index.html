@@ -3,17 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< Updated upstream
     <title>Campana Transforma | El Futuro de tu Yerba</title>
+=======
+    <title>Portal C.E. - EEST N°1 "Luciano Reyes"</title>
+>>>>>>> Stashed changes
     
     <script src="https://cdn.tailwindcss.com"></script>
     
+<<<<<<< Updated upstream
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+=======
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-icons@latest/dist/lucide.min.js"></script>
+
+    <!-- Estilos personalizados -->
+>>>>>>> Stashed changes
     <style>
         /* Estilo base con la fuente Poppins */
         body {
+<<<<<<< Updated upstream
             font-family: 'Poppins', sans-serif;
         }
 
@@ -58,9 +75,67 @@
                 height: 100%;
                 width: 177.77777778vh; /* 16 / 9 = 1.778 */
             }
+=======
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Un blanco roto más suave */
+            color: #212529;
         }
+
+        /* Animación de entrada para elementos */
+        @keyframes fadeIn-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-up {
+            animation: fadeIn-up 0.7s ease-out forwards;
+            opacity: 0;
+        }
+        
+        /* Estilo para el fondo del modal (blur) */
+        .modal-backdrop {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.4);
+>>>>>>> Stashed changes
+        }
+
+        /* Estilo para los cards */
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e9ecef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+        }
+        
+        .news-card-hover:hover h3 {
+            color: #2E7D32;
+        }
+
+        /* Estilo para la barra de navegación pegajosa */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* Colores del Partido Verde */
+        .bg-brand-green { background-color: #2E7D32; }
+        .text-brand-green { color: #2E7D32; }
+        .border-brand-green { border-color: #2E7D32; }
+        .hover\:bg-brand-green-dark:hover { background-color: #225e26; }
     </style>
 </head>
+<<<<<<< Updated upstream
 <body class="bg-gray-50 text-gray-800">
 
     <header class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm">
@@ -237,7 +312,239 @@
             animatedElements.forEach(element => {
                 observer.observe(element);
             });
+=======
+<body class="antialiased">
+
+    <!-- Barra de Navegación -->
+    <nav class="sticky-nav fade-in-up">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <img src="https://placehold.co/40x40/2E7D32/FFFFFF?text=CE" alt="Logo" class="rounded-full">
+                    <span class="font-bold text-lg ml-3 text-gray-800">C.E. Luciano Reyes</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#comunicados" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Comunicados</a>
+                    <a href="#especialidades" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Especialidades</a>
+                    <a href="#proyectos" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Proyectos</a>
+                    <a href="#galeria" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Galería</a>
+                </div>
+                <button id="support-btn-nav" class="hidden md:inline-flex items-center bg-brand-green text-white font-bold py-2 px-4 rounded-full hover:bg-brand-green-dark transition-colors shadow-sm">
+                    Ayuda
+                </button>
+                 <!-- Menú Móvil (placeholder) -->
+                <div class="md:hidden">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <!-- Título del Portal -->
+        <header class="text-left mb-10 fade-in-up" style="animation-delay: 0.1s;">
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">Portal de Comunicados</h1>
+            <p class="mt-2 text-lg text-gray-600">Toda la información importante, en un solo lugar.</p>
+        </header>
+
+        <!-- Sección de Comunicados -->
+        <section id="comunicados" class="scroll-mt-20">
+            <!-- Comunicado Destacado -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12 fade-in-up" style="animation-delay: 0.2s;">
+                <article class="card news-card-hover lg:col-span-3 group overflow-hidden">
+                    <a href="#" class="block">
+                        <img src="https://placehold.co/800x500/dc2626/ffffff?text=Importante" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300" alt="Anuncio Importante">
+                        <div class="p-6">
+                            <span class="font-bold text-sm text-red-600 mb-2 block">IMPORTANTE</span>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-3 leading-tight transition-colors">Suspensión de clases Taller contraturno 7mo año</h2>
+                            <p class="text-gray-600 leading-relaxed">Se informa que el día Viernes 26 se suspenden las clases de taller en el turno tarde por jornada de capacitación docente. Las clases del turno mañana se dictarán con normalidad.</p>
+                        </div>
+                    </a>
+                </article>
+                <!-- Lista de comunicados recientes -->
+                <div class="lg:col-span-2 space-y-4">
+                    <h3 class="text-xl font-bold mb-4 pb-2 border-b-2">Más Recientes</h3>
+                    <article class="news-card-hover group"><a href="#" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors"><h3 class="font-semibold text-gray-800 transition-colors mb-1">Charla sobre Orientación Vocacional</h3><p class="text-sm text-gray-500">Lunes a las 10:00 hs en el Salón de Actos.</p></a></article>
+                    <article class="news-card-hover group"><a href="#" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors"><h3 class="font-semibold text-gray-800 transition-colors mb-1">Recordatorio sobre el uso del uniforme escolar</h3><p class="text-sm text-gray-500">Controles a partir del 1 de Octubre.</p></a></article>
+                    <article class="news-card-hover group"><a href="#" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors"><h3 class="font-semibold text-gray-800 transition-colors mb-1">Inscripciones abiertas para Taller de Robótica</h3><p class="text-sm text-gray-500">Cupos limitados. Consultar en preceptoría.</p></a></article>
+                </div>
+            </div>
+
+            <!-- Grilla de otros comunicados -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="card news-card-hover group fade-in-up" style="animation-delay: 0.3s;"><a href="#" class="block"><img src="https://placehold.co/600x400/3b82f6/ffffff?text=Evento" class="w-full h-48 object-cover rounded-t-lg" alt="Evento"><div class="p-5"><span class="font-semibold text-sm text-blue-600">EVENTO</span><h3 class="font-bold text-lg mt-2 text-gray-900 transition-colors">Expo Técnica 2024: ¡Presenta tu proyecto!</h3></div></a></article>
+                <article class="card news-card-hover group fade-in-up" style="animation-delay: 0.4s;"><a href="#" class="block"><img src="https://placehold.co/600x400/16a34a/ffffff?text=General" class="w-full h-48 object-cover rounded-t-lg" alt="General"><div class="p-5"><span class="font-semibold text-sm text-green-600">GENERAL</span><h3 class="font-bold text-lg mt-2 text-gray-900 transition-colors">Nuevos horarios de consulta para materias</h3></div></a></article>
+                <article class="card news-card-hover group fade-in-up" style="animation-delay: 0.5s;"><a href="#" class="block"><img src="https://placehold.co/600x400/f97316/ffffff?text=Deportes" class="w-full h-48 object-cover rounded-t-lg" alt="Deportes"><div class="p-5"><span class="font-semibold text-sm text-orange-600">DEPORTES</span><h3 class="font-bold text-lg mt-2 text-gray-900 transition-colors">Convocatoria para el equipo de Vóley</h3></div></a></article>
+            </div>
+        </section>
+        
+        <!-- Secciones Secundarias -->
+        <div class="mt-20 space-y-20">
+            <!-- Sección: Especialidades -->
+            <section id="especialidades" class="scroll-mt-20">
+                <h2 class="text-3xl font-bold mb-8 text-center fade-in-up">Nuestras Especialidades</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.1s;"><div class="p-4 rounded-full bg-blue-100 inline-block mb-4"><i data-lucide="code-2" class="h-8 w-8 text-blue-600"></i></div><h3 class="text-xl font-semibold">Programación</h3></div>
+                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.2s;"><div class="p-4 rounded-full bg-green-100 inline-block mb-4"><i data-lucide="beaker" class="h-8 w-8 text-green-600"></i></div><h3 class="text-xl font-semibold">Química</h3></div>
+                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.3s;"><div class="p-4 rounded-full bg-yellow-100 inline-block mb-4"><i data-lucide="cpu" class="h-8 w-8 text-yellow-600"></i></div><h3 class="text-xl font-semibold">Electrónica</h3></div>
+                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.4s;"><div class="p-4 rounded-full bg-red-100 inline-block mb-4"><i data-lucide="factory" class="h-8 w-8 text-red-600"></i></div><h3 class="text-xl font-semibold">Electromecánica</h3></div>
+                </div>
+            </section>
+
+             <!-- Sección: Proyectos Escolares -->
+            <section id="proyectos" class="scroll-mt-20">
+                 <h2 class="text-3xl font-bold mb-8 text-center fade-in-up">Proyectos Destacados</h2>
+                <div class="card p-6 fade-in-up">
+                    <div class="flex flex-wrap gap-2 mb-6 justify-center"><button class="filter-btn bg-brand-green text-white px-4 py-2 rounded-full text-sm font-semibold" data-filter="all">Todos</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="programacion">Programación</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="electronica">Electrónica</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="quimica">Química</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="electromecanica">Electromecánica</button></div>
+                    <div id="proyectos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="project-card" data-category="programacion electronica"><a href="https://meteotecnica.netlify.app/" target="_blank" class="block group"><div class="overflow-hidden rounded-lg"><img src="https://placehold.co/600x400/3498db/ffffff?text=Meteotécnica" alt="Proyecto Meteotécnica" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div><div class="p-4"><h4 class="font-bold text-lg">Meteotécnica</h4><p class="text-gray-600 text-sm">Estación meteorológica escolar en tiempo real.</p></div></a></div>
+                        <div class="project-card" data-category="electromecanica electronica"><a href="#" class="block group"><div class="overflow-hidden rounded-lg"><img src="https://placehold.co/600x400/e74c3c/ffffff?text=Brazo+Robótico" alt="Proyecto Brazo Robótico" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div><div class="p-4"><h4 class="font-bold text-lg">Brazo Robótico</h4><p class="text-gray-600 text-sm">Brazo controlado por app para ensamblaje.</p></div></a></div>
+                        <div class="project-card" data-category="quimica"><a href="#" class="block group"><div class="overflow-hidden rounded-lg"><img src="https://placehold.co/600x400/2ecc71/ffffff?text=Análisis+de+Agua" alt="Proyecto Analizador de Agua" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div><div class="p-4"><h4 class="font-bold text-lg">Análisis de Agua</h4><p class="text-gray-600 text-sm">Kit de bajo costo para análisis de calidad.</p></div></a></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección Galería y Horarios -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                 <section id="horarios" class="scroll-mt-20 fade-in-up">
+                    <h2 class="text-3xl font-bold mb-8 text-center">Consulta de Horarios</h2>
+                    <div class="card p-6">
+                        <select id="curso-selector" class="w-full p-3 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"><option value="default" selected disabled>Selecciona tu curso</option><option value="prog-4">4° Programación</option><option value="quim-5">5° Química</option><option value="elec-6">6° Electrónica</option><option value="emec-7">7° Electromecánica</option></select>
+                        <div id="horario-display" class="mt-4 p-4 bg-gray-100 rounded-lg min-h-[100px] flex items-center justify-center"><p class="text-gray-500">Aquí se mostrará el horario.</p></div>
+                    </div>
+                </section>
+                <section id="galeria" class="scroll-mt-20 text-center fade-in-up">
+                    <h2 class="text-3xl font-bold mb-8">Galería Escolar</h2>
+                    <div class="card p-6 flex flex-col items-center justify-center h-full">
+                        <i data-lucide="camera" class="h-12 w-12 text-brand-green mb-4"></i>
+                        <p class="text-gray-600 mb-6 max-w-xs">Revive los mejores momentos de nuestra comunidad escolar en Instagram.</p>
+                        <a href="https://www.instagram.com/partido_verde_tec1campana/" target="_blank" class="inline-flex items-center bg-brand-green text-white font-bold py-3 px-6 rounded-full hover:bg-brand-green-dark transition-colors shadow-lg transform hover:-translate-y-1">Ver Galería</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de Soporte Flotante -->
+    <button id="support-btn-float" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-xl hover:bg-blue-700 transition-all transform hover:scale-110 focus:outline-none z-50 md:hidden"><i data-lucide="message-square-heart" class="h-8 w-8"></i></button>
+
+    <!-- Modal de Soporte -->
+    <div id="support-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden transition-opacity duration-300 opacity-0"><div id="modal-content" class="card w-full max-w-md p-6 transform scale-95 opacity-0 transition-all duration-300"><div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Canal de Ayuda</h3><button id="close-modal-btn" class="text-gray-500 hover:text-gray-800"><i data-lucide="x" class="h-6 w-6"></i></button></div><p class="text-gray-600 mb-6">Si necesitas hablar sobre un problema, proponer una idea o simplemente buscar apoyo, estamos aquí para escucharte.</p><div class="space-y-4"><a href="mailto:centroestudiantes.tec1@email.com" class="flex items-center w-full text-left p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"><i data-lucide="mail" class="h-6 w-6 text-brand-green mr-4"></i><div><p class="font-semibold">Enviar un Email</p><p class="text-sm text-gray-500">Opción confidencial y directa.</p></div></a><a href="https://www.instagram.com/partido_verde_tec1campana/" target="_blank" class="flex items-center w-full text-left p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"><i data-lucide="send" class="h-6 w-6 text-brand-green mr-4"></i><div><p class="font-semibold">Mensaje por Instagram</p><p class="text-sm text-gray-500">Contacta con nosotros en redes.</p></div></a></div></div></div>
+    
+    <!-- Footer -->
+    <footer class="bg-white mt-20 border-t border-gray-200"><div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-600"><p>&copy; 2024 Centro de Estudiantes EEST N°1 "Luciano Reyes".</p></div></footer>
+
+    <script>
+        /*
+        Estructura y matrícula de la escuela (aprox. 1300 alumnos):
+
+        -- CICLO BÁSICO --
+        Primer año: 1°1, 1°2, 1°3, 1°4, 1°5, 1°6, 1°7
+        Segundo año: 2°1, 2°2, 2°3, 2°4, 2°5, 2°6, 2°7
+        Tercer año: 3°1, 3°2, 3°3, 3°4, 3°5, 3°6 (No hay 3°7)
+
+        -- CICLO SUPERIOR (Patrón de 4to a 7mo año) --
+        Programación:
+        - 4°5, 5°5, 6°5, 7°5
+
+        Electrónica:
+        - 4°1, 5°1, 6°1, 7°1
+
+        Química:
+        - 4°6 y 4°9
+        - 5°6 y 5°9
+        - 6°6 y 6°9
+        - 7°6 y 7°9
+
+        Electromecánica:
+        - 4°2 y 4°7
+        - 5°2 y 5°7
+        - 6°2 y 6°7
+        - 7°2 y 7°7
+        */
+        
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica del Modal
+            const supportModal = document.getElementById('support-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const supportTriggers = [document.getElementById('support-btn-nav'), document.getElementById('support-btn-float')];
+
+            const openModal = () => {
+                supportModal.classList.remove('hidden');
+                setTimeout(() => {
+                    supportModal.classList.add('opacity-100');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            };
+            const closeModal = () => {
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                supportModal.classList.remove('opacity-100');
+                setTimeout(() => supportModal.classList.add('hidden'), 300);
+            };
+
+            supportTriggers.forEach(btn => btn?.addEventListener('click', openModal));
+            closeModalBtn.addEventListener('click', closeModal);
+            supportModal.addEventListener('click', e => e.target === supportModal && closeModal());
+
+            // Lógica de Horarios
+            const cursoSelector = document.getElementById('curso-selector');
+            const horarioDisplay = document.getElementById('horario-display');
+            const horarios = {
+                'prog-4': '<h3>Horario 4° Programación</h3><p>L-V de 7:30 a 13:30. Taller contraturno Ma y Ju.</p>',
+                'quim-5': '<h3>Horario 5° Química</h3><p>L-V de 7:30 a 14:15. Lab. contraturno Lu y Mi.</p>',
+                'elec-6': '<h3>Horario 6° Electrónica</h3><p>L-V de 7:30 a 14:15. Prácticas contraturno Ma y Ju.</p>',
+                'emec-7': '<h3>Horario 7° Electromecánica</h3><p>L-V de 7:30 a 15:00. Taller contraturno Mi y Vi.</p>',
+            };
+            cursoSelector.addEventListener('change', e => {
+                horarioDisplay.innerHTML = horarios[e.target.value] || '<p class="text-gray-500">Selecciona un curso.</p>';
+            });
+            
+            // Lógica de Filtro de Proyectos
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.replace('bg-brand-green','bg-gray-200') || btn.classList.replace('text-white','text-gray-800'));
+                    button.classList.replace('bg-gray-200','bg-brand-green');
+                    button.classList.replace('text-gray-800','text-white');
+                    const filter = button.dataset.filter;
+                    projectCards.forEach(card => {
+                        const categories = card.dataset.category.split(' ');
+                        const shouldShow = filter === 'all' || categories.includes(filter);
+                        card.style.transition = 'transform 0.3s ease, opacity 0.3s ease, display 0.3s';
+                        if (shouldShow) {
+                            card.style.display = 'block';
+                            setTimeout(() => { card.style.transform = 'scale(1)'; card.style.opacity = '1'; }, 10);
+                        } else {
+                            card.style.transform = 'scale(0.95)';
+                            card.style.opacity = '0';
+                            setTimeout(() => card.style.display = 'none', 300);
+                        }
+                    });
+                });
+            });
+
+            // Animaciones al hacer scroll
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+>>>>>>> Stashed changes
         });
     </script>
 </body>
 </html>
+
+
