@@ -3,20 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< Updated upstream
-    <title>Campana Transforma | El Futuro de tu Yerba</title>
-=======
     <title>Portal C.E. - EEST N°1 "Luciano Reyes"</title>
->>>>>>> Stashed changes
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-<<<<<<< Updated upstream
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-=======
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,56 +17,8 @@
     <script src="https://unpkg.com/lucide-icons@latest/dist/lucide.min.js"></script>
 
     <!-- Estilos personalizados -->
->>>>>>> Stashed changes
     <style>
-        /* Estilo base con la fuente Poppins */
         body {
-<<<<<<< Updated upstream
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Clases para las animaciones con Intersection Observer */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Contenedor del video de fondo */
-        .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Asegura que el video no se desborde */
-        }
-
-        .video-background iframe {
-            width: 100vw; /* Usa el ancho de la ventana */
-            height: 56.25vw; /* Altura para mantener el aspect ratio 16:9 (9/16 = 0.5625) */
-            min-height: 100%;
-            min-width: 100%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Centra el video */
-            object-fit: cover; /* Asegura que el video cubra todo el área */
-            pointer-events: none; /* Evita que el usuario interactúe con el iframe */
-        }
-
-        /* Ajustes para pantallas con relación de aspecto diferente */
-        @media (max-aspect-ratio: 16/9) {
-            .video-background iframe {
-                height: 100%;
-                width: 177.77777778vh; /* 16 / 9 = 1.778 */
-            }
-=======
             font-family: 'Inter', sans-serif;
             background-color: #f8f9fa; /* Un blanco roto más suave */
             color: #212529;
@@ -97,7 +40,6 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             background-color: rgba(0, 0, 0, 0.4);
->>>>>>> Stashed changes
         }
 
         /* Estilo para los cards */
@@ -135,184 +77,6 @@
         .hover\:bg-brand-green-dark:hover { background-color: #225e26; }
     </style>
 </head>
-<<<<<<< Updated upstream
-<body class="bg-gray-50 text-gray-800">
-
-    <header class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <a href="#" class="text-2xl font-bold text-green-800">
-                        Campana<span class="text-green-600">Transforma</span>
-                    </a>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#proceso" class="text-gray-600 hover:bg-green-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">El Proceso</a>
-                        <a href="#producto" class="text-gray-600 hover:bg-green-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bioplástico</a>
-                        <a href="#sumate" class="bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors">¡Sumate!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <section class="relative h-screen flex items-center justify-center text-white">
-            <div class="video-background">
-                <iframe 
-                    src="https://www.youtube.com/embed/oOST_UJL5so?autoplay=1&loop=1&mute=1&playlist=oOST_UJL5so&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3" 
-                    frameborder="0" 
-                    allow="autoplay; encrypted-media" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-            <div class="bg-black/50 absolute inset-0"></div> <div class="text-center z-10 p-4">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4 animate-fade-in-up" style="animation: fade-in-up 1s ease-out forwards;">
-                    Tu Yerba Tiene Futuro.
-                </h1>
-                <p class="text-lg md:text-2xl max-w-3xl mx-auto text-gray-200 animate-fade-in-up" style="animation: fade-in-up 1s ease-out 0.5s forwards; opacity:0;">
-                    En Campana, estamos transformando un residuo cotidiano en un recurso revolucionario. Descubrí cómo tu mate ayuda a crear bioplástico.
-                </p>
-                <a href="#proceso" class="mt-8 inline-block bg-white text-green-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-200 transform hover:scale-105 transition-all animate-fade-in-up" style="animation: fade-in-up 1s ease-out 1s forwards; opacity:0;">
-                    Conocé el Proceso
-                </a>
-            </div>
-        </section>
-
-        <section class="py-20 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-3xl font-bold mb-2 text-green-800 animate-on-scroll fade-in-up">Miles de toneladas, una oportunidad única.</h2>
-                 <p class="text-lg text-gray-600 max-w-2xl mx-auto animate-on-scroll fade-in-up" style="transition-delay: 150ms;">
-                     Cada día, la yerba mate usada termina en la basura. Nosotros vimos más allá: vimos la materia prima para un futuro más sostenible.
-                 </p>
-            </div>
-        </section>
-
-        <section id="proceso" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-green-800 animate-on-scroll fade-in-up">Del Mate al Bioplástico</h2>
-                    <p class="text-xl text-gray-600 mt-2 animate-on-scroll fade-in-up" style="transition-delay: 150ms;">Un viaje de transformación en 5 pasos clave.</p>
-                </div>
-
-                <div class="relative">
-                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-green-200" style="transform: translateY(-50%);"></div>
-
-                    <div class="grid md:grid-cols-5 gap-12 relative">
-                        <div class="text-center animate-on-scroll fade-in-up">
-                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                            </div>
-                            <h3 class="mt-4 text-xl font-bold">1. Separación</h3>
-                            <p class="mt-1 text-gray-600">En casa, separás la yerba usada en un tacho específico.</p>
-                        </div>
-
-                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
-                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-2h8a1 1 0 001-1zM21 11V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2" /></svg>
-                            </div>
-                            <h3 class="mt-4 text-xl font-bold">2. Recolección</h3>
-                            <p class="mt-1 text-gray-600">El Municipio realiza una recolección diferenciada para este material.</p>
-                        </div>
-
-                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 400ms;">
-                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.C14 5 16.09 5.777 17.657 7.343A8 8 0 0117.657 18.657z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1014.12 11.88a3 3 0 00-4.242 4.242z" /></svg>
-                            </div>
-                            <h3 class="mt-4 text-xl font-bold">3. Procesamiento</h3>
-                            <p class="mt-1 text-gray-600">La yerba se seca en hornos y luego se hierve para su tratamiento.</p>
-                        </div>
-                        
-                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 600ms;">
-                            <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                            </div>
-                            <h3 class="mt-4 text-xl font-bold">4. Extracción</h3>
-                            <p class="mt-1 text-gray-600">Se separan los extractos y polímeros naturales de la yerba.</p>
-                        </div>
-
-                        <div class="text-center animate-on-scroll fade-in-up" style="transition-delay: 800ms;">
-                             <div class="bg-white p-6 rounded-full shadow-lg w-24 h-24 mx-auto flex items-center justify-center border-4 border-green-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                            </div>
-                            <h3 class="mt-4 text-xl font-bold">5. Creación</h3>
-                            <p class="mt-1 text-gray-600">Estos componentes se procesan para crear el bioplástico final.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="producto" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="lg:flex lg:items-center">
-                    <div class="lg:w-1/2">
-                        <h2 class="text-4xl font-bold text-green-800 animate-on-scroll fade-in-up">El Resultado: Bioplástico de Yerba Mate</h2>
-                        <p class="mt-4 text-lg text-gray-600 animate-on-scroll fade-in-up" style="transition-delay: 150ms;">
-                            Un material innovador, 100% biodegradable y versátil. Con él podemos fabricar desde macetas que nutren a la planta al degradarse, hasta mobiliario urbano y objetos de diseño. Es la prueba de que la sostenibilidad es el futuro.
-                        </p>
-                        <ul class="mt-6 space-y-2 text-gray-700 animate-on-scroll fade-in-up" style="transition-delay: 300ms;">
-                            <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Biodegradable y Compostable</li>
-                            <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Resistente y Duradero</li>
-                            <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Reduce la huella de carbono</li>
-                        </ul>
-                    </div>
-                    
-                       
-                    
-                </div>
-            </div>
-        </section>
-
-        <section id="sumate" class="py-20 bg-green-700 text-white">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl font-bold animate-on-scroll fade-in-up">Sumate al cambio. Es muy fácil.</h2>
-                <p class="mt-4 text-xl max-w-3xl mx-auto text-green-100 animate-on-scroll fade-in-up" style="transition-delay: 150ms;">
-                    Tu pequeño gesto diario tiene un impacto gigante. Seguí estos simples pasos y sé parte de la transformación de Campana.
-                </p>
-                <a href="#" class="mt-8 inline-block bg-white text-green-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-200 transform hover:scale-105 transition-all animate-on-scroll fade-in-up" style="transition-delay: 300ms;">
-                    Encontrá tu punto de recolección más cercano
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-gray-800 text-white">
-        <div class="container mx-auto py-8 px-6 text-center">
-            <p class="font-bold text-lg">MUNICIPALIDAD DE CAMPANA</p>
-            <p class="mt-2 text-gray-400">Promoviendo un futuro más verde y sostenible para nuestra ciudad.</p>
-            <p class="mt-4 text-sm text-gray-500">&copy; 2025 Campana Transforma. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Selecciona todos los elementos que queremos animar al hacer scroll
-            const animatedElements = document.querySelectorAll('.animate-on-scroll');
-
-            // Configuración del Intersection Observer
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    // Si el elemento es visible en la pantalla (intersecting)
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    } else {
-                        // Opcional: remover la clase si el elemento sale de la vista
-                        // para que la animación se repita al volver a scrollear.
-                        // entry.target.classList.remove('is-visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-
-            // Le decimos al observer que "observe" cada uno de nuestros elementos
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-=======
 <body class="antialiased">
 
     <!-- Barra de Navegación -->
@@ -541,7 +305,6 @@
                 });
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
->>>>>>> Stashed changes
         });
     </script>
 </body>
