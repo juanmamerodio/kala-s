@@ -3,311 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal C.E. - EEST N°1 "Luciano Reyes"</title>
+    <title>Arte Gise | Taller de Reciclado y Técnicas Mixtas</title>
+    <meta name="description" content="Taller de arte, reciclado y creatividad para niños y adultos mayores en Sarmiento 678.">
+    
+    <!-- Google Fonts: Roboto (Classic Google/Android Font) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide-icons@latest/dist/lucide.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        google: {
+                            blue: '#4285F4',
+                            green: '#34A853',
+                            gray: '#F1F3F4',
+                            text: '#202124'
+                        },
+                        nature: {
+                            100: '#F5F5F4', // Stone 100
+                            200: '#E7E5E4', // Stone 200
+                            600: '#57534E', // Stone 600
+                            800: '#292524', // Stone 800
+                            accent: '#65A30D' // Lime green for eco vibe
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Estilos personalizados -->
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa; /* Un blanco roto más suave */
-            color: #212529;
-        }
-
-        /* Animación de entrada para elementos */
-        @keyframes fadeIn-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Custom animations */
         .fade-in-up {
-            animation: fadeIn-up 0.7s ease-out forwards;
             opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
-        /* Estilo para el fondo del modal (blur) */
-        .modal-backdrop {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            background-color: rgba(0, 0, 0, 0.4);
+        /* Soft shadows typically found in Google Design */
+        .material-card {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
         }
-
-        /* Estilo para los cards */
-        .card {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-            border: 1px solid #e9ecef;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .material-card:hover {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            transform: translateY(-2px);
         }
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
-        }
-        
-        .news-card-hover:hover h3 {
-            color: #2E7D32;
-        }
-
-        /* Estilo para la barra de navegación pegajosa */
-        .sticky-nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            background-color: rgba(255, 255, 255, 0.85);
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        /* Colores del Partido Verde */
-        .bg-brand-green { background-color: #2E7D32; }
-        .text-brand-green { color: #2E7D32; }
-        .border-brand-green { border-color: #2E7D32; }
-        .hover\:bg-brand-green-dark:hover { background-color: #225e26; }
     </style>
 </head>
-<body class="antialiased">
+<body class="font-sans text-google-text bg-white selection:bg-nature-accent selection:text-white">
 
-    <!-- Barra de Navegación -->
-    <nav class="sticky-nav fade-in-up">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <img src="https://placehold.co/40x40/2E7D32/FFFFFF?text=CE" alt="Logo" class="rounded-full">
-                    <span class="font-bold text-lg ml-3 text-gray-800">C.E. Luciano Reyes</span>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i data-lucide="leaf" class="h-6 w-6 text-nature-accent"></i>
+                    <span class="font-medium text-xl tracking-tight text-nature-800">Arte Gise</span>
                 </div>
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="#comunicados" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Comunicados</a>
-                    <a href="#especialidades" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Especialidades</a>
-                    <a href="#proyectos" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Proyectos</a>
-                    <a href="#galeria" class="text-gray-600 hover:text-brand-green font-semibold transition-colors">Galería</a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#filosofia" class="text-nature-600 hover:text-nature-accent font-medium transition-colors">El Taller</a>
+                    <a href="#talleres" class="text-nature-600 hover:text-nature-accent font-medium transition-colors">Propuestas</a>
+                    <a href="#ubicacion" class="text-nature-600 hover:text-nature-accent font-medium transition-colors">Ubicación</a>
+                    <a href="#contacto" class="bg-nature-800 text-white px-5 py-2 rounded-full font-medium hover:bg-nature-600 transition-colors shadow-md">
+                        Sumate
+                    </a>
                 </div>
-                <button id="support-btn-nav" class="hidden md:inline-flex items-center bg-brand-green text-white font-bold py-2 px-4 rounded-full hover:bg-brand-green-dark transition-colors shadow-sm">
-                    Ayuda
-                </button>
-                 <!-- Menú Móvil (placeholder) -->
-                <div class="md:hidden">
-                    <i data-lucide="menu" class="h-6 w-6"></i>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-nature-800 focus:outline-none">
+                        <i data-lucide="menu" class="h-7 w-7"></i>
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#filosofia" class="block px-3 py-3 text-base font-medium text-nature-600 hover:bg-nature-100 rounded-lg">El Taller</a>
+                <a href="#talleres" class="block px-3 py-3 text-base font-medium text-nature-600 hover:bg-nature-100 rounded-lg">Propuestas</a>
+                <a href="#ubicacion" class="block px-3 py-3 text-base font-medium text-nature-600 hover:bg-nature-100 rounded-lg">Ubicación</a>
+                <a href="#contacto" class="block px-3 py-3 text-base font-medium text-nature-accent hover:bg-nature-100 rounded-lg font-bold">Sumate</a>
             </div>
         </div>
     </nav>
 
-    <!-- Contenedor Principal -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 -z-10">
+            <!-- Abstract background shape mimicking torn paper/organic shapes -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-nature-100 blur-3xl opacity-60"></div>
+            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-green-50 blur-3xl opacity-60"></div>
+        </div>
 
-        <!-- Título del Portal -->
-        <header class="text-left mb-10 fade-in-up" style="animation-delay: 0.1s;">
-            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">Portal de Comunicados</h1>
-            <p class="mt-2 text-lg text-gray-600">Toda la información importante, en un solo lugar.</p>
-        </header>
-
-        <!-- Sección de Comunicados -->
-        <section id="comunicados" class="scroll-mt-20">
-            <!-- Comunicado Destacado -->
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12 fade-in-up" style="animation-delay: 0.2s;">
-                <article class="card news-card-hover lg:col-span-3 group overflow-hidden">
-                    <a href="#" class="block">
-                        <img src="https://placehold.co/800x500/dc2626/ffffff?text=Importante" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300" alt="Anuncio Importante">
-                        <div class="p-6">
-                            <span class="font-bold text-sm text-red-600 mb-2 block">IMPORTANTE</span>
-                            <h2 class="text-2xl font-bold text-gray-900 mb-3 leading-tight transition-colors">Suspensión de clases Taller contraturno 7mo año</h2>
-                            <p class="text-gray-600 leading-relaxed">Se informa que el día Viernes 26 se suspenden las clases de taller en el turno tarde por jornada de capacitación docente. Las clases del turno mañana se dictarán con normalidad.</p>
-                        </div>
-                    </a>
-                </article>
-                <!-- Lista de comunicados recientes -->
-                <div class="lg:col-span-2 space-y-4">
-                    <h3 class="text-xl font-bold mb-4 pb-2 border-b-2">Más Recientes</h3>
-                    <article class="news-card-hover group"><a href="#" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors"><h3 class="font-semibold text-gray-800 transition-colors mb-1">Charla sobre Orientación Vocacional</h3><p class="text-sm text-gray-500">Lunes a las 10:00 hs en el Salón de Actos.</p></a></article>
-                    <article class="news-card-hover group"><a href="#" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors"><h3 class="font-semibold text-gray-800 transition-colors mb-1">Recordatorio sobre el uso del uniforme escolar</h3><p class="text-sm text-gray-500">Controles a partir del 1 de Octubre.</p></a></article>
-                    <article class="news-card-hover group"><a href="#" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors"><h3 class="font-semibold text-gray-800 transition-colors mb-1">Inscripciones abiertas para Taller de Robótica</h3><p class="text-sm text-gray-500">Cupos limitados. Consultar en preceptoría.</p></a></article>
-                </div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-nature-accent text-sm font-medium mb-6">
+                <i data-lucide="recycle" class="h-4 w-4"></i>
+                <span>Nada se pierde, todo se transforma</span>
             </div>
-
-            <!-- Grilla de otros comunicados -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <article class="card news-card-hover group fade-in-up" style="animation-delay: 0.3s;"><a href="#" class="block"><img src="https://placehold.co/600x400/3b82f6/ffffff?text=Evento" class="w-full h-48 object-cover rounded-t-lg" alt="Evento"><div class="p-5"><span class="font-semibold text-sm text-blue-600">EVENTO</span><h3 class="font-bold text-lg mt-2 text-gray-900 transition-colors">Expo Técnica 2024: ¡Presenta tu proyecto!</h3></div></a></article>
-                <article class="card news-card-hover group fade-in-up" style="animation-delay: 0.4s;"><a href="#" class="block"><img src="https://placehold.co/600x400/16a34a/ffffff?text=General" class="w-full h-48 object-cover rounded-t-lg" alt="General"><div class="p-5"><span class="font-semibold text-sm text-green-600">GENERAL</span><h3 class="font-bold text-lg mt-2 text-gray-900 transition-colors">Nuevos horarios de consulta para materias</h3></div></a></article>
-                <article class="card news-card-hover group fade-in-up" style="animation-delay: 0.5s;"><a href="#" class="block"><img src="https://placehold.co/600x400/f97316/ffffff?text=Deportes" class="w-full h-48 object-cover rounded-t-lg" alt="Deportes"><div class="p-5"><span class="font-semibold text-sm text-orange-600">DEPORTES</span><h3 class="font-bold text-lg mt-2 text-gray-900 transition-colors">Convocatoria para el equipo de Vóley</h3></div></a></article>
-            </div>
-        </section>
-        
-        <!-- Secciones Secundarias -->
-        <div class="mt-20 space-y-20">
-            <!-- Sección: Especialidades -->
-            <section id="especialidades" class="scroll-mt-20">
-                <h2 class="text-3xl font-bold mb-8 text-center fade-in-up">Nuestras Especialidades</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.1s;"><div class="p-4 rounded-full bg-blue-100 inline-block mb-4"><i data-lucide="code-2" class="h-8 w-8 text-blue-600"></i></div><h3 class="text-xl font-semibold">Programación</h3></div>
-                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.2s;"><div class="p-4 rounded-full bg-green-100 inline-block mb-4"><i data-lucide="beaker" class="h-8 w-8 text-green-600"></i></div><h3 class="text-xl font-semibold">Química</h3></div>
-                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.3s;"><div class="p-4 rounded-full bg-yellow-100 inline-block mb-4"><i data-lucide="cpu" class="h-8 w-8 text-yellow-600"></i></div><h3 class="text-xl font-semibold">Electrónica</h3></div>
-                    <div class="card p-6 text-center fade-in-up" style="animation-delay: 0.4s;"><div class="p-4 rounded-full bg-red-100 inline-block mb-4"><i data-lucide="factory" class="h-8 w-8 text-red-600"></i></div><h3 class="text-xl font-semibold">Electromecánica</h3></div>
-                </div>
-            </section>
-
-             <!-- Sección: Proyectos Escolares -->
-            <section id="proyectos" class="scroll-mt-20">
-                 <h2 class="text-3xl font-bold mb-8 text-center fade-in-up">Proyectos Destacados</h2>
-                <div class="card p-6 fade-in-up">
-                    <div class="flex flex-wrap gap-2 mb-6 justify-center"><button class="filter-btn bg-brand-green text-white px-4 py-2 rounded-full text-sm font-semibold" data-filter="all">Todos</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="programacion">Programación</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="electronica">Electrónica</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="quimica">Química</button><button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold" data-filter="electromecanica">Electromecánica</button></div>
-                    <div id="proyectos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="project-card" data-category="programacion electronica"><a href="https://meteotecnica.netlify.app/" target="_blank" class="block group"><div class="overflow-hidden rounded-lg"><img src="https://placehold.co/600x400/3498db/ffffff?text=Meteotécnica" alt="Proyecto Meteotécnica" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div><div class="p-4"><h4 class="font-bold text-lg">Meteotécnica</h4><p class="text-gray-600 text-sm">Estación meteorológica escolar en tiempo real.</p></div></a></div>
-                        <div class="project-card" data-category="electromecanica electronica"><a href="#" class="block group"><div class="overflow-hidden rounded-lg"><img src="https://placehold.co/600x400/e74c3c/ffffff?text=Brazo+Robótico" alt="Proyecto Brazo Robótico" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div><div class="p-4"><h4 class="font-bold text-lg">Brazo Robótico</h4><p class="text-gray-600 text-sm">Brazo controlado por app para ensamblaje.</p></div></a></div>
-                        <div class="project-card" data-category="quimica"><a href="#" class="block group"><div class="overflow-hidden rounded-lg"><img src="https://placehold.co/600x400/2ecc71/ffffff?text=Análisis+de+Agua" alt="Proyecto Analizador de Agua" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"></div><div class="p-4"><h4 class="font-bold text-lg">Análisis de Agua</h4><p class="text-gray-600 text-sm">Kit de bajo costo para análisis de calidad.</p></div></a></div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Sección Galería y Horarios -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                 <section id="horarios" class="scroll-mt-20 fade-in-up">
-                    <h2 class="text-3xl font-bold mb-8 text-center">Consulta de Horarios</h2>
-                    <div class="card p-6">
-                        <select id="curso-selector" class="w-full p-3 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"><option value="default" selected disabled>Selecciona tu curso</option><option value="prog-4">4° Programación</option><option value="quim-5">5° Química</option><option value="elec-6">6° Electrónica</option><option value="emec-7">7° Electromecánica</option></select>
-                        <div id="horario-display" class="mt-4 p-4 bg-gray-100 rounded-lg min-h-[100px] flex items-center justify-center"><p class="text-gray-500">Aquí se mostrará el horario.</p></div>
-                    </div>
-                </section>
-                <section id="galeria" class="scroll-mt-20 text-center fade-in-up">
-                    <h2 class="text-3xl font-bold mb-8">Galería Escolar</h2>
-                    <div class="card p-6 flex flex-col items-center justify-center h-full">
-                        <i data-lucide="camera" class="h-12 w-12 text-brand-green mb-4"></i>
-                        <p class="text-gray-600 mb-6 max-w-xs">Revive los mejores momentos de nuestra comunidad escolar en Instagram.</p>
-                        <a href="https://www.instagram.com/partido_verde_tec1campana/" target="_blank" class="inline-flex items-center bg-brand-green text-white font-bold py-3 px-6 rounded-full hover:bg-brand-green-dark transition-colors shadow-lg transform hover:-translate-y-1">Ver Galería</a>
-                    </div>
-                </section>
+            <h1 class="text-5xl md:text-7xl font-light text-nature-800 tracking-tight mb-6">
+                Crear con lo que <br> <span class="font-medium">ya existe.</span>
+            </h1>
+            <p class="mt-4 text-xl text-nature-600 max-w-2xl mx-auto font-light leading-relaxed">
+                En <strong>Arte Gise</strong> combinamos el reciclado con técnicas mixtas. Un espacio en Sarmiento 678 pensado para que chicos y grandes descubran que la basura de uno es el tesoro de un artista.
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#talleres" class="px-8 py-3 rounded-full bg-nature-800 text-white font-medium hover:bg-nature-600 transition-all shadow-lg hover:shadow-xl">
+                    Ver Talleres
+                </a>
+                <a href="#contacto" class="px-8 py-3 rounded-full bg-white text-nature-800 border border-gray-200 font-medium hover:bg-gray-50 transition-all">
+                    Escribinos
+                </a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Botón de Soporte Flotante -->
-    <button id="support-btn-float" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-xl hover:bg-blue-700 transition-all transform hover:scale-110 focus:outline-none z-50 md:hidden"><i data-lucide="message-square-heart" class="h-8 w-8"></i></button>
+    <!-- Philosophy / Value Prop -->
+    <section id="filosofia" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                
+                <div class="fade-in-up p-6 rounded-2xl hover:bg-nature-100 transition-colors duration-300">
+                    <div class="w-14 h-14 mx-auto bg-green-100 text-nature-accent rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="palette" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-nature-800 mb-2">Creatividad Pura</h3>
+                    <p class="text-nature-600 font-light">
+                        Exploramos texturas, colores y formas. No buscamos la perfección, buscamos la expresión.
+                    </p>
+                </div>
 
-    <!-- Modal de Soporte -->
-    <div id="support-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden transition-opacity duration-300 opacity-0"><div id="modal-content" class="card w-full max-w-md p-6 transform scale-95 opacity-0 transition-all duration-300"><div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Canal de Ayuda</h3><button id="close-modal-btn" class="text-gray-500 hover:text-gray-800"><i data-lucide="x" class="h-6 w-6"></i></button></div><p class="text-gray-600 mb-6">Si necesitas hablar sobre un problema, proponer una idea o simplemente buscar apoyo, estamos aquí para escucharte.</p><div class="space-y-4"><a href="mailto:centroestudiantes.tec1@email.com" class="flex items-center w-full text-left p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"><i data-lucide="mail" class="h-6 w-6 text-brand-green mr-4"></i><div><p class="font-semibold">Enviar un Email</p><p class="text-sm text-gray-500">Opción confidencial y directa.</p></div></a><a href="https://www.instagram.com/partido_verde_tec1campana/" target="_blank" class="flex items-center w-full text-left p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"><i data-lucide="send" class="h-6 w-6 text-brand-green mr-4"></i><div><p class="font-semibold">Mensaje por Instagram</p><p class="text-sm text-gray-500">Contacta con nosotros en redes.</p></div></a></div></div></div>
-    
+                <div class="fade-in-up p-6 rounded-2xl hover:bg-nature-100 transition-colors duration-300 delay-100">
+                    <div class="w-14 h-14 mx-auto bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="users" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-nature-800 mb-2">Para Todas las Edades</h3>
+                    <p class="text-nature-600 font-light">
+                        Desde los más chicos hasta nuestros adultos mayores. El arte no tiene fecha de vencimiento.
+                    </p>
+                </div>
+
+                <div class="fade-in-up p-6 rounded-2xl hover:bg-nature-100 transition-colors duration-300 delay-200">
+                    <div class="w-14 h-14 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="refresh-cw" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-nature-800 mb-2">Conciencia Ambiental</h3>
+                    <p class="text-nature-600 font-light">
+                        Fomentamos el reciclado dando una segunda vida a materiales cotidianos.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Workshops Section -->
+    <section id="talleres" class="py-20 bg-nature-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-light text-nature-800 mb-4">Nuestros Espacios</h2>
+                <p class="text-nature-600">Encontrá el lugar ideal para vos o tu familia.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Kids Card -->
+                <div class="material-card bg-white rounded-3xl overflow-hidden fade-in-up">
+                    <div class="h-48 bg-gray-200 relative">
+                        <!-- Placeholder for image -->
+                        <div class="absolute inset-0 flex items-center justify-center bg-sky-100 text-sky-800">
+                            <i data-lucide="smile" class="h-16 w-16 opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-nature-accent font-bold">Para Chicos</div>
+                        <h3 class="mt-2 text-2xl font-medium text-nature-800">Pequeños Artistas</h3>
+                        <p class="mt-4 text-gray-600 font-light">
+                            Un espacio lúdico donde el cartón se vuelve castillo y las botellas naves espaciales. Fomentamos la motricidad fina y la imaginación sin límites.
+                        </p>
+                        <ul class="mt-6 space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Materiales incluidos</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Grupos reducidos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Seniors Card -->
+                <div class="material-card bg-white rounded-3xl overflow-hidden fade-in-up delay-100">
+                    <div class="h-48 bg-gray-200 relative">
+                        <!-- Placeholder for image -->
+                        <div class="absolute inset-0 flex items-center justify-center bg-orange-100 text-orange-800">
+                            <i data-lucide="heart-handshake" class="h-16 w-16 opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-nature-accent font-bold">Adultos Mayores</div>
+                        <h3 class="mt-2 text-2xl font-medium text-nature-800">Técnicas Mixtas & Memoria</h3>
+                        <p class="mt-4 text-gray-600 font-light">
+                            Más que un taller, un encuentro. Trabajamos la creatividad, la paciencia y la sociabilización. Ideal para mantener la mente activa y las manos ocupadas.
+                        </p>
+                        <ul class="mt-6 space-y-2 text-gray-600 text-sm">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Ritmo personalizado</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Ambiente cálido y compañero</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact -->
+    <section id="ubicacion" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-nature-800 rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row fade-in-up">
+                
+                <!-- Contact Info -->
+                <div class="p-10 md:w-1/2 text-white flex flex-col justify-center">
+                    <h2 class="text-3xl font-light mb-6">Vení a visitarnos</h2>
+                    <p class="text-nature-200 mb-8 font-light text-lg">
+                        Estamos en el corazón del barrio. Acercate a Sarmiento 678 para conocer el espacio y charlar sobre los horarios.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white/10 p-3 rounded-full">
+                                <i data-lucide="map-pin" class="h-6 w-6 text-nature-accent"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-lg">Dirección</h4>
+                                <p class="text-nature-200 font-light">Sarmiento 678</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white/10 p-3 rounded-full">
+                                <i data-lucide="mail" class="h-6 w-6 text-nature-accent"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-lg">Consultas</h4>
+                                <p class="text-nature-200 font-light">info@artegise.com.ar</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white/10 p-3 rounded-full">
+                                <i data-lucide="instagram" class="h-6 w-6 text-nature-accent"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-lg">Seguinos</h4>
+                                <p class="text-nature-200 font-light">@arte.gise</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Map Representation -->
+                <div class="md:w-1/2 bg-stone-200 relative h-80 md:h-auto">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3293.006935165487!2d-58.9616056!3d-34.1673894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bb0d913612501d%3A0xc32a85536480e03e!2sSarmiento%20678%2C%20Campana%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1716928000000!5m2!1ses!2sar" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0; filter: grayscale(1) contrast(1.2) opacity(0.8);" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simple Form Section -->
+    <section id="contacto" class="py-20 bg-nature-100">
+        <div class="max-w-xl mx-auto px-4 sm:px-6 fade-in-up">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl font-light text-nature-800">¿Tenés dudas? Escribinos</h2>
+            </div>
+            <form class="space-y-6 bg-white p-8 rounded-2xl shadow-sm" onsubmit="event.preventDefault(); alert('¡Gracias por escribirnos! Te responderemos pronto.');">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Tu Nombre</label>
+                    <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-gray-200 border focus:ring-2 focus:ring-nature-accent focus:border-transparent outline-none transition-all" placeholder="Ej. María">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email o Teléfono</label>
+                    <input type="text" id="email" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-gray-200 border focus:ring-2 focus:ring-nature-accent focus:border-transparent outline-none transition-all" placeholder="Para contactarte">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                    <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-gray-200 border focus:ring-2 focus:ring-nature-accent focus:border-transparent outline-none transition-all" placeholder="Quería saber horarios para..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-nature-800 text-white font-bold py-3 px-4 rounded-lg hover:bg-nature-600 transition-colors shadow-md">
+                    Enviar Mensaje
+                </button>
+            </form>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="bg-white mt-20 border-t border-gray-200"><div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-600"><p>&copy; 2024 Centro de Estudiantes EEST N°1 "Luciano Reyes".</p></div></footer>
+    <footer class="bg-white border-t border-gray-100 py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i data-lucide="leaf" class="h-5 w-5 text-nature-accent"></i>
+                <span class="font-medium text-lg text-nature-800">Arte Gise</span>
+            </div>
+            <p class="text-nature-600 text-sm font-light">
+                © 2024 Hecho con amor y materiales reciclados.
+            </p>
+            <div class="flex gap-4">
+                <!-- Social Placeholders -->
+                <a href="#" class="text-gray-400 hover:text-nature-800 transition-colors"><i data-lucide="facebook" class="h-5 w-5"></i></a>
+                <a href="#" class="text-gray-400 hover:text-nature-800 transition-colors"><i data-lucide="instagram" class="h-5 w-5"></i></a>
+            </div>
+        </div>
+    </footer>
 
+    <!-- Scripts -->
     <script>
-        /*
-        Estructura y matrícula de la escuela (aprox. 1300 alumnos):
-
-        -- CICLO BÁSICO --
-        Primer año: 1°1, 1°2, 1°3, 1°4, 1°5, 1°6, 1°7
-        Segundo año: 2°1, 2°2, 2°3, 2°4, 2°5, 2°6, 2°7
-        Tercer año: 3°1, 3°2, 3°3, 3°4, 3°5, 3°6 (No hay 3°7)
-
-        -- CICLO SUPERIOR (Patrón de 4to a 7mo año) --
-        Programación:
-        - 4°5, 5°5, 6°5, 7°5
-
-        Electrónica:
-        - 4°1, 5°1, 6°1, 7°1
-
-        Química:
-        - 4°6 y 4°9
-        - 5°6 y 5°9
-        - 6°6 y 6°9
-        - 7°6 y 7°9
-
-        Electromecánica:
-        - 4°2 y 4°7
-        - 5°2 y 5°7
-        - 6°2 y 6°7
-        - 7°2 y 7°7
-        */
-        
+        // Initialize Icons
         lucide.createIcons();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Lógica del Modal
-            const supportModal = document.getElementById('support-modal');
-            const modalContent = document.getElementById('modal-content');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const supportTriggers = [document.getElementById('support-btn-nav'), document.getElementById('support-btn-float')];
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
 
-            const openModal = () => {
-                supportModal.classList.remove('hidden');
-                setTimeout(() => {
-                    supportModal.classList.add('opacity-100');
-                    modalContent.classList.add('scale-100', 'opacity-100');
-                    modalContent.classList.remove('scale-95', 'opacity-0');
-                }, 10);
-            };
-            const closeModal = () => {
-                modalContent.classList.remove('scale-100', 'opacity-100');
-                modalContent.classList.add('scale-95', 'opacity-0');
-                supportModal.classList.remove('opacity-100');
-                setTimeout(() => supportModal.classList.add('hidden'), 300);
-            };
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
 
-            supportTriggers.forEach(btn => btn?.addEventListener('click', openModal));
-            closeModalBtn.addEventListener('click', closeModal);
-            supportModal.addEventListener('click', e => e.target === supportModal && closeModal());
-
-            // Lógica de Horarios
-            const cursoSelector = document.getElementById('curso-selector');
-            const horarioDisplay = document.getElementById('horario-display');
-            const horarios = {
-                'prog-4': '<h3>Horario 4° Programación</h3><p>L-V de 7:30 a 13:30. Taller contraturno Ma y Ju.</p>',
-                'quim-5': '<h3>Horario 5° Química</h3><p>L-V de 7:30 a 14:15. Lab. contraturno Lu y Mi.</p>',
-                'elec-6': '<h3>Horario 6° Electrónica</h3><p>L-V de 7:30 a 14:15. Prácticas contraturno Ma y Ju.</p>',
-                'emec-7': '<h3>Horario 7° Electromecánica</h3><p>L-V de 7:30 a 15:00. Taller contraturno Mi y Vi.</p>',
-            };
-            cursoSelector.addEventListener('change', e => {
-                horarioDisplay.innerHTML = horarios[e.target.value] || '<p class="text-gray-500">Selecciona un curso.</p>';
+        // Hide menu on link click
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
             });
-            
-            // Lógica de Filtro de Proyectos
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const projectCards = document.querySelectorAll('.project-card');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.replace('bg-brand-green','bg-gray-200') || btn.classList.replace('text-white','text-gray-800'));
-                    button.classList.replace('bg-gray-200','bg-brand-green');
-                    button.classList.replace('text-gray-800','text-white');
-                    const filter = button.dataset.filter;
-                    projectCards.forEach(card => {
-                        const categories = card.dataset.category.split(' ');
-                        const shouldShow = filter === 'all' || categories.includes(filter);
-                        card.style.transition = 'transform 0.3s ease, opacity 0.3s ease, display 0.3s';
-                        if (shouldShow) {
-                            card.style.display = 'block';
-                            setTimeout(() => { card.style.transform = 'scale(1)'; card.style.opacity = '1'; }, 10);
-                        } else {
-                            card.style.transform = 'scale(0.95)';
-                            card.style.opacity = '0';
-                            setTimeout(() => card.style.display = 'none', 300);
-                        }
-                    });
-                });
-            });
+        });
 
-            // Animaciones al hacer scroll
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in-up');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => {
+            observer.observe(el);
         });
     </script>
 </body>
 </html>
-
-
