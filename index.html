@@ -1,381 +1,689 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arte Gise | Taller de Reciclado y Técnicas Mixtas</title>
-    <meta name="description" content="Taller de arte, reciclado y creatividad para niños y adultos mayores en Sarmiento 678.">
-    
-    <!-- Google Fonts: Roboto (Classic Google/Android Font) -->
+    <title>Informe Académico - Modelo Scrum</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons para un look minimalista -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Roboto', 'sans-serif'],
-                    },
-                    colors: {
-                        google: {
-                            blue: '#4285F4',
-                            green: '#34A853',
-                            gray: '#F1F3F4',
-                            text: '#202124'
-                        },
-                        nature: {
-                            100: '#F5F5F4', // Stone 100
-                            200: '#E7E5E4', // Stone 200
-                            600: '#57534E', // Stone 600
-                            800: '#292524', // Stone 800
-                            accent: '#65A30D' // Lime green for eco vibe
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        /* Custom animations */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        /* 1. THE SETUP & MD3 THEME VARIABLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .fade-in-up.visible {
+
+        :root {
+            --md-sys-color-surface: #FEF7FF;
+            --md-sys-color-on-surface: #1C1B1F;
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-color-primary: #6750A4;
+            --md-sys-color-primary-container: #EADDFF;
+            --md-sys-color-on-primary-container: #21005D;
+            --md-sys-color-secondary-container: #E8DEF8;
+            --md-sys-color-on-secondary-container: #1D192B;
+            --md-sys-color-tertiary-container: #FFD8E4;
+            --md-sys-color-on-tertiary-container: #31111D;
+            --md-sys-color-error: #B3261E;
+        }
+
+        body {
+            background-color: #E6E0E9;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Evita el scroll, es una presentación */
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Barra de progreso interactiva */
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: var(--md-sys-color-surface);
+            z-index: 100;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--md-sys-color-primary);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Contenedores de las slides (Lógica de visibilidad) */
+        .slide-container {
+            background-color: var(--md-sys-color-surface);
+            border-radius: 32px;
+            box-shadow: 0 16px 40px rgba(103, 80, 164, 0.15);
+            display: flex;
+            flex-direction: column;
+            height: 720px;
+            width: 1280px;
+            padding: 60px;
+            position: absolute;
+            overflow: hidden;
+            
+            /* Animación de entrada y estado oculto inicial */
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .slide-container.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        /* Elementos abstractos de fondo con Motion Graphics flotante */
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            animation: floatSlow 12s infinite alternate ease-in-out;
+        }
+        
+        .bg-blob-1 {
+            top: -20%; right: -10%;
+            width: 600px; height: 600px;
+            background: var(--md-sys-color-primary-container);
+            opacity: 0.6;
+        }
+        
+        .bg-blob-2 {
+            bottom: -20%; left: -10%;
+            width: 500px; height: 500px;
+            background: var(--md-sys-color-tertiary-container);
+            opacity: 0.5;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 20px) scale(1.05); }
+            100% { transform: translate(-20px, 40px) scale(0.95); }
+        }
+
+        .slide-container > * { position: relative; z-index: 1; }
+
+        /* 2. TIPOGRAFÍA Y ANIMACIONES DE ELEMENTOS (STAGGERING) */
+        h1, h2, h3 { color: var(--md-sys-color-on-surface); font-weight: 700; margin-bottom: 15px; }
+        p, li, .subtitle { color: var(--md-sys-color-on-surface-variant); font-size: 20px; line-height: 1.6; }
+        
+        .slide-title { font-size: 42px; margin-bottom: 40px; text-align: left; letter-spacing: -0.5px; }
+        .slide-title span { color: var(--md-sys-color-primary); }
+
+        /* Clases de animación que se activan con JS */
+        .anim-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .slide-container.active .anim-element {
             opacity: 1;
             transform: translateY(0);
         }
-        
-        /* Soft shadows typically found in Google Design */
-        .material-card {
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+        .delay-3 { transition-delay: 0.6s; }
+        .delay-4 { transition-delay: 0.8s; }
+
+        /* 3. COMPONENTES INTERACTIVOS (Diseño menos "texto") */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            width: 100%;
         }
-        .material-card:hover {
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-            transform: translateY(-2px);
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        /* Tarjetas interactivas en lugar de viñetas simples */
+        .info-card {
+            background-color: #FFFFFF;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(103, 80, 164, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(103, 80, 164, 0.15);
+        }
+
+        .info-card .icon-box {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-primary);
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .info-card p { margin-bottom: 0; font-size: 18px; }
+        
+        .emphasize { color: var(--md-sys-color-primary); font-weight: 700; }
+
+        /* Imágenes con efecto sutil */
+        .image-wrapper {
+            border-radius: 24px;
+            height: 400px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: transform 0.5s ease;
+        }
+        
+        .image-wrapper:hover { transform: scale(1.02); }
+        .image-wrapper img { height: 100%; width: 100%; object-fit: cover; }
+        .contain-img img { object-fit: contain; padding: 20px; background-color: white; }
+
+        /* Tiles para roles y artefactos */
+        .tiled-content {
+            display: flex; gap: 40px; justify-content: center; width: 100%;
+        }
+
+        .tile {
+            background-color: #FFFFFF;
+            border-radius: 28px;
+            box-shadow: 0 4px 12px rgba(103, 80, 164, 0.05);
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 40px 30px;
+            text-align: center;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tile:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(103, 80, 164, 0.12);
+        }
+
+        .tile .icon { margin-bottom: 25px; height: 60px; }
+        
+        .tile.variant-primary { background-color: var(--md-sys-color-primary-container); }
+        .tile.variant-primary h3, .tile.variant-primary p, .tile.variant-primary .icon { color: var(--md-sys-color-on-primary-container); }
+        .tile.variant-secondary { background-color: var(--md-sys-color-secondary-container); }
+        .tile.variant-secondary h3, .tile.variant-secondary p, .tile.variant-secondary .icon { color: var(--md-sys-color-on-secondary-container); }
+        .tile.variant-tertiary { background-color: var(--md-sys-color-tertiary-container); }
+        .tile.variant-tertiary h3, .tile.variant-tertiary p, .tile.variant-tertiary .icon { color: var(--md-sys-color-on-tertiary-container); }
+
+        /* Línea de tiempo animada */
+        .timeline-layout {
+            display: flex; height: 100%; justify-content: space-between; position: relative; margin-top: 50px;
+        }
+
+        .timeline-line-bg {
+            background-color: var(--md-sys-color-secondary-container);
+            height: 6px; left: 0; position: absolute; top: 50%; transform: translateY(-3px); width: 100%; border-radius: 3px;
+        }
+
+        .timeline-line-fill {
+            background-color: var(--md-sys-color-primary);
+            height: 6px; left: 0; position: absolute; top: 50%; transform: translateY(-3px);
+            width: 0%; border-radius: 3px; z-index: 1;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .slide-container.active .timeline-line-fill { width: 100%; }
+
+        .timeline-item { position: relative; text-align: center; width: 23%; z-index: 2; }
+
+        .timeline-dot {
+            background-color: var(--md-sys-color-surface);
+            border-radius: 50%; border: 5px solid var(--md-sys-color-primary);
+            height: 24px; width: 24px; margin: 0 auto;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            box-shadow: 0 0 0 4px rgba(103, 80, 164, 0.2);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .slide-container.active .timeline-item:nth-child(2) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 0.3s; }
+        .slide-container.active .timeline-item:nth-child(3) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 0.6s; }
+        .slide-container.active .timeline-item:nth-child(4) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 0.9s; }
+        .slide-container.active .timeline-item:nth-child(5) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 1.2s; }
+
+        .timeline-item .content-wrapper {
+            position: absolute; width: 100%; left: 0;
+            background-color: #FFFFFF; padding: 20px; border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(103, 80, 164, 0.08);
+            border: 1px solid var(--md-sys-color-primary-container);
+        }
+
+        .timeline-item:nth-child(odd) .content-wrapper { bottom: 50%; margin-bottom: 35px; }
+        .timeline-item:nth-child(even) .content-wrapper { top: 50%; margin-top: 35px; }
+
+        /* Controles de navegación flotantes */
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn-nav {
+            background-color: var(--md-sys-color-surface);
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--md-sys-color-primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-nav:hover { background-color: var(--md-sys-color-primary-container); transform: scale(1.1); }
+        .btn-nav:active { transform: scale(0.95); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        
+        .pulse-icon { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
-<body class="font-sans text-google-text bg-white selection:bg-nature-accent selection:text-white">
+<body>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300" id="navbar">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <i data-lucide="leaf" class="h-6 w-6 text-nature-accent"></i>
-                    <span class="font-medium text-xl tracking-tight text-nature-800">Arte Gise</span>
+<!-- Barra de progreso superior -->
+<div class="progress-bar-container">
+    <div class="progress-bar" id="progress"></div>
+</div>
+
+<!-- Fondos abstractos con Motion Graphics -->
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+
+
+<!-- Slide 1: Inicio -->
+<div class="slide-container" id="slide0">
+    <div class="content-area" style="align-items: center;">
+        <i data-lucide="layers" class="anim-element" style="width: 80px; height: 80px; color: var(--md-sys-color-primary); margin-bottom: 20px;"></i>
+        <h1 class="anim-element delay-1" style="font-size: 80px; letter-spacing: -2px;">Modelo <span style="color: var(--md-sys-color-primary);">Scrum</span></h1>
+        <p class="subtitle anim-element delay-2" style="font-size: 28px;">Informe Académico Exhaustivo del Marco Ágil</p>
+        
+        <div class="info-card anim-element delay-3" style="margin-top: 50px; background-color: var(--md-sys-color-secondary-container);">
+            <i data-lucide="users" class="icon-box" style="background: white;"></i>
+            <div>
+                <p style="font-size: 16px; margin-bottom: 5px;"><strong>Expositores:</strong></p>
+                <p style="font-size: 18px; margin: 0; color: var(--md-sys-color-on-secondary-container);">Queipo Enzo, Infante Isabella, Merodio Juan Manuel, Cáceres Celeste</p>
+            </div>
+        </div>
+        <p class="anim-element delay-4" style="margin-top: 40px; font-size: 14px; opacity: 0.5;">Usa las flechas del teclado o los botones para navegar</p>
+    </div>
+</div>
+
+<!-- Slide 2: Enzo 1 -->
+<div class="slide-container" id="slide1">
+    <h2 class="slide-title anim-element">El Fracaso de lo <span>Tradicional (Cascada)</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p class="anim-element delay-1" style="margin-bottom: 30px;">En los 70s y 80s, se asumía que construir software era igual a construir puentes físicos. Este enfoque predictivo fracasó estrepitosamente.</p>
+                
+                <div class="info-card anim-element delay-2">
+                    <i data-lucide="refresh-ccw" class="icon-box"></i>
+                    <p>Los requerimientos del cliente <strong>mutan constantemente</strong> en medio del proyecto.</p>
                 </div>
                 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#filosofia" class="text-nature-600 hover:text-nature-accent font-medium transition-colors">El Taller</a>
-                    <a href="#talleres" class="text-nature-600 hover:text-nature-accent font-medium transition-colors">Propuestas</a>
-                    <a href="#ubicacion" class="text-nature-600 hover:text-nature-accent font-medium transition-colors">Ubicación</a>
-                    <a href="#contacto" class="bg-nature-800 text-white px-5 py-2 rounded-full font-medium hover:bg-nature-600 transition-colors shadow-md">
-                        Sumate
-                    </a>
+                <div class="info-card anim-element delay-3">
+                    <i data-lucide="rocket" class="icon-box"></i>
+                    <p>La tecnología <strong>evoluciona a un ritmo vertiginoso</strong>, dejando diseños obsoletos.</p>
                 </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-nature-800 focus:outline-none">
-                        <i data-lucide="menu" class="h-7 w-7"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
-            <div class="px-4 pt-2 pb-6 space-y-1">
-                <a href="#filosofia" class="block px-3 py-3 text-base font-medium text-nature-600 hover:bg-nature-100 rounded-lg">El Taller</a>
-                <a href="#talleres" class="block px-3 py-3 text-base font-medium text-nature-600 hover:bg-nature-100 rounded-lg">Propuestas</a>
-                <a href="#ubicacion" class="block px-3 py-3 text-base font-medium text-nature-600 hover:bg-nature-100 rounded-lg">Ubicación</a>
-                <a href="#contacto" class="block px-3 py-3 text-base font-medium text-nature-accent hover:bg-nature-100 rounded-lg font-bold">Sumate</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div class="absolute inset-0 -z-10">
-            <!-- Abstract background shape mimicking torn paper/organic shapes -->
-            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-nature-100 blur-3xl opacity-60"></div>
-            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-green-50 blur-3xl opacity-60"></div>
-        </div>
-
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-up">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-nature-accent text-sm font-medium mb-6">
-                <i data-lucide="recycle" class="h-4 w-4"></i>
-                <span>Nada se pierde, todo se transforma</span>
-            </div>
-            <h1 class="text-5xl md:text-7xl font-light text-nature-800 tracking-tight mb-6">
-                Crear con lo que <br> <span class="font-medium">ya existe.</span>
-            </h1>
-            <p class="mt-4 text-xl text-nature-600 max-w-2xl mx-auto font-light leading-relaxed">
-                En <strong>Arte Gise</strong> combinamos el reciclado con técnicas mixtas. Un espacio en Sarmiento 678 pensado para que chicos y grandes descubran que la basura de uno es el tesoro de un artista.
-            </p>
-            <div class="mt-10 flex justify-center gap-4">
-                <a href="#talleres" class="px-8 py-3 rounded-full bg-nature-800 text-white font-medium hover:bg-nature-600 transition-all shadow-lg hover:shadow-xl">
-                    Ver Talleres
-                </a>
-                <a href="#contacto" class="px-8 py-3 rounded-full bg-white text-nature-800 border border-gray-200 font-medium hover:bg-gray-50 transition-all">
-                    Escribinos
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Philosophy / Value Prop -->
-    <section id="filosofia" class="py-20 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                 
-                <div class="fade-in-up p-6 rounded-2xl hover:bg-nature-100 transition-colors duration-300">
-                    <div class="w-14 h-14 mx-auto bg-green-100 text-nature-accent rounded-full flex items-center justify-center mb-4">
-                        <i data-lucide="palette" class="h-7 w-7"></i>
-                    </div>
-                    <h3 class="text-xl font-medium text-nature-800 mb-2">Creatividad Pura</h3>
-                    <p class="text-nature-600 font-light">
-                        Exploramos texturas, colores y formas. No buscamos la perfección, buscamos la expresión.
-                    </p>
+                <div class="info-card anim-element delay-4" style="background-color: var(--md-sys-color-tertiary-container); border: none;">
+                    <i data-lucide="history" class="icon-box" style="background: white; color: var(--md-sys-color-on-tertiary-container);"></i>
+                    <p style="color: var(--md-sys-color-on-tertiary-container);"><strong>Origen:</strong> Scrum nace en los 90s (como la formación de Rugby): un equipo empujando sincronizado, adaptándose en tiempo real.</p>
                 </div>
-
-                <div class="fade-in-up p-6 rounded-2xl hover:bg-nature-100 transition-colors duration-300 delay-100">
-                    <div class="w-14 h-14 mx-auto bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mb-4">
-                        <i data-lucide="users" class="h-7 w-7"></i>
-                    </div>
-                    <h3 class="text-xl font-medium text-nature-800 mb-2">Para Todas las Edades</h3>
-                    <p class="text-nature-600 font-light">
-                        Desde los más chicos hasta nuestros adultos mayores. El arte no tiene fecha de vencimiento.
-                    </p>
-                </div>
-
-                <div class="fade-in-up p-6 rounded-2xl hover:bg-nature-100 transition-colors duration-300 delay-200">
-                    <div class="w-14 h-14 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
-                        <i data-lucide="refresh-cw" class="h-7 w-7"></i>
-                    </div>
-                    <h3 class="text-xl font-medium text-nature-800 mb-2">Conciencia Ambiental</h3>
-                    <p class="text-nature-600 font-light">
-                        Fomentamos el reciclado dando una segunda vida a materiales cotidianos.
-                    </p>
-                </div>
-
+            </div>
+            <div class="image-wrapper anim-element delay-2">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/8882199886920946605" alt="Vintage 1980s computer programmers office">
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Workshops Section -->
-    <section id="talleres" class="py-20 bg-nature-100">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-3xl md:text-4xl font-light text-nature-800 mb-4">Nuestros Espacios</h2>
-                <p class="text-nature-600">Encontrá el lugar ideal para vos o tu familia.</p>
+<!-- Slide 3: Enzo 2 -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title anim-element">El Corazón de Scrum: <span>El Empirismo</span></h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile anim-element delay-1">
+                <i data-lucide="eye" class="icon" style="color: var(--md-sys-color-primary); width: 48px;"></i>
+                <h3>Transparencia</h3>
+                <p>Se prohíbe ocultar la deuda técnica. Todo a la vista para asegurar que las decisiones gerenciales se basen en la realidad.</p>
             </div>
+            <div class="tile anim-element delay-2">
+                <i data-lucide="search-check" class="icon" style="color: var(--md-sys-color-primary); width: 48px;"></i>
+                <h3>Inspección</h3>
+                <p>Revisar el producto sistemáticamente. No es auditoría punitiva, sino auto-revisión implacable por el propio equipo.</p>
+            </div>
+            <div class="tile anim-element delay-3">
+                <i data-lucide="settings-2" class="icon pulse-icon" style="color: var(--md-sys-color-primary); width: 48px;"></i>
+                <h3>Adaptación</h3>
+                <p>Si se revelan desviaciones, el equipo ajusta el rumbo de inmediato. El empirismo es inútil sin corrección ágil.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Kids Card -->
-                <div class="material-card bg-white rounded-3xl overflow-hidden fade-in-up">
-                    <div class="h-48 bg-gray-200 relative">
-                        <!-- Placeholder for image -->
-                        <div class="absolute inset-0 flex items-center justify-center bg-sky-100 text-sky-800">
-                            <i data-lucide="smile" class="h-16 w-16 opacity-50"></i>
-                        </div>
-                    </div>
-                    <div class="p-8">
-                        <div class="uppercase tracking-wide text-sm text-nature-accent font-bold">Para Chicos</div>
-                        <h3 class="mt-2 text-2xl font-medium text-nature-800">Pequeños Artistas</h3>
-                        <p class="mt-4 text-gray-600 font-light">
-                            Un espacio lúdico donde el cartón se vuelve castillo y las botellas naves espaciales. Fomentamos la motricidad fina y la imaginación sin límites.
-                        </p>
-                        <ul class="mt-6 space-y-2 text-gray-600 text-sm">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Materiales incluidos</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Grupos reducidos</li>
-                        </ul>
-                    </div>
+<!-- Slide 4: Isabella 1 -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title anim-element">El Adiós a los Roles: <span>3 Responsabilidades</span></h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile variant-primary anim-element delay-1">
+                <i data-lucide="crown" class="icon" style="width: 48px;"></i>
+                <h3>Product Owner</h3>
+                <p>Dueño absoluto del valor. Prioriza QUÉ se hace por el negocio. No es dictador técnico ni intermediario sin autoridad.</p>
+            </div>
+            <div class="tile variant-secondary anim-element delay-2">
+                <i data-lucide="shield-check" class="icon" style="width: 48px;"></i>
+                <h3>Scrum Master</h3>
+                <p>Garante del marco, no el secretario. Destraba bloqueos, protege a los developers y enseña empirismo a la empresa.</p>
+            </div>
+            <div class="tile variant-tertiary anim-element delay-3">
+                <i data-lucide="terminal-square" class="icon" style="width: 48px;"></i>
+                <h3>Developers</h3>
+                <p>Ingenieros autoorganizados y sin jerarquías internas: deciden de forma autónoma CÓMO se ejecuta el trabajo técnico.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Isabella 2 -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title anim-element">Los 3 <span>Artefactos</span> y sus Compromisos</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile anim-element delay-1" style="padding: 20px;">
+                <div class="image-wrapper" style="height: 180px; margin-bottom: 20px; border-radius: 16px;"><img src="http://googleusercontent.com/image_collection/image_retrieval/12192754829624476985" alt="Product Backlog"></div>
+                <h3>Product Backlog</h3>
+                <p>Lista viva del negocio. Su compromiso es el <span class="emphasize">Product Goal</span> (meta a largo plazo).</p>
+            </div>
+            <div class="tile anim-element delay-2" style="padding: 20px;">
+                <div class="image-wrapper" style="height: 180px; margin-bottom: 20px; border-radius: 16px;"><img src="http://googleusercontent.com/image_collection/image_retrieval/14190592208741394413" alt="Sprint Backlog"></div>
+                <h3>Sprint Backlog</h3>
+                <p>Plan táctico de Developers. Su compromiso es el <span class="emphasize">Sprint Goal</span> (objetivo flexible).</p>
+            </div>
+            <div class="tile anim-element delay-3" style="padding: 20px;">
+                <div class="image-wrapper" style="height: 180px; margin-bottom: 20px; border-radius: 16px;"><img src="http://googleusercontent.com/image_collection/image_retrieval/18300187845185223530" alt="Incremento"></div>
+                <h3>Incremento</h3>
+                <p>Pieza de software verificada. Su compromiso de calidad es la <span class="emphasize">Definition of Done (DoD)</span>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: JM 1 -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title anim-element">La Dinámica: <span>El Sprint y sus 4 Eventos</span></h2>
+    <div class="content-area">
+        <div class="timeline-layout anim-element delay-1">
+            <div class="timeline-line-bg"></div>
+            <div class="timeline-line-fill"></div>
+            
+            <div class="timeline-item anim-element delay-1">
+                <div class="timeline-dot"></div>
+                <div class="content-wrapper">
+                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="calendar-plus" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Planning</h3>
+                    <p style="font-size: 15px;">Por qué es valioso, Qué terminamos y Cómo lo construimos.</p>
                 </div>
-
-                <!-- Seniors Card -->
-                <div class="material-card bg-white rounded-3xl overflow-hidden fade-in-up delay-100">
-                    <div class="h-48 bg-gray-200 relative">
-                        <!-- Placeholder for image -->
-                        <div class="absolute inset-0 flex items-center justify-center bg-orange-100 text-orange-800">
-                            <i data-lucide="heart-handshake" class="h-16 w-16 opacity-50"></i>
-                        </div>
-                    </div>
-                    <div class="p-8">
-                        <div class="uppercase tracking-wide text-sm text-nature-accent font-bold">Adultos Mayores</div>
-                        <h3 class="mt-2 text-2xl font-medium text-nature-800">Técnicas Mixtas & Memoria</h3>
-                        <p class="mt-4 text-gray-600 font-light">
-                            Más que un taller, un encuentro. Trabajamos la creatividad, la paciencia y la sociabilización. Ideal para mantener la mente activa y las manos ocupadas.
-                        </p>
-                        <ul class="mt-6 space-y-2 text-gray-600 text-sm">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Ritmo personalizado</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-green-500"></i> Ambiente cálido y compañero</li>
-                        </ul>
-                    </div>
+            </div>
+            
+            <div class="timeline-item anim-element delay-2">
+                <div class="timeline-dot"></div>
+                <div class="content-wrapper">
+                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="coffee" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Daily Scrum</h3>
+                    <p style="font-size: 15px;">15 min de Developers para destrabar. NO es reporte al jefe.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item anim-element delay-3">
+                <div class="timeline-dot"></div>
+                <div class="content-wrapper">
+                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="monitor-play" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Review</h3>
+                    <p style="font-size: 15px;">Demo funcional al cliente para pivotar. Cero PowerPoints vacíos.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item anim-element delay-4">
+                <div class="timeline-dot"></div>
+                <div class="content-wrapper">
+                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="messages-square" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Retrospective</h3>
+                    <p style="font-size: 15px;">Auditoría psicológica y técnica a puerta cerrada para mejorar.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Location & Contact -->
-    <section id="ubicacion" class="py-20 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-nature-800 rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row fade-in-up">
+<!-- Slide 7: JM 2 -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title anim-element">Herramientas Ágiles <span>Periféricas</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p class="anim-element delay-1" style="margin-bottom: 20px;">Scrum no dicta técnicas de ejecución puras. Los equipos adoptan estas tácticas vitales:</p>
                 
-                <!-- Contact Info -->
-                <div class="p-10 md:w-1/2 text-white flex flex-col justify-center">
-                    <h2 class="text-3xl font-light mb-6">Vení a visitarnos</h2>
-                    <p class="text-nature-200 mb-8 font-light text-lg">
-                        Estamos en el corazón del barrio. Acercate a Sarmiento 678 para conocer el espacio y charlar sobre los horarios.
-                    </p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <div class="bg-white/10 p-3 rounded-full">
-                                <i data-lucide="map-pin" class="h-6 w-6 text-nature-accent"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-lg">Dirección</h4>
-                                <p class="text-nature-200 font-light">Sarmiento 678</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="bg-white/10 p-3 rounded-full">
-                                <i data-lucide="mail" class="h-6 w-6 text-nature-accent"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-lg">Consultas</h4>
-                                <p class="text-nature-200 font-light">info@artegise.com.ar</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="bg-white/10 p-3 rounded-full">
-                                <i data-lucide="instagram" class="h-6 w-6 text-nature-accent"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-lg">Seguinos</h4>
-                                <p class="text-nature-200 font-light">@arte.gise</p>
-                            </div>
-                        </div>
+                <div class="info-card anim-element delay-2">
+                    <i data-lucide="calculator" class="icon-box"></i>
+                    <div>
+                        <p class="emphasize">Estimación Relativa</p>
+                        <p style="font-size: 15px; margin-top:5px;">Chau a las horas. Se usa Planning Poker y Story Points para forzar debate sobre riesgos.</p>
                     </div>
                 </div>
+                
+                <div class="info-card anim-element delay-3">
+                    <i data-lucide="filter" class="icon-box"></i>
+                    <div>
+                        <p class="emphasize">Refinamiento (Grooming)</p>
+                        <p style="font-size: 15px; margin-top:5px;">Sesiones para limpiar y desglosar futuras peticiones del Backlog.</p>
+                    </div>
+                </div>
+                
+                <div class="info-card anim-element delay-4">
+                    <i data-lucide="bar-chart-3" class="icon-box"></i>
+                    <div>
+                        <p class="emphasize">Métricas de Flujo</p>
+                        <p style="font-size: 15px; margin-top:5px;">No se mide "velocidad", se mide el WIP y Cycle Time para optimizar valor.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="image-wrapper contain-img anim-element delay-3">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/13005898393958843476" alt="Agile planning poker cards">
+            </div>
+        </div>
+    </div>
+</div>
 
-                <!-- Simple Map Representation -->
-                <div class="md:w-1/2 bg-stone-200 relative h-80 md:h-auto">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3293.006935165487!2d-58.9616056!3d-34.1673894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bb0d913612501d%3A0xc32a85536480e03e!2sSarmiento%20678%2C%20Campana%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1716928000000!5m2!1ses!2sar" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0; filter: grayscale(1) contrast(1.2) opacity(0.8);" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+<!-- Slide 8: Celeste 1 -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title anim-element">Limitaciones y <span>"Dark Scrum"</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper anim-element delay-1" style="height: 480px;">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/12954854902298429896" alt="Frustrated worker">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="info-card anim-element delay-2" style="background-color: #ffeaea; border-left: 5px solid var(--md-sys-color-error);">
+                    <i data-lucide="alert-triangle" class="icon-box" style="background: white; color: var(--md-sys-color-error);"></i>
+                    <p><strong>El Golpe de Realidad:</strong> Scrum dice si entregás valor, pero no enseña a programar. Sin XP (TDD, Code Review), generás deuda técnica rapidísimo.</p>
+                </div>
+                
+                <div class="info-card anim-element delay-3">
+                    <i data-lucide="ban" class="icon-box"></i>
+                    <p><span class="emphasize">Cuándo NO usarlo:</span> Tareas simples o emergencias de producción (HelpDesk). Ahí, Kanban es inmensamente superior.</p>
+                </div>
+                
+                <div class="info-card anim-element delay-4">
+                    <i data-lucide="ghost" class="icon-box"></i>
+                    <p><span class="emphasize">Patología Clásica:</span> El "Sprint Zero", que no es más que el modelo Cascada tradicional financiado en cuotas.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Simple Form Section -->
-    <section id="contacto" class="py-20 bg-nature-100">
-        <div class="max-w-xl mx-auto px-4 sm:px-6 fade-in-up">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl font-light text-nature-800">¿Tenés dudas? Escribinos</h2>
+<!-- Slide 9: Celeste 2 -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title anim-element">Escalabilidad y <span>Casos Reales</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <div class="info-card anim-element delay-1">
+                    <i data-lucide="network" class="icon-box"></i>
+                    <p><strong>Escalabilidad:</strong> Se usa Nexus o SAFe para cientos de devs, aunque SAFe sufre críticas por ser burocrático.</p>
+                </div>
+                
+                <div class="info-card anim-element delay-2">
+                    <i data-lucide="credit-card" class="icon-box"></i>
+                    <p><strong>Caso IT (Pagos):</strong> Bloqueos con pasarelas (Stripe) en la Daily modifican la arquitectura el mismo día.</p>
+                </div>
+                
+                <div class="info-card anim-element delay-3">
+                    <i data-lucide="megaphone" class="icon-box"></i>
+                    <p><strong>Caso Marketing:</strong> Lanzamiento ágil testeando creatividades en redes sin esperar meses de aprobaciones.</p>
+                </div>
+                
+                <div class="anim-element delay-4" style="background-color: var(--md-sys-color-primary-container); padding: 25px; border-radius: 20px; margin-top: 20px;">
+                    <p style="font-style: italic; font-size: 18px; color: var(--md-sys-color-on-primary-container); margin: 0;">
+                        <i data-lucide="quote" style="width: 20px; opacity: 0.5; margin-right: 10px;"></i>
+                        "Scrum actúa como un escáner médico: iluminará la ineficiencia, duele implementarlo, pero forja empresas adaptables."
+                    </p>
+                </div>
             </div>
-            <form class="space-y-6 bg-white p-8 rounded-2xl shadow-sm" onsubmit="event.preventDefault(); alert('¡Gracias por escribirnos! Te responderemos pronto.');">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Tu Nombre</label>
-                    <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-gray-200 border focus:ring-2 focus:ring-nature-accent focus:border-transparent outline-none transition-all" placeholder="Ej. María">
-                </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email o Teléfono</label>
-                    <input type="text" id="email" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-gray-200 border focus:ring-2 focus:ring-nature-accent focus:border-transparent outline-none transition-all" placeholder="Para contactarte">
-                </div>
-                <div>
-                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
-                    <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-gray-50 border-gray-200 border focus:ring-2 focus:ring-nature-accent focus:border-transparent outline-none transition-all" placeholder="Quería saber horarios para..."></textarea>
-                </div>
-                <button type="submit" class="w-full bg-nature-800 text-white font-bold py-3 px-4 rounded-lg hover:bg-nature-600 transition-colors shadow-md">
-                    Enviar Mensaje
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 py-12">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <i data-lucide="leaf" class="h-5 w-5 text-nature-accent"></i>
-                <span class="font-medium text-lg text-nature-800">Arte Gise</span>
-            </div>
-            <p class="text-nature-600 text-sm font-light">
-                © 2024 Hecho con amor y materiales reciclados.
-            </p>
-            <div class="flex gap-4">
-                <!-- Social Placeholders -->
-                <a href="#" class="text-gray-400 hover:text-nature-800 transition-colors"><i data-lucide="facebook" class="h-5 w-5"></i></a>
-                <a href="#" class="text-gray-400 hover:text-nature-800 transition-colors"><i data-lucide="instagram" class="h-5 w-5"></i></a>
+            <div class="image-wrapper anim-element delay-2">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/12777060011477825270" alt="Creative agile team">
             </div>
         </div>
-    </footer>
+    </div>
+</div>
 
-    <!-- Scripts -->
-    <script>
-        // Initialize Icons
-        lucide.createIcons();
+<!-- Slide 10: Fin -->
+<div class="slide-container" id="slide9">
+    <div class="content-area" style="align-items: center; text-align: center;">
+        <i data-lucide="sparkles" class="anim-element pulse-icon" style="width: 80px; height: 80px; color: var(--md-sys-color-primary); margin-bottom: 30px;"></i>
+        <h2 class="anim-element delay-1" style="font-size: 80px; color: var(--md-sys-color-primary);">¿Preguntas?</h2>
+        <p class="anim-element delay-2" style="font-size: 26px;">Gracias por el espacio para debatir sobre empirismo.</p>
+        
+        <div class="anim-element delay-3" style="margin-top: 50px; background-color: var(--md-sys-color-secondary-container); padding: 15px 40px; border-radius: 30px; display: inline-block;">
+            <p style="margin: 0; font-weight: 500; font-size: 20px; color: var(--md-sys-color-on-surface-variant);">Universidad Nacional - 2026</p>
+        </div>
+    </div>
+</div>
 
-        // Mobile Menu Toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
+<!-- Controles Flotantes Inferiores -->
+<div class="controls">
+    <button class="btn-nav" id="btnPrev" aria-label="Anterior"><i data-lucide="chevron-left"></i></button>
+    <button class="btn-nav" id="btnNext" aria-label="Siguiente"><i data-lucide="chevron-right"></i></button>
+</div>
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
+<!-- Lógica Interactiva -->
+<script>
+    // Inicializar iconos minimalistas
+    lucide.createIcons();
+
+    const slides = document.querySelectorAll('.slide-container');
+    const progressBar = document.getElementById('progress');
+    const btnNext = document.getElementById('btnNext');
+    const btnPrev = document.getElementById('btnPrev');
+    let currentSlide = 0;
+
+    function updatePresentation() {
+        // Actualizar clases de slides
+        slides.forEach((slide, index) => {
+            if (index === currentSlide) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
         });
 
-        // Hide menu on link click
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
+        // Actualizar barra de progreso
+        const progressPercent = ((currentSlide) / (slides.length - 1)) * 100;
+        progressBar.style.width = `${progressPercent}%`;
 
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        // Actualizar estado de botones
+        btnPrev.disabled = currentSlide === 0;
+        btnNext.disabled = currentSlide === slides.length - 1;
+    }
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Only animate once
-                }
-            });
-        }, observerOptions);
+    function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            updatePresentation();
+        }
+    }
 
-        document.querySelectorAll('.fade-in-up').forEach((el) => {
-            observer.observe(el);
-        });
-    </script>
+    function prevSlide() {
+        if (currentSlide > 0) {
+            currentSlide--;
+            updatePresentation();
+        }
+    }
+
+    // Listeners de botones
+    btnNext.addEventListener('click', nextSlide);
+    btnPrev.addEventListener('click', prevSlide);
+
+    // Navegación con teclado
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+            prevSlide();
+        }
+    });
+
+    // Iniciar
+    updatePresentation();
+</script>
+
 </body>
 </html>
