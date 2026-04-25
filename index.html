@@ -1,648 +1,1091 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrum - Visión Visual iOS26</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-        /* ==================================================================
-           1. iOS 26 DESIGN SYSTEM & VARIABLES (Light Brown / Beige Palette)
-           ================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        :root {
-            /* Palette */
-            --bg-base: #F4EFEB; /* Sand base */
-            --bg-blob-1: #EADCD0; /* Light Latte */
-            --bg-blob-2: #D5C5B5; /* Warm Taupe */
-            --accent-primary: #8C6A50; /* Chestnut Brown */
-            --accent-secondary: #B49A85; /* Soft Brown */
-            
-            /* Text */
-            --text-main: #2A2420;
-            --text-muted: #6B6056;
-            
-            /* Glassmorphism */
-            --glass-bg: rgba(255, 255, 255, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 16px 40px rgba(140, 106, 80, 0.08);
-            --glass-blur: blur(24px) saturate(160%);
-        }
-
-        body {
-            background-color: var(--bg-base);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-main);
-        }
-
-        /* Abstract Animated Background */
-        .bg-gradient {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.8;
-            animation: drift 15s infinite alternate ease-in-out;
-        }
-
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--bg-blob-1); }
-        .blob-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: var(--bg-blob-2); animation-delay: -5s; }
-        .blob-3 { top: 30%; left: 40%; width: 40vw; height: 40vw; background: #FFFFFF; opacity: 0.5; animation-delay: -10s; }
-
-        @keyframes drift {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(50px, 50px) scale(1.1); }
-        }
-
-        /* ==================================================================
-           2. SLIDE CONTAINER LOGIC
-           ================================================================== */
-        .slide-container {
-            width: 1280px;
-            height: 720px;
-            position: absolute;
-            padding: 50px 70px;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            transform: translateY(40px) scale(0.98);
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-            z-index: 10;
-        }
-
-        .slide-container.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-            z-index: 20;
-        }
-
-        /* ==================================================================
-           3. TYPOGRAPHY & ANIMATIONS (STAGGERING)
-           ================================================================== */
-        h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.02em; }
-        
-        .slide-title {
-            font-size: 46px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .slide-title i { color: var(--accent-primary); }
-
-        .anim {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        
-        .slide-container.active .anim { opacity: 1; transform: translateY(0); }
-        .d-1 { transition-delay: 0.1s; } .d-2 { transition-delay: 0.2s; }
-        .d-3 { transition-delay: 0.3s; } .d-4 { transition-delay: 0.4s; }
-        .d-5 { transition-delay: 0.5s; }
-
-        /* ==================================================================
-           4. iOS GLASSMORPHISM COMPONENTS
-           ================================================================== */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 36px;
-            box-shadow: var(--glass-shadow);
-            padding: 30px;
-        }
-
-        .pill-badge {
-            background: rgba(255,255,255,0.6);
-            border: 1px solid rgba(255,255,255,0.8);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--accent-primary);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Grid Layouts */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-
-        /* Icon Wrapper */
-        .icon-circle {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            background: #FFFFFF;
-            display: flex; justify-content: center; align-items: center;
-            color: var(--accent-primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-
-        /* ==================================================================
-           5. SPECIFIC DIAGRAMS & WIDGETS
-           ================================================================== */
-        
-        /* Table: Waterfall vs Agile */
-        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .comparison-table th { padding: 15px; font-size: 20px; text-align: left; border-bottom: 2px solid rgba(140, 106, 80, 0.2); }
-        .comparison-table td { padding: 20px 15px; font-size: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
-        .comparison-table td i { margin-right: 10px; color: var(--accent-primary); }
-        
-        /* Empiricism Cycle Diagram */
-        .cycle-container {
-            display: flex; justify-content: center; align-items: center; height: 100%; gap: 30px; position: relative;
-        }
-        .cycle-node {
-            display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; width: 30%;
-        }
-        .cycle-arrow {
-            color: var(--accent-secondary); margin-top: -50px;
-        }
-
-        /* Artifact Mapping */
-        .mapping-row {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 30px; padding: 20px;
-            background: rgba(255,255,255,0.3); border-radius: 20px;
-        }
-        .mapping-box { width: 40%; }
-        .mapping-box h3 { font-size: 22px; margin-bottom: 5px; }
-        .mapping-box p { font-size: 14px; color: var(--text-muted); }
-
-        /* Image Wrapper */
-        .img-card {
-            border-radius: 28px; overflow: hidden; width: 100%; height: 100%;
-            box-shadow: var(--glass-shadow);
-        }
-        .img-card img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Cynefin Matrix */
-        .matrix { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; height: 100%; }
-        .matrix-cell { padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; }
-        .matrix-cell.focus { background: rgba(255,255,255,0.7); border: 2px solid var(--accent-primary); }
-        .matrix-cell.blur { background: rgba(255,255,255,0.2); opacity: 0.6; }
-
-        /* CSS Bar Chart */
-        .chart-container { display: flex; align-items: flex-end; gap: 20px; height: 150px; margin-top: 30px; }
-        .bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 50%; }
-        .bar { width: 100%; background: #FFFFFF; border-radius: 12px 12px 0 0; display: flex; justify-content: center; align-items: flex-start; padding-top: 10px; font-weight: bold; }
-        .bar.highlight { background: var(--accent-primary); color: white; }
-
-        /* Navigation Controls */
-        .nav-controls {
-            position: fixed; bottom: 30px; right: 40px; display: flex; gap: 10px; z-index: 1000;
-            background: var(--glass-bg); backdrop-filter: blur(20px); padding: 10px; border-radius: 40px;
-        }
-        .nav-btn {
-            background: #FFFFFF; border: none; width: 44px; height: 44px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
-            color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.2s;
-        }
-        .nav-btn:hover { transform: scale(1.1); background: var(--accent-primary); color: white; }
-        .nav-btn:disabled { opacity: 0.4; pointer-events: none; }
-        
-        .progress-dot-container {
-            position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 8px; z-index: 1000;
-        }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(140, 106, 80, 0.3); transition: 0.3s; }
-        .dot.active { background: var(--accent-primary); width: 24px; border-radius: 4px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelo Scrum | Presentación Interactiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+:root {
+--bg-color: #FBFBFD;
+--surface-color: #FFFFFF;
+--text-main: #1D1D1F;
+--text-muted: #86868B;
+--primary: #0066CC;
+--primary-light: rgba(0, 102, 204, 0.1);
+--accent: #FF3B30;
+--success: #34C759;
+--warning: #FF9500;
+--border-radius-lg: 32px;
+--border-radius-md: 20px;
+--border-radius-sm: 12px;
+--shadow-soft: 0 20px 40px rgba(0,0,0,0.04);
+--shadow-float: 0 30px 60px rgba(0,0,0,0.08);
+--transition-smooth: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+--transition-fast: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+background-color: var(--bg-color);
+color: var(--text-main);
+overflow: hidden;
+width: 100vw;
+height: 100vh;
+-webkit-font-smoothing: antialiased;
+}
+.progress-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 4px;
+background: rgba(0,0,0,0.05);
+z-index: 1000;
+}
+.progress-bar {
+height: 100%;
+background: var(--primary);
+width: 0%;
+transition: width var(--transition-fast);
+}
+.nav-controls {
+position: fixed;
+bottom: 30px;
+right: 40px;
+display: flex;
+gap: 15px;
+z-index: 1000;
+}
+.nav-btn {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+border: none;
+background: var(--surface-color);
+box-shadow: var(--shadow-soft);
+color: var(--text-main);
+font-size: 20px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all var(--transition-fast);
+}
+.nav-btn:hover {
+transform: scale(1.1);
+box-shadow: var(--shadow-float);
+color: var(--primary);
+}
+.speaker-badge {
+position: fixed;
+top: 40px;
+left: 50px;
+padding: 10px 24px;
+background: rgba(255, 255, 255, 0.8);
+backdrop-filter: blur(20px);
+border-radius: 100px;
+font-weight: 600;
+font-size: 14px;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+color: var(--primary);
+box-shadow: var(--shadow-soft);
+z-index: 1000;
+display: flex;
+align-items: center;
+gap: 10px;
+opacity: 0;
+transform: translateY(-20px);
+transition: all var(--transition-smooth);
+}
+.speaker-badge.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.presentation {
+position: relative;
+width: 100%;
+height: 100%;
+}
+.slide {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+padding: 80px 10vw;
+display: flex;
+flex-direction: column;
+justify-content: center;
+opacity: 0;
+visibility: hidden;
+transform: scale(0.95) translateY(40px);
+transition: opacity var(--transition-smooth), transform var(--transition-smooth), visibility var(--transition-smooth);
+}
+.slide.active {
+opacity: 1;
+visibility: visible;
+transform: scale(1) translateY(0);
+z-index: 10;
+}
+.slide.prev {
+transform: scale(1.05) translateY(-40px);
+}
+.slide.next {
+transform: scale(0.95) translateY(40px);
+}
+.title-group {
+margin-bottom: 50px;
+}
+.slide-subtitle {
+font-size: 16px;
+font-weight: 600;
+color: var(--primary);
+text-transform: uppercase;
+letter-spacing: 2px;
+margin-bottom: 15px;
+display: block;
+}
+.slide-title {
+font-size: 56px;
+font-weight: 800;
+letter-spacing: -0.03em;
+line-height: 1.1;
+color: var(--text-main);
+}
+.slide-title.massive {
+font-size: 80px;
+}
+.content-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 60px;
+align-items: center;
+height: 100%;
+}
+.content-grid.reverse {
+grid-template-columns: 1.2fr 0.8fr;
+}
+.glass-card {
+background: rgba(255, 255, 255, 0.7);
+backdrop-filter: blur(30px);
+border: 1px solid rgba(255, 255, 255, 0.5);
+border-radius: var(--border-radius-lg);
+padding: 50px;
+box-shadow: var(--shadow-soft);
+transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.glass-card:hover {
+transform: translateY(-10px);
+box-shadow: var(--shadow-float);
+}
+.icon-box {
+width: 80px;
+height: 80px;
+border-radius: var(--border-radius-md);
+background: var(--primary-light);
+color: var(--primary);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 36px;
+margin-bottom: 24px;
+}
+.image-container {
+width: 100%;
+height: 100%;
+border-radius: var(--border-radius-lg);
+overflow: hidden;
+box-shadow: var(--shadow-float);
+position: relative;
+}
+.image-container img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 10s ease;
+}
+.slide.active .image-container img {
+transform: scale(1.1);
+}
+.visual-block {
+width: 100%;
+height: 400px;
+background: var(--surface-color);
+border-radius: var(--border-radius-lg);
+box-shadow: var(--shadow-soft);
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+overflow: hidden;
+}
+.reveal-item {
+opacity: 0;
+transform: translateY(30px);
+transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+.slide.active .reveal-item {
+opacity: 1;
+transform: translateY(0);
+}
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.fragment {
+opacity: 0;
+transform: translateY(20px);
+transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+.fragment.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.pill-list {
+display: flex;
+flex-wrap: wrap;
+gap: 15px;
+margin-top: 30px;
+}
+.pill {
+padding: 12px 24px;
+background: var(--surface-color);
+border-radius: 100px;
+font-weight: 600;
+font-size: 15px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+display: flex;
+align-items: center;
+gap: 10px;
+color: var(--text-main);
+border: 1px solid rgba(0,0,0,0.02);
+}
+.pill i {
+color: var(--primary);
+font-size: 18px;
+}
+.waterfall-diagram {
+display: flex;
+flex-direction: column;
+gap: 10px;
+width: 100%;
+padding: 20px;
+}
+.waterfall-step {
+height: 50px;
+background: var(--text-muted);
+border-radius: var(--border-radius-sm);
+width: 60%;
+display: flex;
+align-items: center;
+padding: 0 20px;
+color: white;
+font-weight: 600;
+opacity: 0.5;
+position: relative;
+}
+.waterfall-step:nth-child(2) { margin-left: 10%; width: 65%; }
+.waterfall-step:nth-child(3) { margin-left: 20%; width: 70%; background: var(--accent); opacity: 1; }
+.waterfall-step:nth-child(4) { margin-left: 30%; width: 70%; opacity: 0.3; }
+.agile-loop {
+position: absolute;
+width: 250px;
+height: 250px;
+border: 15px solid var(--primary);
+border-radius: 50%;
+border-top-color: transparent;
+animation: spin 3s linear infinite;
+right: 10%;
+top: 20%;
+}
+.agile-loop::after {
+content: '\F138';
+font-family: 'bootstrap-icons';
+position: absolute;
+top: -25px;
+right: 25px;
+font-size: 40px;
+color: var(--primary);
+transform: rotate(45deg);
+}
+@keyframes spin {
+100% { transform: rotate(360deg); }
+}
+.grid-2x2 {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 30px;
+width: 100%;
+}
+.value-card {
+background: var(--surface-color);
+padding: 40px;
+border-radius: var(--border-radius-lg);
+box-shadow: var(--shadow-soft);
+display: flex;
+flex-direction: column;
+gap: 20px;
+position: relative;
+overflow: hidden;
+}
+.value-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 4px;
+height: 100%;
+background: var(--primary);
+}
+.value-card h3 {
+font-size: 24px;
+font-weight: 700;
+}
+.value-card p {
+color: var(--text-muted);
+font-size: 16px;
+line-height: 1.6;
+}
+.venn-diagram {
+position: relative;
+width: 400px;
+height: 400px;
+margin: 0 auto;
+}
+.circle {
+position: absolute;
+width: 240px;
+height: 240px;
+border-radius: 50%;
+mix-blend-mode: multiply;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+font-size: 22px;
+color: white;
+text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+transition: transform var(--transition-smooth);
+}
+.circle-1 { background: rgba(0, 102, 204, 0.8); top: 0; left: 80px; }
+.circle-2 { background: rgba(52, 199, 89, 0.8); bottom: 40px; left: 0; }
+.circle-3 { background: rgba(255, 149, 0, 0.8); bottom: 40px; right: 0; }
+.slide.active .circle-1 { transform: translateY(10px); }
+.slide.active .circle-2 { transform: translate(10px, -10px); }
+.slide.active .circle-3 { transform: translate(-10px, -10px); }
+.role-stats {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+.stat-bar {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+.stat-label {
+width: 120px;
+font-weight: 600;
+font-size: 14px;
+color: var(--text-muted);
+}
+.stat-track {
+flex: 1;
+height: 8px;
+background: rgba(0,0,0,0.05);
+border-radius: 10px;
+overflow: hidden;
+}
+.stat-fill {
+height: 100%;
+background: var(--primary);
+border-radius: 10px;
+width: 0;
+transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s;
+}
+.slide.active .stat-fill.w-90 { width: 90%; }
+.slide.active .stat-fill.w-100 { width: 100%; }
+.slide.active .stat-fill.w-75 { width: 75%; }
+.artifact-mapping {
+display: flex;
+flex-direction: column;
+gap: 30px;
+width: 100%;
+}
+.mapping-row {
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: var(--surface-color);
+padding: 20px 40px;
+border-radius: var(--border-radius-md);
+box-shadow: var(--shadow-soft);
+}
+.mapping-icon {
+font-size: 24px;
+color: var(--text-muted);
+}
+.mapping-item {
+font-size: 20px;
+font-weight: 600;
+width: 250px;
+}
+.mapping-target {
+color: var(--primary);
+text-align: right;
+}
+.sprint-container {
+position: relative;
+width: 500px;
+height: 500px;
+margin: 0 auto;
+}
+.sprint-circle {
+position: absolute;
+top: 50px;
+left: 50px;
+width: 400px;
+height: 400px;
+border: 2px dashed var(--primary);
+border-radius: 50%;
+animation: rotate-slow 20s linear infinite;
+}
+.sprint-core {
+position: absolute;
+top: 150px;
+left: 150px;
+width: 200px;
+height: 200px;
+background: var(--primary);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 32px;
+font-weight: 800;
+box-shadow: 0 0 50px rgba(0, 102, 204, 0.4);
+}
+.orbit-item {
+position: absolute;
+width: 80px;
+height: 80px;
+background: var(--surface-color);
+border-radius: 50%;
+box-shadow: var(--shadow-soft);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 24px;
+color: var(--text-main);
+}
+.oi-1 { top: 0; left: 210px; }
+.oi-2 { bottom: 80px; left: 10px; }
+.oi-3 { bottom: 80px; right: 10px; }
+@keyframes rotate-slow {
+100% { transform: rotate(360deg); }
+}
+.kanban-board {
+display: flex;
+gap: 20px;
+width: 100%;
+height: 400px;
+}
+.kanban-col {
+flex: 1;
+background: rgba(0,0,0,0.02);
+border-radius: var(--border-radius-md);
+padding: 20px;
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+.kanban-title {
+font-size: 14px;
+font-weight: 700;
+color: var(--text-muted);
+text-transform: uppercase;
+}
+.kanban-card {
+background: var(--surface-color);
+padding: 15px;
+border-radius: var(--border-radius-sm);
+box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+height: 60px;
+width: 100%;
+}
+.kanban-card.skeleton {
+background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+background-size: 200% 100%;
+animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+0% { background-position: -200% 0; }
+100% { background-position: 200% 0; }
+}
+.cynefin-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-template-rows: 1fr 1fr;
+gap: 10px;
+width: 100%;
+height: 400px;
+}
+.cynefin-quadrant {
+background: var(--surface-color);
+border-radius: var(--border-radius-md);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+font-size: 24px;
+position: relative;
+overflow: hidden;
+}
+.cynefin-quadrant i {
+font-size: 40px;
+margin-bottom: 10px;
+color: var(--text-muted);
+opacity: 0.5;
+}
+.cynefin-quadrant.active-q {
+background: var(--primary);
+color: white;
+box-shadow: var(--shadow-float);
+transform: scale(1.02);
+z-index: 2;
+}
+.cynefin-quadrant.active-q i {
+color: white;
+opacity: 1;
+}
+.dark-theme-slide {
+background-color: #000000;
+color: #FFFFFF;
+}
+.dark-theme-slide .slide-title {
+color: #FFFFFF;
+}
+.dark-theme-slide .glass-card {
+background: rgba(30, 30, 30, 0.8);
+border-color: rgba(255,255,255,0.1);
+color: #FFFFFF;
+}
+.dark-theme-slide .text-muted {
+color: #AAAAAA;
+}
+.dark-theme-slide .icon-box {
+background: rgba(255, 59, 48, 0.2);
+color: var(--accent);
+}
+.conclusion-text {
+font-size: 40px;
+font-weight: 300;
+line-height: 1.4;
+color: var(--text-muted);
+}
+.conclusion-text strong {
+color: var(--text-main);
+font-weight: 700;
+}
+.scanner-line {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 5px;
+background: var(--primary);
+box-shadow: 0 0 20px var(--primary);
+animation: scan 3s ease-in-out infinite alternate;
+z-index: 10;
+}
+@keyframes scan {
+0% { top: 0; }
+100% { top: 100%; }
+}
+</style>
 </head>
 <body>
 
-    <!-- Background -->
-    <div class="bg-gradient">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+<div class="progress-container">
+<div class="progress-bar" id="progress"></div>
+</div>
 
-    <!-- Slide 1: Intro -->
-    <div class="slide-container" id="slide0">
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
-            <div class="glass-panel anim d-1" style="border-radius: 50%; width: 120px; height: 120px; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-                <i data-lucide="layers" style="width: 60px; height: 60px; color: var(--accent-primary);"></i>
-            </div>
-            <h1 class="anim d-2" style="font-size: 80px; letter-spacing: -3px; margin-bottom: 15px;">Modelo <span style="color: var(--accent-primary);">Scrum</span></h1>
-            <p class="anim d-3" style="font-size: 24px; color: var(--text-muted); margin-bottom: 50px;">El arte de hacer el doble de trabajo en la mitad de tiempo.</p>
-            
-            <div class="anim d-4" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                <div class="pill-badge"><i data-lucide="user"></i> Enzo Queipo</div>
-                <div class="pill-badge"><i data-lucide="user"></i> Isabella Infante</div>
-                <div class="pill-badge"><i data-lucide="user"></i> Juan M. Merodio</div>
-                <div class="pill-badge"><i data-lucide="user"></i> Celeste Cáceres</div>
-            </div>
-        </div>
-    </div>
+<div class="speaker-badge" id="speakerBadge">
+<i class="bi bi-mic-fill"></i> <span id="speakerName">Speaker</span>
+</div>
 
-    <!-- Slide 2: Waterfall vs Agile -->
-    <div class="slide-container" id="slide1">
-        <h2 class="slide-title anim d-1"><i data-lucide="git-compare"></i> Cambio de Paradigma</h2>
-        <div class="grid-2">
-            <div class="glass-panel anim d-2" style="display: flex; flex-direction: column; justify-content: center;">
-                <table class="comparison-table">
-                    <tr>
-                        <th><i data-lucide="arrow-down-to-line"></i> Cascada (70s-80s)</th>
-                        <th><i data-lucide="refresh-cw"></i> Ágil (Scrum)</th>
-                    </tr>
-                    <tr>
-                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Alcance rígido</td>
-                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Requisitos adaptables</td>
-                    </tr>
-                    <tr>
-                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Entrega al final (Años)</td>
-                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Entregas iterativas (Semanas)</td>
-                    </tr>
-                    <tr>
-                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Fases en Silos</td>
-                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Equipos multifuncionales</td>
-                    </tr>
-                    <tr>
-                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Alto riesgo de fallo</td>
-                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Fallo rápido y barato</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="img-card anim d-3">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/13814556058377891047" alt="">
-            </div>
-        </div>
-    </div>
+<div class="nav-controls">
+<button class="nav-btn" onclick="prevSlide()"><i class="bi bi-chevron-left"></i></button>
+<button class="nav-btn" onclick="nextSlide()"><i class="bi bi-chevron-right"></i></button>
+</div>
 
-    <!-- Slide 3: Empiricism -->
-    <div class="slide-container" id="slide2">
-        <h2 class="slide-title anim d-1"><i data-lucide="microscope"></i> El Corazón Empírico</h2>
-        <div class="glass-panel anim d-2" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <div class="cycle-container">
-                <!-- Node 1 -->
-                <div class="cycle-node anim d-3">
-                    <div class="icon-circle" style="width: 100px; height: 100px;"><i data-lucide="eye" style="width:40px; height:40px;"></i></div>
-                    <h3>1. Transparencia</h3>
-                    <p style="font-size: 14px; margin-top: 10px; color: var(--text-muted);">Sin métricas ocultas. Artefactos visibles para todos.</p>
-                </div>
-                
-                <i data-lucide="arrow-right" class="cycle-arrow anim d-4" style="width:40px; height:40px;"></i>
-                
-                <!-- Node 2 -->
-                <div class="cycle-node anim d-4">
-                    <div class="icon-circle" style="width: 100px; height: 100px;"><i data-lucide="scan-line" style="width:40px; height:40px;"></i></div>
-                    <h3>2. Inspección</h3>
-                    <p style="font-size: 14px; margin-top: 10px; color: var(--text-muted);">Auto-auditoría constante del progreso y el código.</p>
-                </div>
+<main class="presentation" id="presentation">
 
-                <i data-lucide="arrow-right" class="cycle-arrow anim d-5" style="width:40px; height:40px;"></i>
+<section class="slide" data-speaker="Queipo Enzo">
+<div class="content-grid">
+<div class="text-content reveal-item">
+<div class="title-group">
+<span class="slide-subtitle">Contexto Histórico</span>
+<h1 class="slide-title">El Fracaso Tradicional</h1>
+</div>
+<p style="font-size: 20px; color: var(--text-muted); line-height: 1.6;" class="fragment">Durante décadas, el software se construyó como si fueran puentes. El modelo Cascada (Waterfall) asume que nada cambia.</p>
+<div class="pill-list fragment">
+<div class="pill"><i class="bi bi-x-circle text-accent"></i> Requerimientos rígidos</div>
+<div class="pill"><i class="bi bi-x-circle text-accent"></i> Entregas a largo plazo</div>
+<div class="pill"><i class="bi bi-x-circle text-accent"></i> Alta tasa de fracaso</div>
+</div>
+</div>
+<div class="visual-content reveal-item delay-2">
+<div class="visual-block">
+<div class="waterfall-diagram">
+<div class="waterfall-step">Requisitos</div>
+<div class="waterfall-step">Diseño</div>
+<div class="waterfall-step">Implementación (Falla)</div>
+<div class="waterfall-step">Verificación</div>
+</div>
+<div class="agile-loop fragment"></div>
+</div>
+</div>
+</div>
+</section>
 
-                <!-- Node 3 -->
-                <div class="cycle-node anim d-5">
-                    <div class="icon-circle" style="width: 100px; height: 100px;"><i data-lucide="settings" style="width:40px; height:40px;"></i></div>
-                    <h3>3. Adaptación</h3>
-                    <p style="font-size: 14px; margin-top: 10px; color: var(--text-muted);">Corrección de rumbo inmediata si algo falla.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Queipo Enzo">
+<div class="content-grid reverse">
+<div class="visual-content reveal-item">
+<div class="image-container">
+<img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&fit=crop&w=1000&q=80" alt="Rugby Scrum">
+</div>
+</div>
+<div class="text-content reveal-item delay-2">
+<div class="title-group">
+<span class="slide-subtitle">Origen</span>
+<h2 class="slide-title">Nacido en la cancha, llevado al software.</h2>
+</div>
+<div class="glass-card fragment">
+<div class="icon-box"><i class="bi bi-journal-text"></i></div>
+<h3 style="font-size: 24px; margin-bottom: 10px;">Harvard, 1986</h3>
+<p style="color: var(--text-muted); font-size: 16px;">Takeuchi y Nonaka observan equipos multidisciplinarios en Japón que empujan juntos como en el Rugby.</p>
+</div>
+<div class="glass-card fragment" style="margin-top: 20px;">
+<div class="icon-box"><i class="bi bi-pc-display"></i></div>
+<h3 style="font-size: 24px; margin-bottom: 10px;">Años 90s</h3>
+<p style="color: var(--text-muted); font-size: 16px;">Sutherland y Schwaber lo adaptan para domar el caos del desarrollo de software moderno.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 4: Roles -->
-    <div class="slide-container" id="slide3">
-        <h2 class="slide-title anim d-1"><i data-lucide="users"></i> Arquitectura de Responsabilidades</h2>
-        <div class="grid-3 anim d-2" style="height: 100%;">
-            <!-- Widget 1 -->
-            <div class="glass-panel" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
-                <img src="https://ui-avatars.com/api/?name=PO&background=8C6A50&color=fff&size=100&rounded=true" alt="[Image of Product Owner Avatar]">
-                <h3>Product Owner</h3>
-                <div class="pill-badge" style="font-size: 12px; padding: 4px 10px;"><i data-lucide="target" style="width:12px;"></i> Gestor de Valor</div>
-                <ul style="text-align: left; font-size: 15px; margin-top: 20px; padding-left: 20px; color: var(--text-muted); line-height: 1.6;">
-                    <li>Maximiza el ROI.</li>
-                    <li>Prioriza el Backlog.</li>
-                    <li><strong>No</strong> es un dictador técnico.</li>
-                </ul>
-            </div>
-            <!-- Widget 2 -->
-            <div class="glass-panel" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
-                <img src="https://ui-avatars.com/api/?name=SM&background=B49A85&color=fff&size=100&rounded=true" alt="">
-                <h3>Scrum Master</h3>
-                <div class="pill-badge" style="font-size: 12px; padding: 4px 10px;"><i data-lucide="shield" style="width:12px;"></i> Facilitador</div>
-                <ul style="text-align: left; font-size: 15px; margin-top: 20px; padding-left: 20px; color: var(--text-muted); line-height: 1.6;">
-                    <li>Protege al equipo.</li>
-                    <li>Destraba impedimentos.</li>
-                    <li><strong>No</strong> es el jefe de proyecto.</li>
-                </ul>
-            </div>
-            <!-- Widget 3 -->
-            <div class="glass-panel" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
-                <img src="https://ui-avatars.com/api/?name=Devs&background=FFFFFF&color=8C6A50&size=100&rounded=true" alt="">
-                <h3>Developers</h3>
-                <div class="pill-badge" style="font-size: 12px; padding: 4px 10px;"><i data-lucide="code" style="width:12px;"></i> Constructores</div>
-                <ul style="text-align: left; font-size: 15px; margin-top: 20px; padding-left: 20px; color: var(--text-muted); line-height: 1.6;">
-                    <li>Equipo multifuncional.</li>
-                    <li>Autoorganizados.</li>
-                    <li>Deciden el <strong>CÓMO</strong>.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Queipo Enzo">
+<div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+<div class="title-group text-center reveal-item" style="text-align: center; margin-bottom: 60px;">
+<span class="slide-subtitle">El Corazón Filosófico</span>
+<h2 class="slide-title">El Manifiesto Ágil</h2>
+</div>
+<div class="grid-2x2 reveal-item delay-2">
+<div class="value-card fragment">
+<h3>Individuos e interacciones</h3>
+<p>Por encima de procesos y herramientas cerradas.</p>
+</div>
+<div class="value-card fragment">
+<h3>Software funcionando</h3>
+<p>Por encima de documentación exhaustiva y burocrática.</p>
+</div>
+<div class="value-card fragment">
+<h3>Colaboración con el cliente</h3>
+<p>Por encima de la negociación de contratos rígidos.</p>
+</div>
+<div class="value-card fragment">
+<h3>Respuesta ante el cambio</h3>
+<p>Por encima de seguir un plan estricto ciegamente.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 5: Artifacts -->
-    <div class="slide-container" id="slide4">
-        <h2 class="slide-title anim d-1"><i data-lucide="layers"></i> Artefactos y sus Compromisos</h2>
-        <div class="grid-2">
-            <div class="img-card anim d-2">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/6310446104795370759" alt="[Image of Post it backlog]">
-            </div>
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-                <!-- Map 1 -->
-                <div class="mapping-row glass-panel anim d-3" style="padding: 15px 25px;">
-                    <div class="mapping-box">
-                        <h3><i data-lucide="list-todo" style="width:20px; vertical-align:middle; margin-right:5px;"></i> Product Backlog</h3>
-                        <p>Lista de deseos viva</p>
-                    </div>
-                    <i data-lucide="link" style="color:var(--accent-primary);"></i>
-                    <div class="mapping-box" style="text-align: right;">
-                        <div class="pill-badge">Product Goal</div>
-                    </div>
-                </div>
-                <!-- Map 2 -->
-                <div class="mapping-row glass-panel anim d-4" style="padding: 15px 25px;">
-                    <div class="mapping-box">
-                        <h3><i data-lucide="clipboard-list" style="width:20px; vertical-align:middle; margin-right:5px;"></i> Sprint Backlog</h3>
-                        <p>Plan táctico de devs</p>
-                    </div>
-                    <i data-lucide="link" style="color:var(--accent-primary);"></i>
-                    <div class="mapping-box" style="text-align: right;">
-                        <div class="pill-badge">Sprint Goal</div>
-                    </div>
-                </div>
-                <!-- Map 3 -->
-                <div class="mapping-row glass-panel anim d-5" style="padding: 15px 25px;">
-                    <div class="mapping-box">
-                        <h3><i data-lucide="box" style="width:20px; vertical-align:middle; margin-right:5px;"></i> Incremento</h3>
-                        <p>Software funcional</p>
-                    </div>
-                    <i data-lucide="link" style="color:var(--accent-primary);"></i>
-                    <div class="mapping-box" style="text-align: right;">
-                        <div class="pill-badge">Definition of Done</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Queipo Enzo">
+<div class="content-grid">
+<div class="text-content reveal-item">
+<div class="title-group">
+<span class="slide-subtitle">Control de Procesos</span>
+<h2 class="slide-title">El Pilar Empírico</h2>
+</div>
+<p style="font-size: 20px; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px;">Scrum no adivina el futuro, se adapta a la realidad mediante tres pilares fundamentales que operan constantemente.</p>
+<div class="pill-list fragment">
+<div class="pill"><i class="bi bi-eye"></i> Visibilidad Total</div>
+<div class="pill"><i class="bi bi-search"></i> Revisión Continua</div>
+<div class="pill"><i class="bi bi-arrow-repeat"></i> Corrección Rápida</div>
+</div>
+</div>
+<div class="visual-content reveal-item delay-2">
+<div class="venn-diagram">
+<div class="circle circle-1 fragment">Transparencia</div>
+<div class="circle circle-2 fragment">Inspección</div>
+<div class="circle circle-3 fragment">Adaptación</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 6: Sprint Events -->
-    <div class="slide-container" id="slide5">
-        <h2 class="slide-title anim d-1"><i data-lucide="timer"></i> Flujo de Eventos (El Sprint)</h2>
-        <div class="glass-panel anim d-2" style="height: 100%; display: flex; align-items: center; justify-content: center; padding: 50px;">
-            <div class="grid-4" style="width: 100%;">
-                
-                <div class="anim d-3" style="text-align: center; position: relative;">
-                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="calendar-plus"></i></div>
-                    <h3>Planning</h3>
-                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
-                        <li>🎯 Por qué (Valor)</li>
-                        <li>📦 Qué (Capacidad)</li>
-                        <li>🛠️ Cómo (Arquitectura)</li>
-                    </ul>
-                </div>
+<section class="slide" data-speaker="Infante Isabella">
+<div class="content-grid reverse">
+<div class="visual-content reveal-item">
+<div class="glass-card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+<div class="icon-box" style="width: 120px; height: 120px; font-size: 60px; margin: 0 auto 40px auto;"><i class="bi bi-compass"></i></div>
+<div class="role-stats">
+<div class="stat-bar fragment">
+<span class="stat-label">Visión</span>
+<div class="stat-track"><div class="stat-fill w-100"></div></div>
+</div>
+<div class="stat-bar fragment">
+<span class="stat-label">Priorización</span>
+<div class="stat-track"><div class="stat-fill w-90"></div></div>
+</div>
+<div class="stat-bar fragment">
+<span class="stat-label">Desarrollo</span>
+<div class="stat-track"><div class="stat-fill" style="width: 10%;"></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="text-content reveal-item delay-2">
+<div class="title-group">
+<span class="slide-subtitle">Responsabilidad 1</span>
+<h2 class="slide-title">Product Owner</h2>
+</div>
+<h3 style="font-size: 28px; margin-bottom: 20px;" class="fragment">El optimizador de valor.</h3>
+<p style="font-size: 18px; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px;" class="fragment">No es un jefe de proyecto. Es la única persona responsable de maximizar el valor del producto gestionando el Product Backlog y definiendo la visión clara.</p>
+<div class="pill-list fragment">
+<div class="pill"><i class="bi bi-list-task"></i> Dueño del Backlog</div>
+<div class="pill"><i class="bi bi-person-check"></i> Voz del Usuario</div>
+</div>
+</div>
+</div>
+</section>
 
-                <div class="anim d-4" style="text-align: center; position: relative;">
-                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="coffee"></i></div>
-                    <h3>Daily Scrum</h3>
-                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
-                        <li>⏱️ 15 Minutos</li>
-                        <li>🚧 Destrabar bloqueos</li>
-                        <li>❌ No es reporte al jefe</li>
-                    </ul>
-                </div>
+<section class="slide" data-speaker="Infante Isabella">
+<div class="content-grid">
+<div class="text-content reveal-item">
+<div class="title-group">
+<span class="slide-subtitle">Responsabilidad 2</span>
+<h2 class="slide-title">Scrum Master</h2>
+</div>
+<h3 style="font-size: 28px; margin-bottom: 20px;" class="fragment">El líder servicial.</h3>
+<p style="font-size: 18px; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px;" class="fragment">No es un secretario ni el que anota tareas. Es el coach que asegura que Scrum se entienda y protege al equipo de interrupciones externas.</p>
+<div class="pill-list fragment">
+<div class="pill"><i class="bi bi-shield-check"></i> Quita Impedimentos</div>
+<div class="pill"><i class="bi bi-people"></i> Coach Ágil</div>
+</div>
+</div>
+<div class="visual-content reveal-item delay-2">
+<div class="glass-card" style="height: 100%; display: flex; align-items: center; justify-content: center; background: var(--primary); color: white;">
+<i class="bi bi-shield-lock" style="font-size: 150px; opacity: 0.9;"></i>
+</div>
+</div>
+</div>
+</section>
 
-                <div class="anim d-5" style="text-align: center; position: relative;">
-                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="monitor-play"></i></div>
-                    <h3>Review</h3>
-                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
-                        <li>🚀 Demo de Software</li>
-                        <li>🤝 Feedback del cliente</li>
-                        <li>📝 Actualizar Backlog</li>
-                    </ul>
-                </div>
+<section class="slide" data-speaker="Infante Isabella">
+<div class="content-grid reverse">
+<div class="visual-content reveal-item">
+<div class="image-container">
+<img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80" alt="Developers Team">
+</div>
+</div>
+<div class="text-content reveal-item delay-2">
+<div class="title-group">
+<span class="slide-subtitle">Responsabilidad 3</span>
+<h2 class="slide-title">Developers</h2>
+</div>
+<h3 style="font-size: 28px; margin-bottom: 20px;" class="fragment">Los constructores autogestionados.</h3>
+<p style="font-size: 18px; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px;" class="fragment">Nadie les dice cómo transformar el Backlog en Incrementos de valor. Ellos deciden internamente cómo ejecutar el trabajo técnico.</p>
+<div class="pill-list fragment">
+<div class="pill"><i class="bi bi-gear-wide-connected"></i> Autogestión</div>
+<div class="pill"><i class="bi bi-tools"></i> Calidad Técnica</div>
+</div>
+</div>
+</div>
+</section>
 
-                <div class="anim d-5" style="text-align: center; position: relative;">
-                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="messages-square"></i></div>
-                    <h3>Retro</h3>
-                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
-                        <li>🔒 Puerta cerrada</li>
-                        <li>🧠 Auditoría psicológica</li>
-                        <li>📈 Mejora del proceso</li>
-                    </ul>
-                </div>
+<section class="slide" data-speaker="Infante Isabella">
+<div style="max-width: 1000px; margin: 0 auto; width: 100%;">
+<div class="title-group text-center reveal-item" style="text-align: center; margin-bottom: 60px;">
+<span class="slide-subtitle">Estructura Fundamental</span>
+<h2 class="slide-title">Artefactos & Compromisos</h2>
+</div>
+<div class="artifact-mapping reveal-item delay-2">
+<div class="mapping-row fragment">
+<span class="mapping-item">Product Backlog</span>
+<i class="bi bi-arrow-right mapping-icon"></i>
+<span class="mapping-item mapping-target">Product Goal</span>
+</div>
+<div class="mapping-row fragment">
+<span class="mapping-item">Sprint Backlog</span>
+<i class="bi bi-arrow-right mapping-icon"></i>
+<span class="mapping-item mapping-target">Sprint Goal</span>
+</div>
+<div class="mapping-row fragment">
+<span class="mapping-item">Incremento</span>
+<i class="bi bi-arrow-right mapping-icon"></i>
+<span class="mapping-item mapping-target">Definition of Done</span>
+</div>
+</div>
+</div>
+</section>
 
-            </div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Merodio Juan Manuel">
+<div class="content-grid">
+<div class="text-content reveal-item">
+<div class="title-group">
+<span class="slide-subtitle">El Contenedor</span>
+<h2 class="slide-title">El Sprint</h2>
+</div>
+<p style="font-size: 22px; color: var(--text-muted); line-height: 1.6;" class="fragment">Es el corazón de Scrum. Un bloque de tiempo fijo (máximo un mes) donde se crea un incremento de producto terminado, utilizable y de valor.</p>
+<div class="pill-list fragment">
+<div class="pill"><i class="bi bi-hourglass-split"></i> Timeboxing Estricto</div>
+<div class="pill"><i class="bi bi-shield-slash"></i> Sin alteraciones externas</div>
+</div>
+</div>
+<div class="visual-content reveal-item delay-2">
+<div class="sprint-container">
+<div class="sprint-circle"></div>
+<div class="sprint-core">SPRINT</div>
+<div class="orbit-item oi-1"><i class="bi bi-calendar-check"></i></div>
+<div class="orbit-item oi-2"><i class="bi bi-chat-dots"></i></div>
+<div class="orbit-item oi-3"><i class="bi bi-box-seam"></i></div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 7: Periphery Tools -->
-    <div class="slide-container" id="slide6">
-        <h2 class="slide-title anim d-1"><i data-lucide="wrench"></i> Herramientas Tácticas</h2>
-        <div class="grid-3">
-            <!-- Widget 1: Estimation -->
-            <div class="glass-panel anim d-2" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-                <div style="height: 180px; width: 100%;"><img src="http://googleusercontent.com/image_collection/image_retrieval/12387578145316885254" style="width:100%; height:100%; object-fit:cover;" alt=""></div>
-                <div style="padding: 25px;">
-                    <h3>Estimación Relativa</h3>
-                    <p style="font-size: 15px; margin-top: 10px; color: var(--text-muted);">Adiós horas. Uso de Story Points y Planning Poker para forzar debate sobre riesgos y complejidad.</p>
-                </div>
-            </div>
-            
-            <!-- Widget 2: Refinement -->
-            <div class="glass-panel anim d-3" style="display: flex; flex-direction: column; justify-content: center; text-align: center; align-items: center;">
-                <div class="icon-circle" style="width: 80px; height: 80px;"><i data-lucide="filter" style="width:35px; height:35px;"></i></div>
-                <h3>Refinamiento</h3>
-                <div class="pill-badge" style="margin-top: 10px;">Backlog Grooming</div>
-                <p style="font-size: 15px; margin-top: 15px; color: var(--text-muted);">Sesiones continuas para limpiar, ordenar y desglosar historias futuras antes del Planning.</p>
-            </div>
+<section class="slide" data-speaker="Merodio Juan Manuel">
+<div class="content-grid reverse">
+<div class="visual-content reveal-item">
+<div class="kanban-board">
+<div class="kanban-col">
+<span class="kanban-title">To Do</span>
+<div class="kanban-card skeleton fragment"></div>
+<div class="kanban-card skeleton fragment"></div>
+<div class="kanban-card skeleton fragment"></div>
+</div>
+<div class="kanban-col">
+<span class="kanban-title">In Progress</span>
+<div class="kanban-card skeleton fragment"></div>
+</div>
+</div>
+</div>
+<div class="text-content reveal-item delay-2">
+<div class="title-group">
+<span class="slide-subtitle">Evento Inicial</span>
+<h2 class="slide-title">Sprint Planning</h2>
+</div>
+<h3 style="font-size: 24px; margin-bottom: 20px;" class="fragment">Se responden tres preguntas clave:</h3>
+<div style="display: flex; flex-direction: column; gap: 15px;" class="fragment">
+<div class="pill" style="width: fit-content;"><strong>¿Por qué?</strong> (El objetivo de valor)</div>
+<div class="pill" style="width: fit-content;"><strong>¿Qué?</strong> (Los items del Backlog)</div>
+<div class="pill" style="width: fit-content;"><strong>¿Cómo?</strong> (El plan técnico de los Devs)</div>
+</div>
+</div>
+</div>
+</section>
 
-            <!-- Widget 3: Flow Metrics -->
-            <div class="glass-panel anim d-4" style="display: flex; flex-direction: column;">
-                <h3>Métricas de Flujo</h3>
-                <p style="font-size: 14px; color: var(--text-muted); margin-top: 5px;">Medir flujo vs velocidad tóxica.</p>
-                <div class="chart-container">
-                    <div class="bar-wrapper">
-                        <span style="font-size: 12px; font-weight: bold;">Cycle Time</span>
-                        <div class="bar highlight" style="height: 90%;">4d</div>
-                    </div>
-                    <div class="bar-wrapper">
-                        <span style="font-size: 12px; font-weight: bold;">WIP</span>
-                        <div class="bar" style="height: 40%; color:var(--accent-primary);">3</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Merodio Juan Manuel">
+<div class="content-grid">
+<div class="text-content reveal-item">
+<div class="title-group">
+<span class="slide-subtitle">Inspección Diaria</span>
+<h2 class="slide-title">Daily Scrum</h2>
+</div>
+<h3 style="font-size: 80px; font-weight: 800; color: var(--primary); line-height: 1;" class="fragment">15<span style="font-size: 40px; color: var(--text-main);">min</span></h3>
+<p style="font-size: 20px; color: var(--text-muted); line-height: 1.6; margin-top: 20px;" class="fragment">No es un reporte de estado para el jefe. Es una reunión exclusiva para los Developers para sincronizar el trabajo y ajustar el plan hacia el Sprint Goal.</p>
+</div>
+<div class="visual-content reveal-item delay-2">
+<div class="glass-card" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+<div style="position: relative;">
+<i class="bi bi-clock-history" style="font-size: 150px; color: var(--primary);"></i>
+<i class="bi bi-arrow-repeat fragment" style="position: absolute; bottom: 0; right: -20px; font-size: 60px; color: var(--success); background: white; border-radius: 50%;"></i>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 8: Cynefin / Limits -->
-    <div class="slide-container" id="slide7">
-        <h2 class="slide-title anim d-1"><i data-lucide="alert-triangle"></i> Cuándo NO usar Scrum</h2>
-        <div class="matrix anim d-2">
-            <div class="matrix-cell blur">
-                <i data-lucide="check-square" style="margin-bottom: 10px; opacity: 0.5;"></i>
-                <h3 style="color: var(--text-muted);">Simple (Lineal)</h3>
-                <p style="font-size: 14px; margin-top: 5px; color: var(--text-muted);">Ej: Instalar servidor.<br>➡ Mejor usar Cascada.</p>
-            </div>
-            <div class="matrix-cell focus">
-                <i data-lucide="brain-circuit" style="margin-bottom: 10px; color: var(--accent-primary);"></i>
-                <h3 style="color: var(--accent-primary);">Complejo (Incierto)</h3>
-                <p style="font-size: 14px; margin-top: 5px;">Ej: Software nuevo, Marketing.<br>➡ <strong>El dominio perfecto para Scrum.</strong></p>
-            </div>
-            <div class="matrix-cell blur">
-                <i data-lucide="siren" style="margin-bottom: 10px; opacity: 0.5;"></i>
-                <h3 style="color: var(--text-muted);">Caótico (Emergencias)</h3>
-                <p style="font-size: 14px; margin-top: 5px; color: var(--text-muted);">Ej: Servidor caído (HelpDesk).<br>➡ Mejor usar Kanban puro.</p>
-            </div>
-            <div class="matrix-cell blur">
-                <i data-lucide="file-warning" style="margin-bottom: 10px; opacity: 0.5;"></i>
-                <h3 style="color: var(--text-muted);">Patologías</h3>
-                <p style="font-size: 14px; margin-top: 5px; color: var(--text-muted);">El "Sprint Zero" y no usar XP (TDD). Generan deuda técnica y Cascada disfrazada.</p>
-            </div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Merodio Juan Manuel">
+<div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+<div class="title-group text-center reveal-item" style="text-align: center; margin-bottom: 60px;">
+<span class="slide-subtitle">Cierre del Ciclo</span>
+<h2 class="slide-title">Review & Retrospective</h2>
+</div>
+<div class="grid-2x2 reveal-item delay-2">
+<div class="value-card fragment" style="border-top: 4px solid var(--primary);">
+<div class="icon-box"><i class="bi bi-box-arrow-up"></i></div>
+<h3>Sprint Review</h3>
+<p>Se inspecciona el <strong>Incremento</strong>. No es una presentación de PowerPoint, es probar el producto real con los stakeholders y adaptar el Backlog.</p>
+</div>
+<div class="value-card fragment" style="border-top: 4px solid var(--warning);">
+<div class="icon-box" style="color: var(--warning); background: rgba(255,149,0,0.1);"><i class="bi bi-heart-pulse"></i></div>
+<h3>Sprint Retrospective</h3>
+<p>Se inspecciona al <strong>Equipo</strong>. Procesos, herramientas, relaciones. Se busca al menos una mejora accionable para el próximo Sprint.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 9: Cases -->
-    <div class="slide-container" id="slide8">
-        <h2 class="slide-title anim d-1"><i data-lucide="activity"></i> Casos Reales en Acción</h2>
-        <div class="grid-2">
-            <!-- IT Case -->
-            <div class="glass-panel anim d-2" style="display: flex; flex-direction: column;">
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                    <div class="icon-circle" style="margin: 0; width: 50px; height: 50px;"><i data-lucide="server"></i></div>
-                    <h3>Migración IT (Stripe)</h3>
-                </div>
-                <p style="font-size: 16px; color: var(--text-muted); flex-grow: 1;">Bloqueos técnicos con la pasarela descubiertos en la Daily modifican la arquitectura en tiempo real. Escalabilidad gestionada vía frameworks visuales (Nexus).</p>
-                <div class="pill-badge" style="align-self: flex-start; margin-top: 15px;">Adaptación Inmediata</div>
-            </div>
+<section class="slide" data-speaker="Cáceres Celeste">
+<div class="content-grid">
+<div class="text-content reveal-item">
+<div class="title-group">
+<span class="slide-subtitle">Análisis Crítico</span>
+<h2 class="slide-title">Cuándo NO usar Scrum</h2>
+</div>
+<p style="font-size: 18px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;" class="fragment">Basado en el marco Cynefin, Scrum brilla en entornos complejos, pero falla estrepitosamente en otros escenarios.</p>
+<ul style="list-style: none; display: flex; flex-direction: column; gap: 15px;" class="fragment">
+<li><i class="bi bi-x-circle-fill text-accent" style="margin-right: 10px;"></i> <strong>Problemas Simples:</strong> (Migración lineal). Cascada es mejor.</li>
+<li><i class="bi bi-x-circle-fill text-accent" style="margin-right: 10px;"></i> <strong>Emergencias (Caótico):</strong> (HelpDesk). Kanban puro es mejor.</li>
+<li><i class="bi bi-x-circle-fill text-accent" style="margin-right: 10px;"></i> <strong>Contratos Fijos:</strong> Matan la adaptación ágil.</li>
+</ul>
+</div>
+<div class="visual-content reveal-item delay-2">
+<div class="cynefin-grid fragment">
+<div class="cynefin-quadrant active-q"><i class="bi bi-puzzle"></i> Complejo</div>
+<div class="cynefin-quadrant"><i class="bi bi-diagram-3"></i> Complicado</div>
+<div class="cynefin-quadrant"><i class="bi bi-lightning-charge"></i> Caótico</div>
+<div class="cynefin-quadrant"><i class="bi bi-check-circle"></i> Simple</div>
+</div>
+</div>
+</div>
+</section>
 
-            <!-- Marketing Case -->
-            <div class="glass-panel anim d-3" style="display: flex; flex-direction: column;">
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                    <div class="icon-circle" style="margin: 0; width: 50px; height: 50px;"><i data-lucide="megaphone"></i></div>
-                    <h3>Marketing (A/B Test)</h3>
-                </div>
-                <div style="display: flex; align-items: flex-end; gap: 20px; height: 100px; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px;">
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 40%;">
-                        <div style="width: 100%; background: #FFF; height: 40px; border-radius: 8px 8px 0 0;"></div>
-                        <span style="font-size: 12px; font-weight: bold;">Diseño A</span>
-                    </div>
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 40%;">
-                        <div style="width: 100%; background: var(--accent-primary); height: 90px; border-radius: 8px 8px 0 0; display:flex; justify-content:center; align-items:center; color:white; font-size:12px; font-weight:bold;">+25%</div>
-                        <span style="font-size: 12px; font-weight: bold;">Diseño B</span>
-                    </div>
-                </div>
-                <p style="font-size: 14px; color: var(--text-muted);">Campañas validadas con ROI real al final del Sprint, sin meses de aprobaciones.</p>
-            </div>
-        </div>
-    </div>
+<section class="slide dark-theme-slide" data-speaker="Cáceres Celeste">
+<div class="content-grid reverse">
+<div class="visual-content reveal-item">
+<div class="glass-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; height: 100%;">
+<i class="bi bi-exclamation-triangle" style="font-size: 100px; color: var(--accent); margin-bottom: 20px;"></i>
+<h3 style="font-size: 30px;">Antipatrones</h3>
+</div>
+</div>
+<div class="text-content reveal-item delay-2">
+<div class="title-group">
+<span class="slide-subtitle" style="color: var(--accent);">El Lado Oscuro</span>
+<h2 class="slide-title">Dark Scrum</h2>
+</div>
+<p style="font-size: 20px; color: #AAAAAA; line-height: 1.6; margin-bottom: 30px;" class="fragment">Aplicar las ceremonias mecánicamente sin el mindset ágil genera burocracia y frustración.</p>
+<div class="pill-list fragment">
+<div class="pill" style="background: rgba(255,255,255,0.1); color: white; border: none;"><i class="bi bi-virus"></i> El mito del "Sprint Zero"</div>
+<div class="pill" style="background: rgba(255,255,255,0.1); color: white; border: none;"><i class="bi bi-trash3"></i> Backlog basurero</div>
+<div class="pill" style="background: rgba(255,255,255,0.1); color: white; border: none;"><i class="bi bi-speedometer"></i> Falsa velocidad</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Slide 10: Fin -->
-    <div class="slide-container" id="slide9">
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
-            <div class="anim d-1" style="width: 80px; height: 80px; margin-bottom: 30px;">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/9359099877127384630" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border: 3px solid var(--accent-primary);" alt="">
-            </div>
-            <h1 class="anim d-2" style="font-size: 60px; margin-bottom: 15px;">Gracias.</h1>
-            <p class="anim d-3" style="font-size: 20px; color: var(--text-muted); max-width: 600px;">"Scrum actúa como un escáner: ilumina la ineficiencia, duele implementarlo, pero forja empresas adaptables."</p>
-            <div class="pill-badge anim d-4" style="margin-top: 40px; background: transparent; border-color: var(--accent-primary);">Universidad Nacional 2026</div>
-        </div>
-    </div>
+<section class="slide" data-speaker="Cáceres Celeste">
+<div class="visual-block" style="height: 100%; border-radius: 0; position: absolute; top: 0; left: 0; z-index: -1;">
+<div class="scanner-line"></div>
+<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.1;" alt="Data background">
+</div>
+<div class="content-grid" style="position: relative; z-index: 1;">
+<div class="text-content reveal-item" style="grid-column: 1 / -1; max-width: 1000px; margin: 0 auto; text-align: center;">
+<i class="bi bi-upc-scan" style="font-size: 80px; color: var(--primary); margin-bottom: 30px; display: inline-block;"></i>
+<h2 class="conclusion-text">
+Scrum no resuelve tus problemas de desarrollo. Actúa como un <strong>escáner médico</strong>: expone las disfunciones organizacionales. Curarlas, depende de nosotros.
+</h2>
+<div class="pill-list fragment" style="justify-content: center; margin-top: 50px;">
+<div class="pill"><i class="bi bi-code-slash"></i> Apto para Tech</div>
+<div class="pill"><i class="bi bi-megaphone"></i> Apto para Marketing</div>
+<div class="pill"><i class="bi bi-globe"></i> Escala globalmente</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Controls & Progress -->
-    <div class="nav-controls">
-        <button class="nav-btn" id="btnPrev"><i data-lucide="chevron-left"></i></button>
-        <button class="nav-btn" id="btnNext"><i data-lucide="chevron-right"></i></button>
-    </div>
+</main>
 
-    <div class="progress-dot-container" id="dotContainer">
-        <!-- Dots injected by JS -->
-    </div>
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progress');
+const speakerBadge = document.getElementById('speakerBadge');
+const speakerName = document.getElementById('speakerName');
+let currentSlideIndex = 0;
 
-    <!-- Interactive Logic -->
-    <script>
-        lucide.createIcons();
+function updateUI() {
+slides.forEach((slide, index) => {
+slide.classList.remove('active', 'prev', 'next');
+const fragments = slide.querySelectorAll('.fragment');
+fragments.forEach(f => f.classList.remove('visible'));
+slide.dataset.fragmentIndex = -1;
 
-        const slides = document.querySelectorAll('.slide-container');
-        const btnNext = document.getElementById('btnNext');
-        const btnPrev = document.getElementById('btnPrev');
-        const dotContainer = document.getElementById('dotContainer');
-        let currentSlide = 0;
+if (index === currentSlideIndex) {
+slide.classList.add('active');
+const speaker = slide.getAttribute('data-speaker');
+if (speaker) {
+speakerName.textContent = speaker;
+speakerBadge.classList.add('visible');
+} else {
+speakerBadge.classList.remove('visible');
+}
+} else if (index < currentSlideIndex) {
+slide.classList.add('prev');
+} else {
+slide.classList.add('next');
+}
+});
+progressBar.style.width = ((currentSlideIndex + 1) / slides.length) * 100 + '%';
+}
 
-        // Create dots
-        slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.className = 'dot';
-            dotContainer.appendChild(dot);
-        });
-        const dots = document.querySelectorAll('.dot');
+function nextSlide() {
+const activeSlide = slides[currentSlideIndex];
+const fragments = activeSlide.querySelectorAll('.fragment');
+let fIndex = parseInt(activeSlide.dataset.fragmentIndex || -1);
 
-        function updateUI() {
-            // Update slides
-            slides.forEach((slide, index) => {
-                if (index === currentSlide) {
-                    slide.classList.add('active');
-                } else {
-                    slide.classList.remove('active');
-                }
-            });
+if (fIndex < fragments.length - 1) {
+fIndex++;
+fragments[fIndex].classList.add('visible');
+activeSlide.dataset.fragmentIndex = fIndex;
+} else if (currentSlideIndex < slides.length - 1) {
+currentSlideIndex++;
+updateUI();
+}
+}
 
-            // Update dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
+function prevSlide() {
+const activeSlide = slides[currentSlideIndex];
+const fragments = activeSlide.querySelectorAll('.fragment');
+let fIndex = parseInt(activeSlide.dataset.fragmentIndex || -1);
 
-            // Update buttons
-            btnPrev.disabled = currentSlide === 0;
-            btnNext.disabled = currentSlide === slides.length - 1;
-        }
+if (fIndex > -1) {
+fragments[fIndex].classList.remove('visible');
+activeSlide.dataset.fragmentIndex = fIndex - 1;
+} else if (currentSlideIndex > 0) {
+currentSlideIndex--;
+updateUI();
+const prevSlide = slides[currentSlideIndex];
+const prevFragments = prevSlide.querySelectorAll('.fragment');
+prevSlide.dataset.fragmentIndex = prevFragments.length - 1;
+prevFragments.forEach(f => f.classList.add('visible'));
+}
+}
 
-        function next() { if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); } }
-        function prev() { if (currentSlide > 0) { currentSlide--; updateUI(); } }
+window.addEventListener('keydown', (e) => {
+if (e.key === 'ArrowRight' || e.key === ' ') {
+e.preventDefault();
+nextSlide();
+}
+if (e.key === 'ArrowLeft') {
+e.preventDefault();
+prevSlide();
+}
+});
 
-        btnNext.addEventListener('click', next);
-        btnPrev.addEventListener('click', prev);
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') next();
-            else if (e.key === 'ArrowLeft') prev();
-        });
-
-        updateUI();
-    </script>
+updateUI();
+</script>
 </body>
 </html>
