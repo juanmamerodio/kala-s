@@ -3,687 +3,646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe Académico - Modelo Scrum</title>
+    <title>Scrum - Visión Visual iOS26</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons para un look minimalista -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        /* 1. THE SETUP & MD3 THEME VARIABLES */
+        /* ==================================================================
+           1. iOS 26 DESIGN SYSTEM & VARIABLES (Light Brown / Beige Palette)
+           ================================================================== */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
         :root {
-            --md-sys-color-surface: #FEF7FF;
-            --md-sys-color-on-surface: #1C1B1F;
-            --md-sys-color-on-surface-variant: #49454F;
-            --md-sys-color-primary: #6750A4;
-            --md-sys-color-primary-container: #EADDFF;
-            --md-sys-color-on-primary-container: #21005D;
-            --md-sys-color-secondary-container: #E8DEF8;
-            --md-sys-color-on-secondary-container: #1D192B;
-            --md-sys-color-tertiary-container: #FFD8E4;
-            --md-sys-color-on-tertiary-container: #31111D;
-            --md-sys-color-error: #B3261E;
+            /* Palette */
+            --bg-base: #F4EFEB; /* Sand base */
+            --bg-blob-1: #EADCD0; /* Light Latte */
+            --bg-blob-2: #D5C5B5; /* Warm Taupe */
+            --accent-primary: #8C6A50; /* Chestnut Brown */
+            --accent-secondary: #B49A85; /* Soft Brown */
+            
+            /* Text */
+            --text-main: #2A2420;
+            --text-muted: #6B6056;
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 16px 40px rgba(140, 106, 80, 0.08);
+            --glass-blur: blur(24px) saturate(160%);
         }
 
         body {
-            background-color: #E6E0E9;
-            font-family: 'Inter', sans-serif;
-            overflow: hidden; /* Evita el scroll, es una presentación */
+            background-color: var(--bg-base);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
             height: 100vh;
             width: 100vw;
-            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            color: var(--text-main);
         }
 
-        /* Barra de progreso interactiva */
-        .progress-bar-container {
+        /* Abstract Animated Background */
+        .bg-gradient {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background-color: var(--md-sys-color-surface);
-            z-index: 100;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-color: var(--md-sys-color-primary);
-            width: 0%;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0 4px 4px 0;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 0;
         }
 
-        /* Contenedores de las slides (Lógica de visibilidad) */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.8;
+            animation: drift 15s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--bg-blob-1); }
+        .blob-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: var(--bg-blob-2); animation-delay: -5s; }
+        .blob-3 { top: 30%; left: 40%; width: 40vw; height: 40vw; background: #FFFFFF; opacity: 0.5; animation-delay: -10s; }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+        /* ==================================================================
+           2. SLIDE CONTAINER LOGIC
+           ================================================================== */
         .slide-container {
-            background-color: var(--md-sys-color-surface);
-            border-radius: 32px;
-            box-shadow: 0 16px 40px rgba(103, 80, 164, 0.15);
+            width: 1280px;
+            height: 720px;
+            position: absolute;
+            padding: 50px 70px;
             display: flex;
             flex-direction: column;
-            height: 720px;
-            width: 1280px;
-            padding: 60px;
-            position: absolute;
-            overflow: hidden;
-            
-            /* Animación de entrada y estado oculto inicial */
             opacity: 0;
-            transform: scale(0.95) translateY(20px);
+            transform: translateY(40px) scale(0.98);
             pointer-events: none;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1;
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 10;
         }
 
         .slide-container.active {
             opacity: 1;
-            transform: scale(1) translateY(0);
+            transform: translateY(0) scale(1);
             pointer-events: auto;
-            z-index: 10;
+            z-index: 20;
         }
 
-        /* Elementos abstractos de fondo con Motion Graphics flotante */
-        .bg-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-            animation: floatSlow 12s infinite alternate ease-in-out;
-        }
+        /* ==================================================================
+           3. TYPOGRAPHY & ANIMATIONS (STAGGERING)
+           ================================================================== */
+        h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.02em; }
         
-        .bg-blob-1 {
-            top: -20%; right: -10%;
-            width: 600px; height: 600px;
-            background: var(--md-sys-color-primary-container);
-            opacity: 0.6;
-        }
-        
-        .bg-blob-2 {
-            bottom: -20%; left: -10%;
-            width: 500px; height: 500px;
-            background: var(--md-sys-color-tertiary-container);
-            opacity: 0.5;
-            animation-delay: -5s;
-        }
-
-        @keyframes floatSlow {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, 20px) scale(1.05); }
-            100% { transform: translate(-20px, 40px) scale(0.95); }
-        }
-
-        .slide-container > * { position: relative; z-index: 1; }
-
-        /* 2. TIPOGRAFÍA Y ANIMACIONES DE ELEMENTOS (STAGGERING) */
-        h1, h2, h3 { color: var(--md-sys-color-on-surface); font-weight: 700; margin-bottom: 15px; }
-        p, li, .subtitle { color: var(--md-sys-color-on-surface-variant); font-size: 20px; line-height: 1.6; }
-        
-        .slide-title { font-size: 42px; margin-bottom: 40px; text-align: left; letter-spacing: -0.5px; }
-        .slide-title span { color: var(--md-sys-color-primary); }
-
-        /* Clases de animación que se activan con JS */
-        .anim-element {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .slide-container.active .anim-element {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-1 { transition-delay: 0.2s; }
-        .delay-2 { transition-delay: 0.4s; }
-        .delay-3 { transition-delay: 0.6s; }
-        .delay-4 { transition-delay: 0.8s; }
-
-        /* 3. COMPONENTES INTERACTIVOS (Diseño menos "texto") */
-        .content-area {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        /* Tarjetas interactivas en lugar de viñetas simples */
-        .info-card {
-            background-color: #FFFFFF;
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            box-shadow: 0 4px 15px rgba(103, 80, 164, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: default;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(103, 80, 164, 0.15);
-        }
-
-        .info-card .icon-box {
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-primary);
-            padding: 12px;
-            border-radius: 12px;
+        .slide-title {
+            font-size: 46px;
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .info-card p { margin-bottom: 0; font-size: 18px; }
-        
-        .emphasize { color: var(--md-sys-color-primary); font-weight: 700; }
-
-        /* Imágenes con efecto sutil */
-        .image-wrapper {
-            border-radius: 24px;
-            height: 400px;
-            width: 100%;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: transform 0.5s ease;
-        }
-        
-        .image-wrapper:hover { transform: scale(1.02); }
-        .image-wrapper img { height: 100%; width: 100%; object-fit: cover; }
-        .contain-img img { object-fit: contain; padding: 20px; background-color: white; }
-
-        /* Tiles para roles y artefactos */
-        .tiled-content {
-            display: flex; gap: 40px; justify-content: center; width: 100%;
-        }
-
-        .tile {
-            background-color: #FFFFFF;
-            border-radius: 28px;
-            box-shadow: 0 4px 12px rgba(103, 80, 164, 0.05);
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding: 40px 30px;
-            text-align: center;
-            align-items: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tile:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 30px rgba(103, 80, 164, 0.12);
-        }
-
-        .tile .icon { margin-bottom: 25px; height: 60px; }
-        
-        .tile.variant-primary { background-color: var(--md-sys-color-primary-container); }
-        .tile.variant-primary h3, .tile.variant-primary p, .tile.variant-primary .icon { color: var(--md-sys-color-on-primary-container); }
-        .tile.variant-secondary { background-color: var(--md-sys-color-secondary-container); }
-        .tile.variant-secondary h3, .tile.variant-secondary p, .tile.variant-secondary .icon { color: var(--md-sys-color-on-secondary-container); }
-        .tile.variant-tertiary { background-color: var(--md-sys-color-tertiary-container); }
-        .tile.variant-tertiary h3, .tile.variant-tertiary p, .tile.variant-tertiary .icon { color: var(--md-sys-color-on-tertiary-container); }
-
-        /* Línea de tiempo animada */
-        .timeline-layout {
-            display: flex; height: 100%; justify-content: space-between; position: relative; margin-top: 50px;
-        }
-
-        .timeline-line-bg {
-            background-color: var(--md-sys-color-secondary-container);
-            height: 6px; left: 0; position: absolute; top: 50%; transform: translateY(-3px); width: 100%; border-radius: 3px;
-        }
-
-        .timeline-line-fill {
-            background-color: var(--md-sys-color-primary);
-            height: 6px; left: 0; position: absolute; top: 50%; transform: translateY(-3px);
-            width: 0%; border-radius: 3px; z-index: 1;
-            transition: width 1.5s ease-in-out;
-        }
-
-        .slide-container.active .timeline-line-fill { width: 100%; }
-
-        .timeline-item { position: relative; text-align: center; width: 23%; z-index: 2; }
-
-        .timeline-dot {
-            background-color: var(--md-sys-color-surface);
-            border-radius: 50%; border: 5px solid var(--md-sys-color-primary);
-            height: 24px; width: 24px; margin: 0 auto;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            box-shadow: 0 0 0 4px rgba(103, 80, 164, 0.2);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .slide-container.active .timeline-item:nth-child(2) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 0.3s; }
-        .slide-container.active .timeline-item:nth-child(3) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 0.6s; }
-        .slide-container.active .timeline-item:nth-child(4) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 0.9s; }
-        .slide-container.active .timeline-item:nth-child(5) .timeline-dot { transform: translate(-50%, -50%) scale(1); transition-delay: 1.2s; }
-
-        .timeline-item .content-wrapper {
-            position: absolute; width: 100%; left: 0;
-            background-color: #FFFFFF; padding: 20px; border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(103, 80, 164, 0.08);
-            border: 1px solid var(--md-sys-color-primary-container);
-        }
-
-        .timeline-item:nth-child(odd) .content-wrapper { bottom: 50%; margin-bottom: 35px; }
-        .timeline-item:nth-child(even) .content-wrapper { top: 50%; margin-top: 35px; }
-
-        /* Controles de navegación flotantes */
-        .controls {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            display: flex;
             gap: 15px;
-            z-index: 1000;
         }
-
-        .btn-nav {
-            background-color: var(--md-sys-color-surface);
-            border: none;
-            border-radius: 50%;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--md-sys-color-primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-nav:hover { background-color: var(--md-sys-color-primary-container); transform: scale(1.1); }
-        .btn-nav:active { transform: scale(0.95); }
-        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         
-        .pulse-icon { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+        .slide-title i { color: var(--accent-primary); }
+
+        .anim {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+        
+        .slide-container.active .anim { opacity: 1; transform: translateY(0); }
+        .d-1 { transition-delay: 0.1s; } .d-2 { transition-delay: 0.2s; }
+        .d-3 { transition-delay: 0.3s; } .d-4 { transition-delay: 0.4s; }
+        .d-5 { transition-delay: 0.5s; }
+
+        /* ==================================================================
+           4. iOS GLASSMORPHISM COMPONENTS
+           ================================================================== */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 36px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+        }
+
+        .pill-badge {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.8);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+        /* Icon Wrapper */
+        .icon-circle {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--accent-primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        /* ==================================================================
+           5. SPECIFIC DIAGRAMS & WIDGETS
+           ================================================================== */
+        
+        /* Table: Waterfall vs Agile */
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .comparison-table th { padding: 15px; font-size: 20px; text-align: left; border-bottom: 2px solid rgba(140, 106, 80, 0.2); }
+        .comparison-table td { padding: 20px 15px; font-size: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
+        .comparison-table td i { margin-right: 10px; color: var(--accent-primary); }
+        
+        /* Empiricism Cycle Diagram */
+        .cycle-container {
+            display: flex; justify-content: center; align-items: center; height: 100%; gap: 30px; position: relative;
+        }
+        .cycle-node {
+            display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; width: 30%;
+        }
+        .cycle-arrow {
+            color: var(--accent-secondary); margin-top: -50px;
+        }
+
+        /* Artifact Mapping */
+        .mapping-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 30px; padding: 20px;
+            background: rgba(255,255,255,0.3); border-radius: 20px;
+        }
+        .mapping-box { width: 40%; }
+        .mapping-box h3 { font-size: 22px; margin-bottom: 5px; }
+        .mapping-box p { font-size: 14px; color: var(--text-muted); }
+
+        /* Image Wrapper */
+        .img-card {
+            border-radius: 28px; overflow: hidden; width: 100%; height: 100%;
+            box-shadow: var(--glass-shadow);
+        }
+        .img-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Cynefin Matrix */
+        .matrix { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; height: 100%; }
+        .matrix-cell { padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; }
+        .matrix-cell.focus { background: rgba(255,255,255,0.7); border: 2px solid var(--accent-primary); }
+        .matrix-cell.blur { background: rgba(255,255,255,0.2); opacity: 0.6; }
+
+        /* CSS Bar Chart */
+        .chart-container { display: flex; align-items: flex-end; gap: 20px; height: 150px; margin-top: 30px; }
+        .bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 50%; }
+        .bar { width: 100%; background: #FFFFFF; border-radius: 12px 12px 0 0; display: flex; justify-content: center; align-items: flex-start; padding-top: 10px; font-weight: bold; }
+        .bar.highlight { background: var(--accent-primary); color: white; }
+
+        /* Navigation Controls */
+        .nav-controls {
+            position: fixed; bottom: 30px; right: 40px; display: flex; gap: 10px; z-index: 1000;
+            background: var(--glass-bg); backdrop-filter: blur(20px); padding: 10px; border-radius: 40px;
+        }
+        .nav-btn {
+            background: #FFFFFF; border: none; width: 44px; height: 44px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.1); background: var(--accent-primary); color: white; }
+        .nav-btn:disabled { opacity: 0.4; pointer-events: none; }
+        
+        .progress-dot-container {
+            position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; z-index: 1000;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(140, 106, 80, 0.3); transition: 0.3s; }
+        .dot.active { background: var(--accent-primary); width: 24px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-<!-- Barra de progreso superior -->
-<div class="progress-bar-container">
-    <div class="progress-bar" id="progress"></div>
-</div>
-
-<!-- Fondos abstractos con Motion Graphics -->
-<div class="bg-blob bg-blob-1"></div>
-<div class="bg-blob bg-blob-2"></div>
-
-
-<!-- Slide 1: Inicio -->
-<div class="slide-container" id="slide0">
-    <div class="content-area" style="align-items: center;">
-        <i data-lucide="layers" class="anim-element" style="width: 80px; height: 80px; color: var(--md-sys-color-primary); margin-bottom: 20px;"></i>
-        <h1 class="anim-element delay-1" style="font-size: 80px; letter-spacing: -2px;">Modelo <span style="color: var(--md-sys-color-primary);">Scrum</span></h1>
-        <p class="subtitle anim-element delay-2" style="font-size: 28px;">Informe Académico Exhaustivo del Marco Ágil</p>
-        
-        <div class="info-card anim-element delay-3" style="margin-top: 50px; background-color: var(--md-sys-color-secondary-container);">
-            <i data-lucide="users" class="icon-box" style="background: white;"></i>
-            <div>
-                <p style="font-size: 16px; margin-bottom: 5px;"><strong>Expositores:</strong></p>
-                <p style="font-size: 18px; margin: 0; color: var(--md-sys-color-on-secondary-container);">Queipo Enzo, Infante Isabella, Merodio Juan Manuel, Cáceres Celeste</p>
-            </div>
-        </div>
-        <p class="anim-element delay-4" style="margin-top: 40px; font-size: 14px; opacity: 0.5;">Usa las flechas del teclado o los botones para navegar</p>
+    <!-- Background -->
+    <div class="bg-gradient">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
-</div>
 
-<!-- Slide 2: Enzo 1 -->
-<div class="slide-container" id="slide1">
-    <h2 class="slide-title anim-element">El Fracaso de lo <span>Tradicional (Cascada)</span></h2>
-    <div class="content-area">
-        <div class="two-column">
-            <div>
-                <p class="anim-element delay-1" style="margin-bottom: 30px;">En los 70s y 80s, se asumía que construir software era igual a construir puentes físicos. Este enfoque predictivo fracasó estrepitosamente.</p>
-                
-                <div class="info-card anim-element delay-2">
-                    <i data-lucide="refresh-ccw" class="icon-box"></i>
-                    <p>Los requerimientos del cliente <strong>mutan constantemente</strong> en medio del proyecto.</p>
-                </div>
-                
-                <div class="info-card anim-element delay-3">
-                    <i data-lucide="rocket" class="icon-box"></i>
-                    <p>La tecnología <strong>evoluciona a un ritmo vertiginoso</strong>, dejando diseños obsoletos.</p>
-                </div>
-                
-                <div class="info-card anim-element delay-4" style="background-color: var(--md-sys-color-tertiary-container); border: none;">
-                    <i data-lucide="history" class="icon-box" style="background: white; color: var(--md-sys-color-on-tertiary-container);"></i>
-                    <p style="color: var(--md-sys-color-on-tertiary-container);"><strong>Origen:</strong> Scrum nace en los 90s (como la formación de Rugby): un equipo empujando sincronizado, adaptándose en tiempo real.</p>
-                </div>
+    <!-- Slide 1: Intro -->
+    <div class="slide-container" id="slide0">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+            <div class="glass-panel anim d-1" style="border-radius: 50%; width: 120px; height: 120px; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                <i data-lucide="layers" style="width: 60px; height: 60px; color: var(--accent-primary);"></i>
             </div>
-            <div class="image-wrapper anim-element delay-2">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/8882199886920946605" alt="Vintage 1980s computer programmers office">
+            <h1 class="anim d-2" style="font-size: 80px; letter-spacing: -3px; margin-bottom: 15px;">Modelo <span style="color: var(--accent-primary);">Scrum</span></h1>
+            <p class="anim d-3" style="font-size: 24px; color: var(--text-muted); margin-bottom: 50px;">El arte de hacer el doble de trabajo en la mitad de tiempo.</p>
+            
+            <div class="anim d-4" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                <div class="pill-badge"><i data-lucide="user"></i> Enzo Queipo</div>
+                <div class="pill-badge"><i data-lucide="user"></i> Isabella Infante</div>
+                <div class="pill-badge"><i data-lucide="user"></i> Juan M. Merodio</div>
+                <div class="pill-badge"><i data-lucide="user"></i> Celeste Cáceres</div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Slide 3: Enzo 2 -->
-<div class="slide-container" id="slide2">
-    <h2 class="slide-title anim-element">El Corazón de Scrum: <span>El Empirismo</span></h2>
-    <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile anim-element delay-1">
-                <i data-lucide="eye" class="icon" style="color: var(--md-sys-color-primary); width: 48px;"></i>
-                <h3>Transparencia</h3>
-                <p>Se prohíbe ocultar la deuda técnica. Todo a la vista para asegurar que las decisiones gerenciales se basen en la realidad.</p>
+    <!-- Slide 2: Waterfall vs Agile -->
+    <div class="slide-container" id="slide1">
+        <h2 class="slide-title anim d-1"><i data-lucide="git-compare"></i> Cambio de Paradigma</h2>
+        <div class="grid-2">
+            <div class="glass-panel anim d-2" style="display: flex; flex-direction: column; justify-content: center;">
+                <table class="comparison-table">
+                    <tr>
+                        <th><i data-lucide="arrow-down-to-line"></i> Cascada (70s-80s)</th>
+                        <th><i data-lucide="refresh-cw"></i> Ágil (Scrum)</th>
+                    </tr>
+                    <tr>
+                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Alcance rígido</td>
+                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Requisitos adaptables</td>
+                    </tr>
+                    <tr>
+                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Entrega al final (Años)</td>
+                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Entregas iterativas (Semanas)</td>
+                    </tr>
+                    <tr>
+                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Fases en Silos</td>
+                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Equipos multifuncionales</td>
+                    </tr>
+                    <tr>
+                        <td><i data-lucide="x-circle" style="color:#d9534f;"></i> Alto riesgo de fallo</td>
+                        <td><i data-lucide="check-circle" style="color:#5cb85c;"></i> Fallo rápido y barato</td>
+                    </tr>
+                </table>
             </div>
-            <div class="tile anim-element delay-2">
-                <i data-lucide="search-check" class="icon" style="color: var(--md-sys-color-primary); width: 48px;"></i>
-                <h3>Inspección</h3>
-                <p>Revisar el producto sistemáticamente. No es auditoría punitiva, sino auto-revisión implacable por el propio equipo.</p>
-            </div>
-            <div class="tile anim-element delay-3">
-                <i data-lucide="settings-2" class="icon pulse-icon" style="color: var(--md-sys-color-primary); width: 48px;"></i>
-                <h3>Adaptación</h3>
-                <p>Si se revelan desviaciones, el equipo ajusta el rumbo de inmediato. El empirismo es inútil sin corrección ágil.</p>
+            <div class="img-card anim d-3">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/13814556058377891047" alt="">
             </div>
         </div>
     </div>
-</div>
 
-<!-- Slide 4: Isabella 1 -->
-<div class="slide-container" id="slide3">
-    <h2 class="slide-title anim-element">El Adiós a los Roles: <span>3 Responsabilidades</span></h2>
-    <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile variant-primary anim-element delay-1">
-                <i data-lucide="crown" class="icon" style="width: 48px;"></i>
+    <!-- Slide 3: Empiricism -->
+    <div class="slide-container" id="slide2">
+        <h2 class="slide-title anim d-1"><i data-lucide="microscope"></i> El Corazón Empírico</h2>
+        <div class="glass-panel anim d-2" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+            <div class="cycle-container">
+                <!-- Node 1 -->
+                <div class="cycle-node anim d-3">
+                    <div class="icon-circle" style="width: 100px; height: 100px;"><i data-lucide="eye" style="width:40px; height:40px;"></i></div>
+                    <h3>1. Transparencia</h3>
+                    <p style="font-size: 14px; margin-top: 10px; color: var(--text-muted);">Sin métricas ocultas. Artefactos visibles para todos.</p>
+                </div>
+                
+                <i data-lucide="arrow-right" class="cycle-arrow anim d-4" style="width:40px; height:40px;"></i>
+                
+                <!-- Node 2 -->
+                <div class="cycle-node anim d-4">
+                    <div class="icon-circle" style="width: 100px; height: 100px;"><i data-lucide="scan-line" style="width:40px; height:40px;"></i></div>
+                    <h3>2. Inspección</h3>
+                    <p style="font-size: 14px; margin-top: 10px; color: var(--text-muted);">Auto-auditoría constante del progreso y el código.</p>
+                </div>
+
+                <i data-lucide="arrow-right" class="cycle-arrow anim d-5" style="width:40px; height:40px;"></i>
+
+                <!-- Node 3 -->
+                <div class="cycle-node anim d-5">
+                    <div class="icon-circle" style="width: 100px; height: 100px;"><i data-lucide="settings" style="width:40px; height:40px;"></i></div>
+                    <h3>3. Adaptación</h3>
+                    <p style="font-size: 14px; margin-top: 10px; color: var(--text-muted);">Corrección de rumbo inmediata si algo falla.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Roles -->
+    <div class="slide-container" id="slide3">
+        <h2 class="slide-title anim d-1"><i data-lucide="users"></i> Arquitectura de Responsabilidades</h2>
+        <div class="grid-3 anim d-2" style="height: 100%;">
+            <!-- Widget 1 -->
+            <div class="glass-panel" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
+                <img src="https://ui-avatars.com/api/?name=PO&background=8C6A50&color=fff&size=100&rounded=true" alt="[Image of Product Owner Avatar]">
                 <h3>Product Owner</h3>
-                <p>Dueño absoluto del valor. Prioriza QUÉ se hace por el negocio. No es dictador técnico ni intermediario sin autoridad.</p>
+                <div class="pill-badge" style="font-size: 12px; padding: 4px 10px;"><i data-lucide="target" style="width:12px;"></i> Gestor de Valor</div>
+                <ul style="text-align: left; font-size: 15px; margin-top: 20px; padding-left: 20px; color: var(--text-muted); line-height: 1.6;">
+                    <li>Maximiza el ROI.</li>
+                    <li>Prioriza el Backlog.</li>
+                    <li><strong>No</strong> es un dictador técnico.</li>
+                </ul>
             </div>
-            <div class="tile variant-secondary anim-element delay-2">
-                <i data-lucide="shield-check" class="icon" style="width: 48px;"></i>
+            <!-- Widget 2 -->
+            <div class="glass-panel" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
+                <img src="https://ui-avatars.com/api/?name=SM&background=B49A85&color=fff&size=100&rounded=true" alt="">
                 <h3>Scrum Master</h3>
-                <p>Garante del marco, no el secretario. Destraba bloqueos, protege a los developers y enseña empirismo a la empresa.</p>
+                <div class="pill-badge" style="font-size: 12px; padding: 4px 10px;"><i data-lucide="shield" style="width:12px;"></i> Facilitador</div>
+                <ul style="text-align: left; font-size: 15px; margin-top: 20px; padding-left: 20px; color: var(--text-muted); line-height: 1.6;">
+                    <li>Protege al equipo.</li>
+                    <li>Destraba impedimentos.</li>
+                    <li><strong>No</strong> es el jefe de proyecto.</li>
+                </ul>
             </div>
-            <div class="tile variant-tertiary anim-element delay-3">
-                <i data-lucide="terminal-square" class="icon" style="width: 48px;"></i>
+            <!-- Widget 3 -->
+            <div class="glass-panel" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
+                <img src="https://ui-avatars.com/api/?name=Devs&background=FFFFFF&color=8C6A50&size=100&rounded=true" alt="">
                 <h3>Developers</h3>
-                <p>Ingenieros autoorganizados y sin jerarquías internas: deciden de forma autónoma CÓMO se ejecuta el trabajo técnico.</p>
+                <div class="pill-badge" style="font-size: 12px; padding: 4px 10px;"><i data-lucide="code" style="width:12px;"></i> Constructores</div>
+                <ul style="text-align: left; font-size: 15px; margin-top: 20px; padding-left: 20px; color: var(--text-muted); line-height: 1.6;">
+                    <li>Equipo multifuncional.</li>
+                    <li>Autoorganizados.</li>
+                    <li>Deciden el <strong>CÓMO</strong>.</li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Slide 5: Isabella 2 -->
-<div class="slide-container" id="slide4">
-    <h2 class="slide-title anim-element">Los 3 <span>Artefactos</span> y sus Compromisos</h2>
-    <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile anim-element delay-1" style="padding: 20px;">
-                <div class="image-wrapper" style="height: 180px; margin-bottom: 20px; border-radius: 16px;"><img src="http://googleusercontent.com/image_collection/image_retrieval/12192754829624476985" alt="Product Backlog"></div>
-                <h3>Product Backlog</h3>
-                <p>Lista viva del negocio. Su compromiso es el <span class="emphasize">Product Goal</span> (meta a largo plazo).</p>
+    <!-- Slide 5: Artifacts -->
+    <div class="slide-container" id="slide4">
+        <h2 class="slide-title anim d-1"><i data-lucide="layers"></i> Artefactos y sus Compromisos</h2>
+        <div class="grid-2">
+            <div class="img-card anim d-2">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/6310446104795370759" alt="[Image of Post it backlog]">
             </div>
-            <div class="tile anim-element delay-2" style="padding: 20px;">
-                <div class="image-wrapper" style="height: 180px; margin-bottom: 20px; border-radius: 16px;"><img src="http://googleusercontent.com/image_collection/image_retrieval/14190592208741394413" alt="Sprint Backlog"></div>
-                <h3>Sprint Backlog</h3>
-                <p>Plan táctico de Developers. Su compromiso es el <span class="emphasize">Sprint Goal</span> (objetivo flexible).</p>
-            </div>
-            <div class="tile anim-element delay-3" style="padding: 20px;">
-                <div class="image-wrapper" style="height: 180px; margin-bottom: 20px; border-radius: 16px;"><img src="http://googleusercontent.com/image_collection/image_retrieval/18300187845185223530" alt="Incremento"></div>
-                <h3>Incremento</h3>
-                <p>Pieza de software verificada. Su compromiso de calidad es la <span class="emphasize">Definition of Done (DoD)</span>.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 6: JM 1 -->
-<div class="slide-container" id="slide5">
-    <h2 class="slide-title anim-element">La Dinámica: <span>El Sprint y sus 4 Eventos</span></h2>
-    <div class="content-area">
-        <div class="timeline-layout anim-element delay-1">
-            <div class="timeline-line-bg"></div>
-            <div class="timeline-line-fill"></div>
-            
-            <div class="timeline-item anim-element delay-1">
-                <div class="timeline-dot"></div>
-                <div class="content-wrapper">
-                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="calendar-plus" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Planning</h3>
-                    <p style="font-size: 15px;">Por qué es valioso, Qué terminamos y Cómo lo construimos.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item anim-element delay-2">
-                <div class="timeline-dot"></div>
-                <div class="content-wrapper">
-                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="coffee" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Daily Scrum</h3>
-                    <p style="font-size: 15px;">15 min de Developers para destrabar. NO es reporte al jefe.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item anim-element delay-3">
-                <div class="timeline-dot"></div>
-                <div class="content-wrapper">
-                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="monitor-play" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Review</h3>
-                    <p style="font-size: 15px;">Demo funcional al cliente para pivotar. Cero PowerPoints vacíos.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item anim-element delay-4">
-                <div class="timeline-dot"></div>
-                <div class="content-wrapper">
-                    <h3 style="color: var(--md-sys-color-primary); font-size: 20px;"><i data-lucide="messages-square" style="display:inline-block; vertical-align: middle; margin-right:5px; width: 20px;"></i> Retrospective</h3>
-                    <p style="font-size: 15px;">Auditoría psicológica y técnica a puerta cerrada para mejorar.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Slide 7: JM 2 -->
-<div class="slide-container" id="slide6">
-    <h2 class="slide-title anim-element">Herramientas Ágiles <span>Periféricas</span></h2>
-    <div class="content-area">
-        <div class="two-column">
-            <div>
-                <p class="anim-element delay-1" style="margin-bottom: 20px;">Scrum no dicta técnicas de ejecución puras. Los equipos adoptan estas tácticas vitales:</p>
-                
-                <div class="info-card anim-element delay-2">
-                    <i data-lucide="calculator" class="icon-box"></i>
-                    <div>
-                        <p class="emphasize">Estimación Relativa</p>
-                        <p style="font-size: 15px; margin-top:5px;">Chau a las horas. Se usa Planning Poker y Story Points para forzar debate sobre riesgos.</p>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <!-- Map 1 -->
+                <div class="mapping-row glass-panel anim d-3" style="padding: 15px 25px;">
+                    <div class="mapping-box">
+                        <h3><i data-lucide="list-todo" style="width:20px; vertical-align:middle; margin-right:5px;"></i> Product Backlog</h3>
+                        <p>Lista de deseos viva</p>
+                    </div>
+                    <i data-lucide="link" style="color:var(--accent-primary);"></i>
+                    <div class="mapping-box" style="text-align: right;">
+                        <div class="pill-badge">Product Goal</div>
                     </div>
                 </div>
-                
-                <div class="info-card anim-element delay-3">
-                    <i data-lucide="filter" class="icon-box"></i>
-                    <div>
-                        <p class="emphasize">Refinamiento (Grooming)</p>
-                        <p style="font-size: 15px; margin-top:5px;">Sesiones para limpiar y desglosar futuras peticiones del Backlog.</p>
+                <!-- Map 2 -->
+                <div class="mapping-row glass-panel anim d-4" style="padding: 15px 25px;">
+                    <div class="mapping-box">
+                        <h3><i data-lucide="clipboard-list" style="width:20px; vertical-align:middle; margin-right:5px;"></i> Sprint Backlog</h3>
+                        <p>Plan táctico de devs</p>
+                    </div>
+                    <i data-lucide="link" style="color:var(--accent-primary);"></i>
+                    <div class="mapping-box" style="text-align: right;">
+                        <div class="pill-badge">Sprint Goal</div>
                     </div>
                 </div>
-                
-                <div class="info-card anim-element delay-4">
-                    <i data-lucide="bar-chart-3" class="icon-box"></i>
-                    <div>
-                        <p class="emphasize">Métricas de Flujo</p>
-                        <p style="font-size: 15px; margin-top:5px;">No se mide "velocidad", se mide el WIP y Cycle Time para optimizar valor.</p>
+                <!-- Map 3 -->
+                <div class="mapping-row glass-panel anim d-5" style="padding: 15px 25px;">
+                    <div class="mapping-box">
+                        <h3><i data-lucide="box" style="width:20px; vertical-align:middle; margin-right:5px;"></i> Incremento</h3>
+                        <p>Software funcional</p>
+                    </div>
+                    <i data-lucide="link" style="color:var(--accent-primary);"></i>
+                    <div class="mapping-box" style="text-align: right;">
+                        <div class="pill-badge">Definition of Done</div>
                     </div>
                 </div>
             </div>
-            <div class="image-wrapper contain-img anim-element delay-3">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/13005898393958843476" alt="Agile planning poker cards">
+        </div>
+    </div>
+
+    <!-- Slide 6: Sprint Events -->
+    <div class="slide-container" id="slide5">
+        <h2 class="slide-title anim d-1"><i data-lucide="timer"></i> Flujo de Eventos (El Sprint)</h2>
+        <div class="glass-panel anim d-2" style="height: 100%; display: flex; align-items: center; justify-content: center; padding: 50px;">
+            <div class="grid-4" style="width: 100%;">
+                
+                <div class="anim d-3" style="text-align: center; position: relative;">
+                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="calendar-plus"></i></div>
+                    <h3>Planning</h3>
+                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
+                        <li>🎯 Por qué (Valor)</li>
+                        <li>📦 Qué (Capacidad)</li>
+                        <li>🛠️ Cómo (Arquitectura)</li>
+                    </ul>
+                </div>
+
+                <div class="anim d-4" style="text-align: center; position: relative;">
+                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="coffee"></i></div>
+                    <h3>Daily Scrum</h3>
+                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
+                        <li>⏱️ 15 Minutos</li>
+                        <li>🚧 Destrabar bloqueos</li>
+                        <li>❌ No es reporte al jefe</li>
+                    </ul>
+                </div>
+
+                <div class="anim d-5" style="text-align: center; position: relative;">
+                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="monitor-play"></i></div>
+                    <h3>Review</h3>
+                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
+                        <li>🚀 Demo de Software</li>
+                        <li>🤝 Feedback del cliente</li>
+                        <li>📝 Actualizar Backlog</li>
+                    </ul>
+                </div>
+
+                <div class="anim d-5" style="text-align: center; position: relative;">
+                    <div class="icon-circle" style="margin: 0 auto 20px;"><i data-lucide="messages-square"></i></div>
+                    <h3>Retro</h3>
+                    <ul style="list-style: none; font-size: 14px; color: var(--text-muted); margin-top: 15px;">
+                        <li>🔒 Puerta cerrada</li>
+                        <li>🧠 Auditoría psicológica</li>
+                        <li>📈 Mejora del proceso</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
-</div>
 
-<!-- Slide 8: Celeste 1 -->
-<div class="slide-container" id="slide7">
-    <h2 class="slide-title anim-element">Limitaciones y <span>"Dark Scrum"</span></h2>
-    <div class="content-area">
-        <div class="two-column">
-            <div class="image-wrapper anim-element delay-1" style="height: 480px;">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/12954854902298429896" alt="Frustrated worker">
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="info-card anim-element delay-2" style="background-color: #ffeaea; border-left: 5px solid var(--md-sys-color-error);">
-                    <i data-lucide="alert-triangle" class="icon-box" style="background: white; color: var(--md-sys-color-error);"></i>
-                    <p><strong>El Golpe de Realidad:</strong> Scrum dice si entregás valor, pero no enseña a programar. Sin XP (TDD, Code Review), generás deuda técnica rapidísimo.</p>
-                </div>
-                
-                <div class="info-card anim-element delay-3">
-                    <i data-lucide="ban" class="icon-box"></i>
-                    <p><span class="emphasize">Cuándo NO usarlo:</span> Tareas simples o emergencias de producción (HelpDesk). Ahí, Kanban es inmensamente superior.</p>
-                </div>
-                
-                <div class="info-card anim-element delay-4">
-                    <i data-lucide="ghost" class="icon-box"></i>
-                    <p><span class="emphasize">Patología Clásica:</span> El "Sprint Zero", que no es más que el modelo Cascada tradicional financiado en cuotas.</p>
+    <!-- Slide 7: Periphery Tools -->
+    <div class="slide-container" id="slide6">
+        <h2 class="slide-title anim d-1"><i data-lucide="wrench"></i> Herramientas Tácticas</h2>
+        <div class="grid-3">
+            <!-- Widget 1: Estimation -->
+            <div class="glass-panel anim d-2" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                <div style="height: 180px; width: 100%;"><img src="http://googleusercontent.com/image_collection/image_retrieval/12387578145316885254" style="width:100%; height:100%; object-fit:cover;" alt=""></div>
+                <div style="padding: 25px;">
+                    <h3>Estimación Relativa</h3>
+                    <p style="font-size: 15px; margin-top: 10px; color: var(--text-muted);">Adiós horas. Uso de Story Points y Planning Poker para forzar debate sobre riesgos y complejidad.</p>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            
+            <!-- Widget 2: Refinement -->
+            <div class="glass-panel anim d-3" style="display: flex; flex-direction: column; justify-content: center; text-align: center; align-items: center;">
+                <div class="icon-circle" style="width: 80px; height: 80px;"><i data-lucide="filter" style="width:35px; height:35px;"></i></div>
+                <h3>Refinamiento</h3>
+                <div class="pill-badge" style="margin-top: 10px;">Backlog Grooming</div>
+                <p style="font-size: 15px; margin-top: 15px; color: var(--text-muted);">Sesiones continuas para limpiar, ordenar y desglosar historias futuras antes del Planning.</p>
+            </div>
 
-<!-- Slide 9: Celeste 2 -->
-<div class="slide-container" id="slide8">
-    <h2 class="slide-title anim-element">Escalabilidad y <span>Casos Reales</span></h2>
-    <div class="content-area">
-        <div class="two-column">
-            <div>
-                <div class="info-card anim-element delay-1">
-                    <i data-lucide="network" class="icon-box"></i>
-                    <p><strong>Escalabilidad:</strong> Se usa Nexus o SAFe para cientos de devs, aunque SAFe sufre críticas por ser burocrático.</p>
+            <!-- Widget 3: Flow Metrics -->
+            <div class="glass-panel anim d-4" style="display: flex; flex-direction: column;">
+                <h3>Métricas de Flujo</h3>
+                <p style="font-size: 14px; color: var(--text-muted); margin-top: 5px;">Medir flujo vs velocidad tóxica.</p>
+                <div class="chart-container">
+                    <div class="bar-wrapper">
+                        <span style="font-size: 12px; font-weight: bold;">Cycle Time</span>
+                        <div class="bar highlight" style="height: 90%;">4d</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <span style="font-size: 12px; font-weight: bold;">WIP</span>
+                        <div class="bar" style="height: 40%; color:var(--accent-primary);">3</div>
+                    </div>
                 </div>
-                
-                <div class="info-card anim-element delay-2">
-                    <i data-lucide="credit-card" class="icon-box"></i>
-                    <p><strong>Caso IT (Pagos):</strong> Bloqueos con pasarelas (Stripe) en la Daily modifican la arquitectura el mismo día.</p>
-                </div>
-                
-                <div class="info-card anim-element delay-3">
-                    <i data-lucide="megaphone" class="icon-box"></i>
-                    <p><strong>Caso Marketing:</strong> Lanzamiento ágil testeando creatividades en redes sin esperar meses de aprobaciones.</p>
-                </div>
-                
-                <div class="anim-element delay-4" style="background-color: var(--md-sys-color-primary-container); padding: 25px; border-radius: 20px; margin-top: 20px;">
-                    <p style="font-style: italic; font-size: 18px; color: var(--md-sys-color-on-primary-container); margin: 0;">
-                        <i data-lucide="quote" style="width: 20px; opacity: 0.5; margin-right: 10px;"></i>
-                        "Scrum actúa como un escáner médico: iluminará la ineficiencia, duele implementarlo, pero forja empresas adaptables."
-                    </p>
-                </div>
-            </div>
-            <div class="image-wrapper anim-element delay-2">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/12777060011477825270" alt="Creative agile team">
             </div>
         </div>
     </div>
-</div>
 
-<!-- Slide 10: Fin -->
-<div class="slide-container" id="slide9">
-    <div class="content-area" style="align-items: center; text-align: center;">
-        <i data-lucide="sparkles" class="anim-element pulse-icon" style="width: 80px; height: 80px; color: var(--md-sys-color-primary); margin-bottom: 30px;"></i>
-        <h2 class="anim-element delay-1" style="font-size: 80px; color: var(--md-sys-color-primary);">¿Preguntas?</h2>
-        <p class="anim-element delay-2" style="font-size: 26px;">Gracias por el espacio para debatir sobre empirismo.</p>
-        
-        <div class="anim-element delay-3" style="margin-top: 50px; background-color: var(--md-sys-color-secondary-container); padding: 15px 40px; border-radius: 30px; display: inline-block;">
-            <p style="margin: 0; font-weight: 500; font-size: 20px; color: var(--md-sys-color-on-surface-variant);">Universidad Nacional - 2026</p>
+    <!-- Slide 8: Cynefin / Limits -->
+    <div class="slide-container" id="slide7">
+        <h2 class="slide-title anim d-1"><i data-lucide="alert-triangle"></i> Cuándo NO usar Scrum</h2>
+        <div class="matrix anim d-2">
+            <div class="matrix-cell blur">
+                <i data-lucide="check-square" style="margin-bottom: 10px; opacity: 0.5;"></i>
+                <h3 style="color: var(--text-muted);">Simple (Lineal)</h3>
+                <p style="font-size: 14px; margin-top: 5px; color: var(--text-muted);">Ej: Instalar servidor.<br>➡ Mejor usar Cascada.</p>
+            </div>
+            <div class="matrix-cell focus">
+                <i data-lucide="brain-circuit" style="margin-bottom: 10px; color: var(--accent-primary);"></i>
+                <h3 style="color: var(--accent-primary);">Complejo (Incierto)</h3>
+                <p style="font-size: 14px; margin-top: 5px;">Ej: Software nuevo, Marketing.<br>➡ <strong>El dominio perfecto para Scrum.</strong></p>
+            </div>
+            <div class="matrix-cell blur">
+                <i data-lucide="siren" style="margin-bottom: 10px; opacity: 0.5;"></i>
+                <h3 style="color: var(--text-muted);">Caótico (Emergencias)</h3>
+                <p style="font-size: 14px; margin-top: 5px; color: var(--text-muted);">Ej: Servidor caído (HelpDesk).<br>➡ Mejor usar Kanban puro.</p>
+            </div>
+            <div class="matrix-cell blur">
+                <i data-lucide="file-warning" style="margin-bottom: 10px; opacity: 0.5;"></i>
+                <h3 style="color: var(--text-muted);">Patologías</h3>
+                <p style="font-size: 14px; margin-top: 5px; color: var(--text-muted);">El "Sprint Zero" y no usar XP (TDD). Generan deuda técnica y Cascada disfrazada.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Controles Flotantes Inferiores -->
-<div class="controls">
-    <button class="btn-nav" id="btnPrev" aria-label="Anterior"><i data-lucide="chevron-left"></i></button>
-    <button class="btn-nav" id="btnNext" aria-label="Siguiente"><i data-lucide="chevron-right"></i></button>
-</div>
+    <!-- Slide 9: Cases -->
+    <div class="slide-container" id="slide8">
+        <h2 class="slide-title anim d-1"><i data-lucide="activity"></i> Casos Reales en Acción</h2>
+        <div class="grid-2">
+            <!-- IT Case -->
+            <div class="glass-panel anim d-2" style="display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div class="icon-circle" style="margin: 0; width: 50px; height: 50px;"><i data-lucide="server"></i></div>
+                    <h3>Migración IT (Stripe)</h3>
+                </div>
+                <p style="font-size: 16px; color: var(--text-muted); flex-grow: 1;">Bloqueos técnicos con la pasarela descubiertos en la Daily modifican la arquitectura en tiempo real. Escalabilidad gestionada vía frameworks visuales (Nexus).</p>
+                <div class="pill-badge" style="align-self: flex-start; margin-top: 15px;">Adaptación Inmediata</div>
+            </div>
 
-<!-- Lógica Interactiva -->
-<script>
-    // Inicializar iconos minimalistas
-    lucide.createIcons();
+            <!-- Marketing Case -->
+            <div class="glass-panel anim d-3" style="display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div class="icon-circle" style="margin: 0; width: 50px; height: 50px;"><i data-lucide="megaphone"></i></div>
+                    <h3>Marketing (A/B Test)</h3>
+                </div>
+                <div style="display: flex; align-items: flex-end; gap: 20px; height: 100px; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 40%;">
+                        <div style="width: 100%; background: #FFF; height: 40px; border-radius: 8px 8px 0 0;"></div>
+                        <span style="font-size: 12px; font-weight: bold;">Diseño A</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 40%;">
+                        <div style="width: 100%; background: var(--accent-primary); height: 90px; border-radius: 8px 8px 0 0; display:flex; justify-content:center; align-items:center; color:white; font-size:12px; font-weight:bold;">+25%</div>
+                        <span style="font-size: 12px; font-weight: bold;">Diseño B</span>
+                    </div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-muted);">Campañas validadas con ROI real al final del Sprint, sin meses de aprobaciones.</p>
+            </div>
+        </div>
+    </div>
 
-    const slides = document.querySelectorAll('.slide-container');
-    const progressBar = document.getElementById('progress');
-    const btnNext = document.getElementById('btnNext');
-    const btnPrev = document.getElementById('btnPrev');
-    let currentSlide = 0;
+    <!-- Slide 10: Fin -->
+    <div class="slide-container" id="slide9">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+            <div class="anim d-1" style="width: 80px; height: 80px; margin-bottom: 30px;">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/9359099877127384630" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border: 3px solid var(--accent-primary);" alt="">
+            </div>
+            <h1 class="anim d-2" style="font-size: 60px; margin-bottom: 15px;">Gracias.</h1>
+            <p class="anim d-3" style="font-size: 20px; color: var(--text-muted); max-width: 600px;">"Scrum actúa como un escáner: ilumina la ineficiencia, duele implementarlo, pero forja empresas adaptables."</p>
+            <div class="pill-badge anim d-4" style="margin-top: 40px; background: transparent; border-color: var(--accent-primary);">Universidad Nacional 2026</div>
+        </div>
+    </div>
 
-    function updatePresentation() {
-        // Actualizar clases de slides
-        slides.forEach((slide, index) => {
-            if (index === currentSlide) {
-                slide.classList.add('active');
-            } else {
-                slide.classList.remove('active');
-            }
+    <!-- Controls & Progress -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="btnPrev"><i data-lucide="chevron-left"></i></button>
+        <button class="nav-btn" id="btnNext"><i data-lucide="chevron-right"></i></button>
+    </div>
+
+    <div class="progress-dot-container" id="dotContainer">
+        <!-- Dots injected by JS -->
+    </div>
+
+    <!-- Interactive Logic -->
+    <script>
+        lucide.createIcons();
+
+        const slides = document.querySelectorAll('.slide-container');
+        const btnNext = document.getElementById('btnNext');
+        const btnPrev = document.getElementById('btnPrev');
+        const dotContainer = document.getElementById('dotContainer');
+        let currentSlide = 0;
+
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dotContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.dot');
+
+        function updateUI() {
+            // Update slides
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+
+            // Update buttons
+            btnPrev.disabled = currentSlide === 0;
+            btnNext.disabled = currentSlide === slides.length - 1;
+        }
+
+        function next() { if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); } }
+        function prev() { if (currentSlide > 0) { currentSlide--; updateUI(); } }
+
+        btnNext.addEventListener('click', next);
+        btnPrev.addEventListener('click', prev);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') next();
+            else if (e.key === 'ArrowLeft') prev();
         });
 
-        // Actualizar barra de progreso
-        const progressPercent = ((currentSlide) / (slides.length - 1)) * 100;
-        progressBar.style.width = `${progressPercent}%`;
-
-        // Actualizar estado de botones
-        btnPrev.disabled = currentSlide === 0;
-        btnNext.disabled = currentSlide === slides.length - 1;
-    }
-
-    function nextSlide() {
-        if (currentSlide < slides.length - 1) {
-            currentSlide++;
-            updatePresentation();
-        }
-    }
-
-    function prevSlide() {
-        if (currentSlide > 0) {
-            currentSlide--;
-            updatePresentation();
-        }
-    }
-
-    // Listeners de botones
-    btnNext.addEventListener('click', nextSlide);
-    btnPrev.addEventListener('click', prevSlide);
-
-    // Navegación con teclado
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ') {
-            nextSlide();
-        } else if (e.key === 'ArrowLeft') {
-            prevSlide();
-        }
-    });
-
-    // Iniciar
-    updatePresentation();
-</script>
-
+        updateUI();
+    </script>
 </body>
 </html>
