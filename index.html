@@ -43,6 +43,17 @@ color: theme('colors.scrum.text');
 overflow: hidden;
 -webkit-font-smoothing: antialiased;
 cursor: pointer;
+transition: background-color var(--transition-smooth);
+}
+#presentation {
+position: absolute;
+top: 50%;
+left: 50%;
+width: 1920px;
+height: 1080px;
+margin-left: -960px;
+margin-top: -540px;
+transform-origin: center center;
 }
 .progress-bar {
 transition: width var(--transition-fast);
@@ -170,7 +181,7 @@ transform-origin: bottom right;
 </div>
 
 <div class="fixed top-10 left-12 px-6 py-3 bg-white/80 rounded-full font-semibold text-sm tracking-wide text-scrum-blue shadow-lg z-50 flex items-center gap-3 opacity-0 -translate-y-5 speaker-badge" id="speakerBadge">
-<i class="bi bi-mic-fill text-scrum-orange"></i> <span id="speakerName">Speaker</span>
+<div class="w-2.5 h-2.5 rounded-full bg-scrum-orange animate-pulse"></div> <span id="speakerName">Speaker</span>
 </div>
 
 <div class="fixed bottom-10 right-12 flex gap-4 z-50">
@@ -178,9 +189,9 @@ transform-origin: bottom right;
 <button class="nav-btn w-12 h-12 rounded-full bg-white shadow-lg text-scrum-text flex items-center justify-center hover:scale-110 hover:text-scrum-blue transition-all duration-300" onclick="nextSlide(event)"><i class="bi bi-chevron-right"></i></button>
 </div>
 
-<main class="relative w-full h-full" id="presentation">
+<main id="presentation">
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Equipo">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Equipo">
 <div class="flex flex-col items-center justify-center w-full h-full text-center relative">
 <div class="absolute inset-0 bg-blue-50/40 rounded-full blur-[100px] -z-10 scale-150"></div>
 <div class="w-24 h-24 bg-blue-50 text-scrum-blue rounded-3xl flex items-center justify-center text-5xl mb-8 auto-reveal shadow-xl shadow-blue-500/10">
@@ -210,7 +221,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Queipo Enzo">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Queipo Enzo">
 <div class="grid grid-cols-2 gap-16 items-center h-full">
 <div class="auto-reveal" data-delay="200">
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block">Contexto Histórico</span>
@@ -233,7 +244,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Queipo Enzo">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Queipo Enzo">
 <div class="grid grid-cols-[1.2fr_0.8fr] gap-16 items-center h-full">
 <div class="auto-reveal h-[600px] rounded-[32px] overflow-hidden shadow-2xl" data-delay="300">
 <img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&fit=crop&w=1000&q=80" alt="Rugby Scrum" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-[10s]">
@@ -255,7 +266,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Queipo Enzo">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Queipo Enzo">
 <div class="w-full max-w-6xl mx-auto">
 <div class="text-center mb-16 auto-reveal" data-delay="200">
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block">El Corazón Filosófico</span>
@@ -286,7 +297,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Queipo Enzo">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Queipo Enzo">
 <div class="grid grid-cols-2 gap-16 items-center h-full">
 <div>
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block auto-reveal" data-delay="200">Control de Procesos</span>
@@ -308,7 +319,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Infante Isabella">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Infante Isabella">
 <div class="grid grid-cols-[1fr_1.2fr] gap-16 items-center h-full">
 <div class="glass-card h-[500px] flex flex-col justify-center p-12 rounded-[32px] auto-reveal" data-delay="400">
 <div class="w-24 h-24 bg-blue-50 text-scrum-blue rounded-[24px] flex items-center justify-center text-5xl mb-12 mx-auto"><i class="bi bi-compass"></i></div>
@@ -340,7 +351,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Infante Isabella">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Infante Isabella">
 <div class="grid grid-cols-[1.2fr_1fr] gap-16 items-center h-full">
 <div>
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block auto-reveal" data-delay="200">Responsabilidad 2</span>
@@ -361,7 +372,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Infante Isabella">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Infante Isabella">
 <div class="grid grid-cols-[1fr_1.2fr] gap-16 items-center h-full">
 <div class="auto-reveal h-[550px] rounded-[32px] overflow-hidden shadow-2xl" data-delay="300">
 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80" alt="Developers Team" class="w-full h-full object-cover">
@@ -379,7 +390,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Infante Isabella">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Infante Isabella">
 <div class="w-full max-w-5xl mx-auto">
 <div class="text-center mb-16 auto-reveal" data-delay="200">
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block">Estructura Fundamental</span>
@@ -405,7 +416,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Merodio Juan Manuel">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Merodio Juan Manuel">
 <div class="grid grid-cols-[1.2fr_1fr] gap-16 items-center h-full">
 <div>
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block auto-reveal" data-delay="200">El Contenedor</span>
@@ -426,7 +437,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Merodio Juan Manuel">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Merodio Juan Manuel">
 <div class="grid grid-cols-[1fr_1.2fr] gap-16 items-center h-full">
 <div class="flex gap-6 w-full h-[450px] auto-reveal" data-delay="400">
 <div class="flex-1 bg-slate-100 rounded-3xl p-6 flex flex-col gap-4">
@@ -453,7 +464,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Merodio Juan Manuel">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Merodio Juan Manuel">
 <div class="grid grid-cols-2 gap-16 items-center h-full">
 <div>
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block auto-reveal" data-delay="200">Inspección Diaria</span>
@@ -481,7 +492,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Merodio Juan Manuel">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Merodio Juan Manuel">
 <div class="w-full max-w-6xl mx-auto">
 <div class="text-center mb-16 auto-reveal" data-delay="200">
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block">Cierre del Ciclo</span>
@@ -504,7 +515,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Cáceres Celeste">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48" data-speaker="Cáceres Celeste">
 <div class="grid grid-cols-[1fr_1fr] gap-16 items-center h-full">
 <div>
 <span class="text-scrum-blue font-bold tracking-widest uppercase text-sm mb-4 block auto-reveal" data-delay="200">Análisis Crítico</span>
@@ -549,7 +560,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw] bg-[#0A0A0A]" data-speaker="Cáceres Celeste">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48 bg-[#0A0A0A]" data-speaker="Cáceres Celeste">
 <div class="grid grid-cols-[1.2fr_1fr] gap-16 items-center h-full">
 <div class="h-[500px] glass-card !bg-white/5 !border-white/10 rounded-[40px] flex flex-col items-center justify-center text-center auto-reveal shadow-2xl relative overflow-hidden" data-delay="400">
 <div class="absolute inset-0 bg-red-500/10 blur-[100px] z-0"></div>
@@ -578,7 +589,7 @@ transform-origin: bottom right;
 </div>
 </section>
 
-<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-[10vw]" data-speaker="Cáceres Celeste">
+<section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48 bg-[#0A0A0A]" data-speaker="Cáceres Celeste">
 <div class="absolute inset-0 overflow-hidden z-0">
 <div class="scanner-line"></div>
 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80" class="w-full h-full object-cover opacity-[0.03] filter grayscale" alt="Data background">
@@ -609,6 +620,14 @@ Scrum no resuelve tus problemas de desarrollo. Actúa como un <strong class="tex
 </main>
 
 <script>
+// Auto-scaler para evitar el "efecto zoom" y comportarse como presentación real
+function adjustScale() {
+const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+document.getElementById('presentation').style.transform = `scale(${scale})`;
+}
+window.addEventListener('resize', adjustScale);
+adjustScale();
+
 const slides = document.querySelectorAll('.slide');
 const progressBar = document.getElementById('progress');
 const speakerBadge = document.getElementById('speakerBadge');
@@ -637,6 +656,15 @@ speakerName.textContent = speaker;
 speakerBadge.classList.add('visible');
 } else {
 speakerBadge.classList.remove('visible');
+}
+
+// Sincronizar el color de fondo del body para las slides oscuras
+if (slide.classList.contains('bg-[#0A0A0A]')) {
+document.body.style.backgroundColor = '#0A0A0A';
+} else if (slide.classList.contains('bg-slate-900')) {
+document.body.style.backgroundColor = '#0f172a';
+} else {
+document.body.style.backgroundColor = '#FFFFFF';
 }
 
 const elementsToReveal = slide.querySelectorAll('.auto-reveal');
