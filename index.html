@@ -690,6 +690,7 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
 <!-- DARK SCRUM -->
 <!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Diagrama Circular Oficial) -->
 <!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Ubicada justo después de la Intro) -->
+<!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Ubicada justo después de la Intro) -->
 <style>
     /* Animaciones exclusivas para el diagrama circular */
     .orbit-ring {
@@ -723,11 +724,10 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
         z-index: 20;
     }
     .node-card {
-        width: 380px; /* Tamaño perfecto para legibilidad en TV */
+        width: 340px; /* Ancho recalibrado para evitar overlapping */
         position: relative;
-        /* Corrección para centrar la tarjeta exactamente sobre el punto orbital */
-        left: -190px;
-        top: -60px;
+        left: -170px; /* Centrado matemático exacto (mitad de 340) */
+        top: -65px;
     }
 </style>
 
@@ -738,93 +738,92 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
         
         <!-- TEXTO A LA IZQUIERDA -->
         <div class="flex flex-col justify-center pr-10">
-            <span class="text-scrum-blue font-bold tracking-widest uppercase text-xl mb-6 block auto-reveal" data-delay="200">Arquitectura Funcional</span>
-            <h2 class="font-poppins text-huge font-extrabold text-slate-900 mb-10 auto-reveal leading-tight" data-delay="500">El Motor de Scrum:<br>Ciclo de Vida</h2>
-            <p class="text-large text-scrum-muted leading-relaxed mb-10 auto-reveal font-light border-l-4 border-scrum-blue pl-6" data-delay="800">El flujo sistémico y repetitivo que transforma requerimientos en incrementos de valor tangible.</p>
+            <span class="text-scrum-blue font-bold tracking-widest uppercase text-[22px] mb-8 block auto-reveal" data-delay="200">Arquitectura Funcional</span>
+            <h2 class="font-poppins text-[90px] font-extrabold text-slate-900 auto-reveal leading-[1.1]" data-delay="500">El Motor de Scrum:<br>Ciclo de Vida</h2>
+            <!-- Párrafo eliminado a pedido -->
         </div>
 
         <!-- DIAGRAMA CIRCULAR A LA DERECHA -->
         <div class="relative w-full h-full flex items-center justify-center auto-reveal" data-delay="1000">
             
-            <!-- Contenedor del Círculo (900x900) -->
-            <div class="relative w-[900px] h-[900px]">
+            <!-- Contenedor del Círculo Ampliado (1000x1000) para mayor holgura -->
+            <div class="relative w-[1000px] h-[1000px]">
                 
-                <!-- Anillos Orbitales -->
-                <div class="orbit-ring absolute top-1/2 left-1/2 w-[650px] h-[650px] -translate-x-1/2 -translate-y-1/2"></div>
-                <div class="orbit-ring-reverse absolute top-1/2 left-1/2 w-[700px] h-[700px] -translate-x-1/2 -translate-y-1/2"></div>
-                <div class="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-scrum-blue/10 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2 animate-soft-pulse"></div>
+                <!-- Anillos Orbitales Recalibrados -->
+                <div class="orbit-ring absolute top-1/2 left-1/2 w-[750px] h-[750px] -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="orbit-ring-reverse absolute top-1/2 left-1/2 w-[820px] h-[820px] -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-scrum-blue/10 rounded-full blur-[90px] -translate-x-1/2 -translate-y-1/2 animate-soft-pulse"></div>
 
                 <!-- Núcleo Central -->
-                <div class="absolute top-1/2 left-1/2 w-[260px] h-[260px] bg-white rounded-full shadow-2xl border border-slate-100 flex flex-col items-center justify-center text-center -translate-x-1/2 -translate-y-1/2 z-10 auto-reveal" data-delay="3800">
-                    <i class="bi bi-arrow-repeat text-[80px] text-scrum-orange mb-2 animate-spin" style="animation-duration: 15s;"></i>
-                    <span class="text-xl font-bold text-slate-400 uppercase tracking-widest mb-1">Salida</span>
-                    <span class="font-poppins font-extrabold text-scrum-blue text-[32px] leading-none">¡Repetir<br>el ciclo!</span>
+                <div class="absolute top-1/2 left-1/2 w-[280px] h-[280px] bg-white rounded-full shadow-2xl border border-slate-100 flex flex-col items-center justify-center text-center -translate-x-1/2 -translate-y-1/2 z-10 auto-reveal" data-delay="3800">
+                    <i class="bi bi-arrow-repeat text-[85px] text-scrum-orange mb-2 animate-spin" style="animation-duration: 15s;"></i>
+                    <span class="text-[22px] font-bold text-slate-400 uppercase tracking-widest mb-1">Salida</span>
+                    <span class="font-poppins font-extrabold text-scrum-blue text-[36px] leading-none">¡Repetir<br>el ciclo!</span>
                 </div>
 
                 <!-- NODO: ENTRADA (180° - Izquierda) -->
-                <div class="node-card-wrapper auto-reveal" style="top: 50%; left: 14%;" data-delay="1200">
-                    <div class="node-card glass-card p-6 rounded-3xl shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
+                <div class="node-card-wrapper auto-reveal" style="top: 50%; left: 12%;" data-delay="1200">
+                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
                         <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-inboxes-fill"></i></div>
-                        <span class="text-sm font-bold text-slate-500 uppercase tracking-widest block mb-1 ml-6">Entrada</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[26px] leading-tight mb-2">Product Backlog</h4>
-                        <p class="text-regular text-slate-600 font-medium leading-snug">La lista de deseos ordenada por valor.</p>
+                        <span class="text-[14px] font-bold text-slate-500 uppercase tracking-widest block mb-1 ml-6">Entrada</span>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Product Backlog</h4>
+                        <p class="text-[18px] text-slate-600 font-medium leading-snug">La lista de deseos ordenada por valor.</p>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 1 (240° - Arriba Izquierda) -->
-                <div class="node-card-wrapper auto-reveal" style="top: 19%; left: 32%;" data-delay="1600">
-                    <div class="node-card glass-card p-6 rounded-3xl shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
+                <div class="node-card-wrapper auto-reveal" style="top: 17%; left: 31%;" data-delay="1600">
+                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
                         <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-1-circle-fill"></i></div>
-                        <span class="text-sm font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 1</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[26px] leading-tight mb-2">Sprint Planning</h4>
-                        <p class="text-regular text-slate-600 font-medium leading-snug">Definimos el "Para qué", el "Qué" y el "Cómo".</p>
+                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 1</span>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Sprint Planning</h4>
+                        <p class="text-[18px] text-slate-600 font-medium leading-snug">Definimos el "Para qué", el "Qué" y el "Cómo".</p>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 2 (300° - Arriba Derecha) -->
-                <div class="node-card-wrapper auto-reveal" style="top: 19%; left: 68%;" data-delay="2000">
-                    <div class="node-card glass-card p-6 rounded-3xl shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group border-t-4 border-t-scrum-blue">
+                <div class="node-card-wrapper auto-reveal" style="top: 17%; left: 69%;" data-delay="2000">
+                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group border-t-4 border-t-scrum-blue">
                         <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-2-circle-fill"></i></div>
-                        <span class="text-sm font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 2</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[26px] leading-tight mb-2">El Sprint <span class="text-lg text-slate-400 font-normal">(1-4 semanas)</span></h4>
-                        <p class="text-regular text-slate-600 font-medium leading-snug">El contenedor donde sucede la magia y el código real.</p>
+                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 2</span>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">El Sprint <span class="text-[18px] text-slate-400 font-normal">(1-4 semanas)</span></h4>
+                        <p class="text-[18px] text-slate-600 font-medium leading-snug">El contenedor donde sucede la magia y el código real.</p>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 3 (0° - Derecha) -->
-                <div class="node-card-wrapper auto-reveal" style="top: 50%; left: 86%;" data-delay="2400">
-                    <div class="node-card glass-card p-6 rounded-3xl shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
+                <div class="node-card-wrapper auto-reveal" style="top: 50%; left: 88%;" data-delay="2400">
+                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
                         <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-3-circle-fill"></i></div>
-                        <span class="text-sm font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 3</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[26px] leading-tight mb-2">Daily Scrum</h4>
-                        <p class="text-regular text-slate-600 font-medium leading-snug">15 minutos para ajustar el plan de hoy.</p>
+                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 3</span>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Daily Scrum</h4>
+                        <p class="text-[18px] text-slate-600 font-medium leading-snug">15 minutos para ajustar el plan de hoy.</p>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 4 (60° - Abajo Derecha) -->
-                <div class="node-card-wrapper auto-reveal" style="top: 81%; left: 68%;" data-delay="2800">
-                    <div class="node-card glass-card p-6 rounded-3xl shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group border-b-4 border-b-scrum-orange">
+                <div class="node-card-wrapper auto-reveal" style="top: 83%; left: 69%;" data-delay="2800">
+                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group border-b-4 border-b-scrum-orange">
                         <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-orange text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive orange"><i class="bi bi-4-circle-fill"></i></div>
-                        <span class="text-sm font-bold text-scrum-orange uppercase tracking-widest block mb-1 ml-6">Paso 4</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[26px] leading-tight mb-2">Incremento</h4>
-                        <p class="text-regular text-slate-600 font-medium leading-snug">Software que funciona de verdad (¡No PowerPoints!).</p>
+                        <span class="text-[14px] font-bold text-scrum-orange uppercase tracking-widest block mb-1 ml-6">Paso 4</span>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Incremento</h4>
+                        <p class="text-[18px] text-slate-600 font-medium leading-snug">Software que funciona de verdad (¡No PowerPoints!).</p>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 5 (120° - Abajo Izquierda) -->
-                <div class="node-card-wrapper auto-reveal" style="top: 81%; left: 32%;" data-delay="3200">
-                    <div class="node-card glass-card p-6 rounded-3xl shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
+                <div class="node-card-wrapper auto-reveal" style="top: 83%; left: 31%;" data-delay="3200">
+                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
                         <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-5-circle-fill"></i></div>
-                        <span class="text-sm font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 5</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[26px] leading-tight mb-2">Review & Retrospective</h4>
-                        <p class="text-regular text-slate-600 font-medium leading-snug">Feedback del cliente y mejora continua del equipo.</p>
+                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 5</span>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Review & Retro</h4>
+                        <p class="text-[18px] text-slate-600 font-medium leading-snug">Feedback del cliente y mejora continua del equipo.</p>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-</section>
 </section>
 <section class="slide absolute inset-0 w-full h-full flex flex-col justify-center px-48 bg-[#0A0A0A]" data-speaker="Cáceres Celeste">
 <div class="grid grid-cols-[1fr_1.2fr] gap-20 items-center h-full">
