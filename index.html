@@ -719,11 +719,9 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
         border-radius: 50%;
         animation: spin-ring-reverse 40s linear infinite;
    @keyframes spin-ring { 
-    0%   { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); } 
 }
 @keyframes spin-ring-reverse { 
-    0%   { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(-360deg); } 
 }
     /* Estabilidad para las tarjetas en hover */
@@ -768,7 +766,7 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
                 <div class="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-scrum-blue/10 rounded-full blur-[90px] -translate-x-1/2 -translate-y-1/2 animate-soft-pulse"></div>
 
                 <!-- Núcleo Central -->
-                <div class="absolute top-1/2 left-1/2 w-[280px] h-[280px] bg-white rounded-full shadow-2xl border border-slate-100 flex flex-col items-center justify-center text-center -translate-x-1/2 -translate-y-1/2 z-10 auto-reveal" data-delay="3800">
+                <div class="top-1/2 left-1/2 w-[280px] h-[280px] bg-white rounded-full shadow-2xl border border-slate-100 flex flex-col items-center justify-center text-center -translate-x-1/2 -translate-y-1/2 z-10 auto-reveal" data-delay="3800">
                     <i class="bi bi-arrow-repeat text-[85px] text-scrum-orange mb-2" style="animation: spin 15s linear infinite;"></i>
                     <span class="text-[22px] font-bold text-slate-400 uppercase tracking-widest mb-1">Salida</span>
                     <span class="font-poppins font-extrabold text-scrum-blue text-[36px] leading-none">¡Repetir<br>el ciclo!</span>
