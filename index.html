@@ -216,6 +216,17 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
   100% { transform: scale(1); opacity: 0.8; }
 }
 .animate-soft-pulse { animation: soft-pulse 4s ease-in-out infinite; }
+
+   .node-card-wrapper {
+    position: absolute; /* Esta es la clave para que top y left funcionen */
+  }
+
+  .node-card {
+    width: 320px; /* Ancho recalibrado para el formato píldora */
+    position: relative;
+    left: -160px; /* Centrado matemático exacto (mitad de 320) */
+    top: -45px; /* Centrado vertical ajustado al nuevo formato */
+  }
 </style>
 </head>
 <body>
