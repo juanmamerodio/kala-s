@@ -691,6 +691,7 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
 <!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Diagrama Circular Oficial) -->
 <!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Ubicada justo después de la Intro) -->
 <!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Ubicada justo después de la Intro) -->
+<!-- NUEVA SLIDE: EL MOTOR DE SCRUM (Ubicada justo después de la Intro) -->
 <style>
     /* Animaciones exclusivas para el diagrama circular */
     .orbit-ring {
@@ -724,10 +725,10 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
         z-index: 20;
     }
     .node-card {
-        width: 340px; /* Ancho recalibrado para evitar overlapping */
+        width: 320px; /* Ancho recalibrado para el formato píldora */
         position: relative;
-        left: -170px; /* Centrado matemático exacto (mitad de 340) */
-        top: -65px;
+        left: -160px; /* Centrado matemático exacto (mitad de 320) */
+        top: -45px; /* Centrado vertical ajustado al nuevo formato */
     }
 </style>
 
@@ -740,7 +741,7 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
         <div class="flex flex-col justify-center pr-10">
             <span class="text-scrum-blue font-bold tracking-widest uppercase text-[22px] mb-8 block auto-reveal" data-delay="200">Arquitectura Funcional</span>
             <h2 class="font-poppins text-[90px] font-extrabold text-slate-900 auto-reveal leading-[1.1]" data-delay="500">El Motor de Scrum:<br>Ciclo de Vida</h2>
-            <!-- Párrafo eliminado a pedido -->
+            <!-- Párrafo eliminado a pedido para mayor limpieza visual -->
         </div>
 
         <!-- DIAGRAMA CIRCULAR A LA DERECHA -->
@@ -763,61 +764,49 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
 
                 <!-- NODO: ENTRADA (180° - Izquierda) -->
                 <div class="node-card-wrapper auto-reveal" style="top: 50%; left: 12%;" data-delay="1200">
-                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
-                        <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-inboxes-fill"></i></div>
-                        <span class="text-[14px] font-bold text-slate-500 uppercase tracking-widest block mb-1 ml-6">Entrada</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Product Backlog</h4>
-                        <p class="text-[18px] text-slate-600 font-medium leading-snug">La lista de deseos ordenada por valor.</p>
+                    <div class="node-card glass-card px-5 py-4 rounded-full shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group flex items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-2xl shadow-md icon-interactive"><i class="bi bi-inboxes-fill"></i></div>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[22px] leading-tight m-0">Product Backlog</h4>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 1 (240° - Arriba Izquierda) -->
                 <div class="node-card-wrapper auto-reveal" style="top: 17%; left: 31%;" data-delay="1600">
-                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
-                        <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-1-circle-fill"></i></div>
-                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 1</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Sprint Planning</h4>
-                        <p class="text-[18px] text-slate-600 font-medium leading-snug">Definimos el "Para qué", el "Qué" y el "Cómo".</p>
+                    <div class="node-card glass-card px-5 py-4 rounded-full shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group flex items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-md icon-interactive"><i class="bi bi-1-circle-fill"></i></div>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[22px] leading-tight m-0">Sprint Planning</h4>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 2 (300° - Arriba Derecha) -->
                 <div class="node-card-wrapper auto-reveal" style="top: 17%; left: 69%;" data-delay="2000">
-                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group border-t-4 border-t-scrum-blue">
-                        <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-2-circle-fill"></i></div>
-                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 2</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">El Sprint <span class="text-[18px] text-slate-400 font-normal">(1-4 semanas)</span></h4>
-                        <p class="text-[18px] text-slate-600 font-medium leading-snug">El contenedor donde sucede la magia y el código real.</p>
+                    <div class="node-card glass-card px-5 py-4 rounded-full shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group flex items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-md icon-interactive"><i class="bi bi-2-circle-fill"></i></div>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[22px] leading-tight m-0">El Sprint <span class="text-[16px] text-slate-500 font-normal block">(1-4 semanas)</span></h4>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 3 (0° - Derecha) -->
                 <div class="node-card-wrapper auto-reveal" style="top: 50%; left: 88%;" data-delay="2400">
-                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
-                        <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-3-circle-fill"></i></div>
-                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 3</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Daily Scrum</h4>
-                        <p class="text-[18px] text-slate-600 font-medium leading-snug">15 minutos para ajustar el plan de hoy.</p>
+                    <div class="node-card glass-card px-5 py-4 rounded-full shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group flex items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-md icon-interactive"><i class="bi bi-3-circle-fill"></i></div>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[22px] leading-tight m-0">Daily Scrum</h4>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 4 (60° - Abajo Derecha) -->
                 <div class="node-card-wrapper auto-reveal" style="top: 83%; left: 69%;" data-delay="2800">
-                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group border-b-4 border-b-scrum-orange">
-                        <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-orange text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive orange"><i class="bi bi-4-circle-fill"></i></div>
-                        <span class="text-[14px] font-bold text-scrum-orange uppercase tracking-widest block mb-1 ml-6">Paso 4</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Incremento</h4>
-                        <p class="text-[18px] text-slate-600 font-medium leading-snug">Software que funciona de verdad (¡No PowerPoints!).</p>
+                    <div class="node-card glass-card px-5 py-4 rounded-full shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group flex items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-full bg-scrum-orange text-white flex items-center justify-center font-bold text-2xl shadow-md icon-interactive orange"><i class="bi bi-4-circle-fill"></i></div>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[22px] leading-tight m-0">Incremento</h4>
                     </div>
                 </div>
 
                 <!-- NODO: PASO 5 (120° - Abajo Izquierda) -->
                 <div class="node-card-wrapper auto-reveal" style="top: 83%; left: 31%;" data-delay="3200">
-                    <div class="node-card glass-card p-6 rounded-[2rem] shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group">
-                        <div class="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-lg icon-interactive"><i class="bi bi-5-circle-fill"></i></div>
-                        <span class="text-[14px] font-bold text-scrum-blue uppercase tracking-widest block mb-1 ml-6">Paso 5</span>
-                        <h4 class="font-poppins font-bold text-slate-900 text-[24px] leading-tight mb-2">Review & Retro</h4>
-                        <p class="text-[18px] text-slate-600 font-medium leading-snug">Feedback del cliente y mejora continua del equipo.</p>
+                    <div class="node-card glass-card px-5 py-4 rounded-full shadow-xl border border-white/80 hover:scale-105 transition-transform duration-300 group flex items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-full bg-scrum-blue text-white flex items-center justify-center font-bold text-2xl shadow-md icon-interactive"><i class="bi bi-5-circle-fill"></i></div>
+                        <h4 class="font-poppins font-bold text-slate-900 text-[22px] leading-tight m-0">Review & Retro</h4>
                     </div>
                 </div>
 
