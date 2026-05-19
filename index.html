@@ -731,22 +731,22 @@ animation: scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; z-index: 10;
 }
 
 /* ─── Node card wrapper / card ────────────────────────── */
+/* Corrección de la estructura de nodos */
 .node-card-wrapper {
-    position: absolute;
-    width: 0;
-    height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
+  position: absolute; /* Aseguramos que respete las coordenadas */
+  display: block;
 }
+
+/* Forzamos el centrado visual sin depender de coordenadas relativas complejas */
 .node-card {
-    width: 320px;
-    position: relative;
-    left: -160px;
-    top: -45px;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow  0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 320px;
+  position: relative;
+  /* Centrado técnico profesional */
+  margin-left: -160px; 
+  margin-top: -45px;
+  /* Evitamos que el transform de la slide desplace el centro del nodo */
+  will-change: transform; 
+}
 }
 .node-card:hover {
     transform: translateX(-160px) translateY(-45px) scale(1.06);
